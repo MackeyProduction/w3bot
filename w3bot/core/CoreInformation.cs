@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace w3bot.core
 {
-    class CoreInformation
+    internal class CoreInformation
     {
         internal static Version assemblyVersion { get { return Assembly.GetExecutingAssembly().GetName().Version; } }
         internal static string fileVersion { get { return FileVersionInfo.GetVersionInfo(Assembly.GetExecutingAssembly().Location).FileVersion; } }

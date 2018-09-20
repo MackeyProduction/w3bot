@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using w3bot.bot;
 using w3bot.enumeration;
 using w3bot.interfaces;
 using w3bot.wrapper;
@@ -18,8 +19,16 @@ namespace w3bot.core
     {
         public static ChromiumWebBrowser chromiumBrowser { get; set; }
         internal Bot _bot;
+        internal String _userAgent { get; set; }
+        internal String _proxy { get; set; }
+        internal BotProcessor botProcessor { get; set; }
 
-        public BotProcessor(Bot bot)
+        /// <summary>
+        /// Initialize a new BotProcessor to configure cef browser settings and chromium browser.
+        /// </summary>
+        /// <param name="bot">Bot instance.</param>
+        /// <param name="proxyOptions">Proxy settings.</param>
+        public BotProcessor(Bot bot, ProxyOptions proxyOptions = null)
         {
             _bot = bot;
 
@@ -28,28 +37,25 @@ namespace w3bot.core
                 // load cef settings
                 CefSettings settings = new CefSettings();
                 settings.BrowserSubprocessPath = @"x86\CefSharp.BrowserSubprocess.exe";
+                _userAgent = settings.UserAgent;
+
+                // start proxy server
+                if (proxyOptions != null)
+                    settings.CefCommandLineArgs.Add($"--proxy-server={proxyOptions.IP}:{proxyOptions.Port}", "1");
 
                 // init settings
                 Cef.Initialize(settings);
             }
 
             chromiumBrowser = new ChromiumWebBrowser("https://www.google.com/");
-            chromiumBrowser.FrameLoadEnd += ChromiumBrowser_FrameLoadEnd;
             chromiumBrowser.Size = ClientSize;
             _bot.browser = chromiumBrowser;
         }
 
-        private void ChromiumBrowser_FrameLoadEnd(object sender, FrameLoadEndEventArgs e)
-        {
-            if (e.Frame.IsMain)
-            {
-                chromiumBrowser.Load("http://github.com");
-                chromiumBrowser.FrameLoadEnd -= ChromiumBrowser_FrameLoadEnd;
-            }
-        }
-
         internal override void ActivateProcessor()
         {
+            if (!chromiumBrowser.IsDisposed)
+                botProcessor = this;
         }
 
         internal override void AllowInput()
@@ -62,9 +68,13 @@ namespace w3bot.core
 
         internal override void Destroy()
         {
+            if (chromiumBrowser != null)
+            {
+                chromiumBrowser.Dispose();
+            }
         }
 
-        public ChromiumWebBrowser GetBrowser()
+        internal override ChromiumWebBrowser GetBrowser()
         {
             return chromiumBrowser;
         }

@@ -16,5 +16,6 @@ namespace w3bot.wrapper
         abstract internal void Destroy();
         abstract internal void AllowInput();
         abstract internal void BlockInput();
+        abstract internal ChromiumWebBrowser GetBrowser();
     }
 }

@@ -13,11 +13,6 @@ namespace w3bot.bot
     {
         private static BrowserAdapter _browserAdapter = null;
 
-        static Browser()
-        {
-            _browserAdapter = new BrowserAdapter(Core.bot);
-        }
-
         /// <summary>
         /// 
         /// </summary>
@@ -106,6 +101,15 @@ namespace w3bot.bot
         public static void Refresh()
         {
             _browserAdapter.Refresh();
+        }
+
+        /// <summary>
+        /// Add configuration to Browser instance.
+        /// </summary>
+        /// <param name="bot">The bot instance.</param>
+        internal static void AddConfiguration(Bot bot)
+        {
+            _browserAdapter = bot.coreSettings.browserAdapter;
         }
     }
 }

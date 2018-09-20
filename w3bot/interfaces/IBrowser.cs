@@ -19,7 +19,7 @@ namespace w3bot.interfaces
         /// <summary>
         /// Open new proxy connection.
         /// </summary>
-        string Proxy { get; }
+        string Proxy { get; set; }
 
         /// <summary>
         /// Show user agent.

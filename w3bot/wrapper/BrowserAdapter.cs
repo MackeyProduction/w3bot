@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using w3bot.bot;
 using w3bot.core;
 using w3bot.interfaces;
 
@@ -13,12 +14,14 @@ namespace w3bot.wrapper
     class BrowserAdapter : BotProcessor, w3bot.interfaces.IBrowser
     {
         internal ChromiumWebBrowser _chromeBrowser = null;
-        internal Bot _bot = null;
+        internal BotWindow _botWindow;
 
         public BrowserAdapter(Bot bot) : base(bot)
         {
             _bot = bot;
-            _chromeBrowser = _bot.botWindow._processor;
+            if (_bot.botWindow == null) throw new InvalidOperationException("The Botwindow isn't initialized. Please initialize the botwindow with the Initialize() method.");
+            _botWindow = _bot.botWindow;
+            _chromeBrowser = _botWindow._chromiumBrowser;
         }
 
         public bool IsReady
@@ -35,7 +38,11 @@ namespace w3bot.wrapper
         {
             get
             {
-                throw new NotImplementedException();
+                return _proxy;
+            }
+            set
+            {
+                _proxy = value;
             }
         }
 
@@ -43,7 +50,7 @@ namespace w3bot.wrapper
         {
             get
             {
-                throw new NotImplementedException();
+                return _botWindow._sourceCode;
             }
         }
 
@@ -51,18 +58,18 @@ namespace w3bot.wrapper
         {
             get
             {
-                throw new NotImplementedException();
+                return _userAgent;
             }
         }
 
         public void ClearProxy()
         {
-            throw new NotImplementedException();
+            _proxy = "";
         }
 
         public void ClearUserAgent()
         {
-            
+            _userAgent = "";
         }
 
         public void GoBack()

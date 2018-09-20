@@ -6,24 +6,37 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using w3bot.bot;
+using w3bot.evt;
 using w3bot.interfaces;
 using w3bot.wrapper;
 
 namespace w3bot.core
 {
-    public class BotWindow : TabPage
+    public class BotWindow : TabPage, IBotWindow
     {
-        internal ChromiumWebBrowser _processor;
+        internal ChromiumWebBrowser _chromiumBrowser;
+        internal AbstractBotProcessor _processor;
         internal Bot _bot;
+        internal String _name, _url;
+        internal String _sourceCode { get; set; }
 
-        internal BotWindow(Bot bot, string name, BotProcessor processor)
+        /// <summary>
+        /// Creates a new BotWindow instance.
+        /// </summary>
+        /// <param name="bot">The current bot instance.</param>
+        /// <param name="name">The name of the bot window.</param>
+        /// <param name="processor">The current processor instance.</param>
+        internal BotWindow(Bot bot, string name, string url, AbstractBotProcessor processor)
         {
             _bot = bot;
-            _processor = processor.GetBrowser();
-            this.Controls.Add(_processor);
-            bot.botWindow = this;
-            _processor.Dock = DockStyle.Fill;
-            bot.botTab.TabPages.Add(this);
+            _name = name;
+            _url = url;
+            _processor = processor;
+            _chromiumBrowser = _processor.GetBrowser();
+            _chromiumBrowser.FrameLoadEnd += ChromiumBrowser_FrameLoadEnd;
+            _chromiumBrowser.AddressChanged += ChromiumBrowser_AddressChanged;
+            Activate();
         }
 
         /// <summary>
@@ -31,9 +44,61 @@ namespace w3bot.core
         /// </summary>
         public void Open()
         {
-            _processor.Dock = DockStyle.Fill;
+            this.Controls.Add(_chromiumBrowser);
+            _chromiumBrowser.Dock = DockStyle.Fill;
             _bot.botTab.TabPages.Add(this);
             _bot.botTab.SelectedTab = this;
+        }
+
+        /// <summary>
+        /// Hides the bot window but keeps it open. No input can be sent to this window.
+        /// </summary>
+        public void Vanish()
+        {
+            
+        }
+
+        /// <summary>
+        /// Closes the window completely. The Window can't be reopen.
+        /// </summary>
+        public void Destroy()
+        {
+            
+        }
+
+        /// <summary>
+        /// Marks this window as the current one. All input will be sent to this window. The window will brought to the front.
+        /// </summary>
+        public void Activate()
+        {
+            Core.ExeThreadSafe(delegate
+            {
+                _bot.botTab.SelectedTab = this;
+                _processor.ActivateProcessor();
+            });
+        }
+
+        internal AbstractBotProcessor GetProcessor()
+        {
+            return _processor;
+        }
+
+        private void ChromiumBrowser_FrameLoadEnd(object sender, FrameLoadEndEventArgs e)
+        {
+            if (e.Frame.IsMain)
+            {
+                _chromiumBrowser.GetSourceAsync().ContinueWith(taskHtml =>
+                {
+                    // load the source code
+                    _sourceCode = taskHtml.Result;
+                });
+            }
+        }
+
+        private void ChromiumBrowser_AddressChanged(object sender, AddressChangedEventArgs e)
+        {
+            Status.Log(e.Address);
+            _bot.RefreshTabPageThreadSafe(1);
         }
     }
 }

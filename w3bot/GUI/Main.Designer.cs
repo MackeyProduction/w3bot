@@ -168,6 +168,7 @@
             this.startToolStripMenuItem1.Name = "startToolStripMenuItem1";
             this.startToolStripMenuItem1.Size = new System.Drawing.Size(152, 22);
             this.startToolStripMenuItem1.Text = "Start";
+            this.startToolStripMenuItem1.Click += new System.EventHandler(this.startToolStripMenuItem1_Click);
             // 
             // stopToolStripMenuItem
             // 
@@ -200,6 +201,7 @@
             this.allowToolStripMenuItem.Name = "allowToolStripMenuItem";
             this.allowToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.allowToolStripMenuItem.Text = "Allow";
+            this.allowToolStripMenuItem.Click += new System.EventHandler(this.allowToolStripMenuItem_Click);
             // 
             // blockToolStripMenuItem
             // 
@@ -207,6 +209,7 @@
             this.blockToolStripMenuItem.Name = "blockToolStripMenuItem";
             this.blockToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.blockToolStripMenuItem.Text = "Block";
+            this.blockToolStripMenuItem.Click += new System.EventHandler(this.blockToolStripMenuItem_Click);
             // 
             // debugToolStripMenuItem
             // 

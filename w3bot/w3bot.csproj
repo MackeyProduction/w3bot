@@ -77,7 +77,7 @@
   <ItemGroup>
     <Compile Include="bot\Browser.cs" />
     <Compile Include="bot\Frame.cs" />
-    <Compile Include="core\Bot.cs">
+    <Compile Include="bot\Bot.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="core\BotProcessor.cs">
@@ -90,9 +90,11 @@
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="core\CoreInformation.cs" />
+    <Compile Include="core\CoreSettings.cs" />
     <Compile Include="enumeration\Keys.cs" />
     <Compile Include="evt\Keyboard.cs" />
     <Compile Include="evt\Mouse.cs" />
+    <Compile Include="evt\Status.cs" />
     <Compile Include="GUI\About.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -135,9 +137,7 @@
     <Compile Include="GUI\Source.Designer.cs">
       <DependentUpon>Source.cs</DependentUpon>
     </Compile>
-    <Compile Include="wrapper\AbstractBotProcessor.cs">
-      <SubType>Component</SubType>
-    </Compile>
+    <Compile Include="interfaces\IBotWindow.cs" />
     <Compile Include="interfaces\IBrowser.cs" />
     <Compile Include="interfaces\IFrame.cs" />
     <Compile Include="interfaces\IKeyboardInput.cs" />
@@ -149,9 +149,15 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resource1.resx</DependentUpon>
     </Compile>
+    <Compile Include="wrapper\AbstractBotProcessor.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="wrapper\BrowserAdapter.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="wrapper\InputAdapter.cs" />
+    <Compile Include="wrapper\KeyboardAdapter.cs" />
+    <Compile Include="wrapper\MouseAdapter.cs" />
     <EmbeddedResource Include="GUI\About.resx">
       <DependentUpon>About.cs</DependentUpon>
     </EmbeddedResource>

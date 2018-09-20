@@ -134,7 +134,6 @@ namespace w3bot.GUI
             this.Controls.Add(this.buttonStart);
             this.Controls.Add(this.listViewScripts);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
-            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "Scriptmanager";
@@ -144,17 +143,6 @@ namespace w3bot.GUI
             this.PerformLayout();
 
         }
-
-        private void Scriptmanager_Load(object sender, EventArgs e)
-        {
-            throw new NotImplementedException();
-        }
-
-        private void buttonStart_Click(object sender, EventArgs e)
-        {
-            throw new NotImplementedException();
-        }
-
         #endregion
 
         private System.Windows.Forms.ListView listViewScripts;

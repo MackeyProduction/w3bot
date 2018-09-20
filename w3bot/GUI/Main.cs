@@ -10,17 +10,18 @@ using System.Windows.Forms;
 using CefSharp;
 using CefSharp.WinForms;
 using w3bot.core;
+using System.Globalization;
 
 namespace w3bot.GUI
 {
     internal partial class Main : Core
     {
-        public ChromiumWebBrowser chromeBrowser;
+        string title = "w3bot.org " + CoreInformation.programVersion.ToString("0.0", CultureInfo.InvariantCulture);
 
         public Main()
         {
             InitializeComponent();
-
+            
             mainWindow = this;
             tabs = tabControlMain;
             logbox = textBoxLog;
@@ -28,7 +29,9 @@ namespace w3bot.GUI
 
         private void Main_Load(object sender, EventArgs e)
         {
-            bot.CreateBrowserWindow("View", "google.com");
+            var botMain = bot.CreateBrowserWindow("View", "youtube.com");
+            bot.Initialize(botMain);
+            botMain.Open();
         }
 
         private void Main_FormClosing(object sender, FormClosingEventArgs e)
@@ -73,6 +76,44 @@ namespace w3bot.GUI
         private void sourceCodeToolStripMenuItem_Click(object sender, EventArgs e)
         {
             new Source().ShowDialog();
+        }
+
+        private void allowToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            allowToolStripMenuItem.Checked = true;
+            blockToolStripMenuItem.Checked = false;
+            inputToolStripMenuItem.Image = Resource1.keyboard;
+        }
+
+        private void blockToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            blockToolStripMenuItem.Checked = true;
+            allowToolStripMenuItem.Checked = false;
+            inputToolStripMenuItem.Image = Resource1.keyboard_delete;
+        }
+
+        private void startToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            new Scriptmanager(Script_started, Script_stopped).ShowDialog();
+        }
+
+        private void Script_started()
+        {
+            startToolStripMenuItem1.Text = "Pause";
+            this.Text = title + " - Script running...";
+            stopToolStripMenuItem.Enabled = true;
+            blockToolStripMenuItem.PerformClick();
+            //Core.bot.GetFocus(); //make sure botting is possible by focusing the view
+        }
+
+        private void Script_stopped()
+        {
+            //nextKill = false;
+            startToolStripMenuItem1.Text = "Start";
+            stopToolStripMenuItem.Text = "Stop";
+            this.Text = title + " - Idle...";
+            stopToolStripMenuItem.Enabled = false;
+            //Core.runningScript = null;
         }
     }
 }
