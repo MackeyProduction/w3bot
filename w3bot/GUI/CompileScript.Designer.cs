@@ -73,9 +73,9 @@
             this.rbDownload.AutoSize = true;
             this.rbDownload.Location = new System.Drawing.Point(12, 35);
             this.rbDownload.Name = "rbDownload";
-            this.rbDownload.Size = new System.Drawing.Size(119, 17);
+            this.rbDownload.Size = new System.Drawing.Size(129, 17);
             this.rbDownload.TabIndex = 3;
-            this.rbDownload.Text = "Compile from Github";
+            this.rbDownload.Text = "Compile from Pastebin";
             this.rbDownload.UseVisualStyleBackColor = true;
             this.rbDownload.CheckedChanged += new System.EventHandler(this.rbDownload_CheckedChanged);
             // 

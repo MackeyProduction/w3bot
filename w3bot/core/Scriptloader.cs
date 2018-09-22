@@ -4,6 +4,7 @@ using System.CodeDom.Compiler;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
@@ -152,9 +153,26 @@ namespace w3bot.core
         /// <summary>
         /// Download a script from www and compiles to a dll file.
         /// </summary>
-        /// <param name="url">URL to github repository.</param>
+        /// <param name="url">URL to raw pastebin paste.</param>
         internal void CompileScriptFromWWW(string url)
         {
+            using (WebClient client = new WebClient()) // WebClient class inherits IDisposable
+            {
+                if (url.Contains("pastebin") && url.Contains("raw"))
+                {
+                    string htmlCode = client.DownloadString(url);
+
+                    if (htmlCode.Contains("class"))
+                    {
+                        var index = htmlCode.IndexOf("class");
+                        var newCode = htmlCode.Substring(index, 100);
+                        var split = newCode.Split(' ');
+
+                        client.DownloadFile(url, BotDirectories.sourceDir + @"\" + split[1] + ".cs");
+                        CompileScripts();
+                    }
+                }
+            }
         }
     }
 }
