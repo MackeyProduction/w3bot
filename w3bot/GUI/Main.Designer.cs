@@ -263,6 +263,7 @@
             this.mousePositionToolStripMenuItem.Name = "mousePositionToolStripMenuItem";
             this.mousePositionToolStripMenuItem.Size = new System.Drawing.Size(166, 22);
             this.mousePositionToolStripMenuItem.Text = "Mouse Position";
+            this.mousePositionToolStripMenuItem.Click += new System.EventHandler(this.mousePositionToolStripMenuItem_Click);
             // 
             // toolStripSeparator5
             // 

@@ -11,6 +11,7 @@ using CefSharp;
 using CefSharp.WinForms;
 using w3bot.core;
 using System.Globalization;
+using w3bot.evt;
 
 namespace w3bot.GUI
 {
@@ -29,9 +30,11 @@ namespace w3bot.GUI
 
         private void Main_Load(object sender, EventArgs e)
         {
-            var botMain = bot.CreateBrowserWindow("View", "youtube.com");
+            Status.Log("Welcome to " + title);
+            var botMain = bot.CreateBrowserWindow("View", "google.com");
             bot.Initialize(botMain);
             botMain.Open();
+            Mouse.Move(200, 200);
         }
 
         private void Main_FormClosing(object sender, FormClosingEventArgs e)
@@ -114,6 +117,11 @@ namespace w3bot.GUI
             this.Text = title + " - Idle...";
             stopToolStripMenuItem.Enabled = false;
             //Core.runningScript = null;
+        }
+
+        private void mousePositionToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            mousePositionToolStripMenuItem.Checked = core.Debug.toggle(core.Debug.MousePosition);
         }
     }
 }

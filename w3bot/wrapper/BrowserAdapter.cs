@@ -28,7 +28,7 @@ namespace w3bot.wrapper
         {
             get
             {
-                if (_chromeBrowser.IsDisposed)
+                if (!_chromeBrowser.IsLoading)
                     return true;
                 return false;
             }
@@ -90,7 +90,7 @@ namespace w3bot.wrapper
 
         public void Navigate(string url)
         {
-            if (_chromeBrowser != null)
+            if (_chromeBrowser.IsBrowserInitialized)
             {
                 if (!url.Contains("://"))
                     url = "http://" + url;

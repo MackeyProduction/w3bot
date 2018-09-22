@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using w3bot.bot;
 using w3bot.core;
+using w3bot.evt;
 using w3bot.wrapper;
 
 namespace w3bot.bot
@@ -42,9 +43,12 @@ namespace w3bot.bot
             _coreSettings = new CoreSettings();
             _coreSettings.browserAdapter = new BrowserAdapter(this);
             _coreSettings.inputAdapter = new InputAdapter(new MouseAdapter(this), new KeyboardAdapter(this));
-
+            
             // add configuration
             Browser.AddConfiguration(this);
+            Mouse.AddConfiguration(this);
+            Debug.AddConfiguration(this);
+            Debug.toggle(Debug.Mouse); //activate mouse drawing
 
             if (botWindow._url != "")
                 Browser.Navigate(botWindow._url);

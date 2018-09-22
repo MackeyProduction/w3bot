@@ -2,8 +2,10 @@
 using CefSharp.WinForms;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using w3bot.bot;
@@ -36,6 +38,7 @@ namespace w3bot.core
             _chromiumBrowser = _processor.GetBrowser();
             _chromiumBrowser.FrameLoadEnd += ChromiumBrowser_FrameLoadEnd;
             _chromiumBrowser.AddressChanged += ChromiumBrowser_AddressChanged;
+            _chromiumBrowser.LoadingStateChanged += ChromiumBrowser_LoadingStateChanged;
             Activate();
         }
 
@@ -48,6 +51,7 @@ namespace w3bot.core
             _chromiumBrowser.Dock = DockStyle.Fill;
             _bot.botTab.TabPages.Add(this);
             _bot.botTab.SelectedTab = this;
+            _chromiumBrowser.Invalidate();
         }
 
         /// <summary>
@@ -99,6 +103,32 @@ namespace w3bot.core
         {
             Status.Log(e.Address);
             _bot.RefreshTabPageThreadSafe(1);
+        }
+        
+        private void ChromiumBrowser_LoadingStateChanged(object sender, LoadingStateChangedEventArgs e)
+        {
+            //if (!e.Browser.IsLoading)
+            //{
+            //    Core.ExeThreadSafe(delegate
+            //    {
+            //        var panel = new Panel();
+
+            //        panel.Size = _bot.ClientSize;
+            //        panel.Location = new Point(100, 100);
+            //        panel.Focus();
+
+            //        PaintEventHandler paintHandler = (senderP, args) =>
+            //        {
+            //            var g = panel.CreateGraphics();
+            //            Font font = new Font("Arial", 8);
+            //            g.DrawString("Mouse: " + 0 + ", " + 0, font, Brushes.Green, 200, 200);
+            //        };
+
+            //        this.Controls.Add(panel);
+            //        panel.Invalidate();
+            //        _bot.botTab.SelectedTab = this;
+            //    });
+            //}
         }
     }
 }
