@@ -14,17 +14,18 @@ using w3bot.wrapper;
 
 namespace w3bot.bot
 {
-    class Bot : Core
+    public class Bot
     {
         internal ChromiumWebBrowser browser { get; set; }
-        internal Size ClientSize { get { return mainWindow.Size; } }
+        internal Size ClientSize { get { return Core.mainWindow.Size; } }
         internal Size FrameSize { get; }
-        internal TabControl botTab { get { return tabs; } set { } }
+        internal TabControl botTab { get { return Core.tabs; } set { } }
         private BotWindow _botWindow;
         internal BotWindow botWindow { get { return _botWindow; } set { _botWindow = value; } }
         private delegate void RefreshTabPageDelegate(int tabPage);
         private CoreSettings _coreSettings;
         internal CoreSettings coreSettings { get { return _coreSettings; } set { _coreSettings = value; } }
+        internal Core core { get { return new Core(); } }
 
         /// <summary>
         /// Creates a new BotWindow which allows you to send input.
@@ -56,15 +57,15 @@ namespace w3bot.bot
 
         public void RefreshTabPageThreadSafe(int tabPage)
         {
-            if (tabs.InvokeRequired)
+            if (botTab.InvokeRequired)
             {
-                tabs.Invoke(new RefreshTabPageDelegate(RefreshTabPageThreadSafe), new object[] { tabPage });
+                botTab.Invoke(new RefreshTabPageDelegate(RefreshTabPageThreadSafe), new object[] { tabPage });
             }
             else
             {
-                if (tabs.TabPages.Count > tabPage)
+                if (botTab.TabPages.Count > tabPage)
                 {
-                    tabs.TabPages[tabPage].Refresh();
+                    botTab.TabPages[tabPage].Refresh();
                 }
             }
         }

@@ -26,6 +26,7 @@ namespace w3bot.GUI
             mainWindow = this;
             tabs = tabControlMain;
             logbox = textBoxLog;
+            BotDirectories.CreateDirs();
         }
 
         private void Main_Load(object sender, EventArgs e)
@@ -122,6 +123,12 @@ namespace w3bot.GUI
         private void mousePositionToolStripMenuItem_Click(object sender, EventArgs e)
         {
             mousePositionToolStripMenuItem.Checked = core.Debug.toggle(core.Debug.MousePosition);
+        }
+
+        private void addToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            
+            new CompileScript().ShowDialog();
         }
     }
 }

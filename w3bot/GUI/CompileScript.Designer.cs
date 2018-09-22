@@ -28,35 +28,88 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(CompileScript));
-            this.textBox1 = new System.Windows.Forms.TextBox();
-            this.button1 = new System.Windows.Forms.Button();
+            this.tbUrl = new System.Windows.Forms.TextBox();
+            this.btnDownload = new System.Windows.Forms.Button();
+            this.rbFromDirectory = new System.Windows.Forms.RadioButton();
+            this.rbDownload = new System.Windows.Forms.RadioButton();
+            this.lblUrl = new System.Windows.Forms.Label();
+            this.btnCompile = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
-            // textBox1
+            // tbUrl
             // 
-            this.textBox1.Location = new System.Drawing.Point(12, 12);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(319, 20);
-            this.textBox1.TabIndex = 0;
+            this.tbUrl.Enabled = false;
+            this.tbUrl.Location = new System.Drawing.Point(12, 80);
+            this.tbUrl.Name = "tbUrl";
+            this.tbUrl.Size = new System.Drawing.Size(319, 20);
+            this.tbUrl.TabIndex = 0;
             // 
-            // button1
+            // btnDownload
             // 
-            this.button1.Location = new System.Drawing.Point(185, 38);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(146, 23);
-            this.button1.TabIndex = 1;
-            this.button1.Text = "Download and compile";
-            this.button1.UseVisualStyleBackColor = true;
+            this.btnDownload.Enabled = false;
+            this.btnDownload.Location = new System.Drawing.Point(185, 106);
+            this.btnDownload.Name = "btnDownload";
+            this.btnDownload.Size = new System.Drawing.Size(146, 23);
+            this.btnDownload.TabIndex = 1;
+            this.btnDownload.Text = "Download and compile";
+            this.btnDownload.UseVisualStyleBackColor = true;
+            this.btnDownload.Click += new System.EventHandler(this.btnDownload_Click);
+            // 
+            // rbFromDirectory
+            // 
+            this.rbFromDirectory.AutoSize = true;
+            this.rbFromDirectory.Checked = true;
+            this.rbFromDirectory.Location = new System.Drawing.Point(12, 12);
+            this.rbFromDirectory.Name = "rbFromDirectory";
+            this.rbFromDirectory.Size = new System.Drawing.Size(145, 17);
+            this.rbFromDirectory.TabIndex = 2;
+            this.rbFromDirectory.TabStop = true;
+            this.rbFromDirectory.Text = "Compile from src directory";
+            this.rbFromDirectory.UseVisualStyleBackColor = true;
+            this.rbFromDirectory.CheckedChanged += new System.EventHandler(this.rbFromDirectory_CheckedChanged);
+            // 
+            // rbDownload
+            // 
+            this.rbDownload.AutoSize = true;
+            this.rbDownload.Location = new System.Drawing.Point(12, 35);
+            this.rbDownload.Name = "rbDownload";
+            this.rbDownload.Size = new System.Drawing.Size(119, 17);
+            this.rbDownload.TabIndex = 3;
+            this.rbDownload.Text = "Compile from Github";
+            this.rbDownload.UseVisualStyleBackColor = true;
+            this.rbDownload.CheckedChanged += new System.EventHandler(this.rbDownload_CheckedChanged);
+            // 
+            // lblUrl
+            // 
+            this.lblUrl.AutoSize = true;
+            this.lblUrl.Enabled = false;
+            this.lblUrl.Location = new System.Drawing.Point(12, 64);
+            this.lblUrl.Name = "lblUrl";
+            this.lblUrl.Size = new System.Drawing.Size(32, 13);
+            this.lblUrl.TabIndex = 4;
+            this.lblUrl.Text = "URL:";
+            // 
+            // btnCompile
+            // 
+            this.btnCompile.Location = new System.Drawing.Point(11, 106);
+            this.btnCompile.Name = "btnCompile";
+            this.btnCompile.Size = new System.Drawing.Size(146, 23);
+            this.btnCompile.TabIndex = 5;
+            this.btnCompile.Text = "Compile";
+            this.btnCompile.UseVisualStyleBackColor = true;
+            this.btnCompile.Click += new System.EventHandler(this.btnCompile_Click);
             // 
             // CompileScript
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(343, 67);
-            this.Controls.Add(this.button1);
-            this.Controls.Add(this.textBox1);
-            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.ClientSize = new System.Drawing.Size(343, 137);
+            this.Controls.Add(this.btnCompile);
+            this.Controls.Add(this.lblUrl);
+            this.Controls.Add(this.rbDownload);
+            this.Controls.Add(this.rbFromDirectory);
+            this.Controls.Add(this.btnDownload);
+            this.Controls.Add(this.tbUrl);
             this.Name = "CompileScript";
             this.Text = "CompileScript";
             this.ResumeLayout(false);
@@ -66,7 +119,11 @@
 
         #endregion
 
-        private System.Windows.Forms.TextBox textBox1;
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.TextBox tbUrl;
+        private System.Windows.Forms.Button btnDownload;
+        private System.Windows.Forms.RadioButton rbFromDirectory;
+        private System.Windows.Forms.RadioButton rbDownload;
+        private System.Windows.Forms.Label lblUrl;
+        private System.Windows.Forms.Button btnCompile;
     }
 }

@@ -184,6 +184,7 @@
             this.addToolStripMenuItem.Name = "addToolStripMenuItem";
             this.addToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.addToolStripMenuItem.Text = "Compile Script";
+            this.addToolStripMenuItem.Click += new System.EventHandler(this.addToolStripMenuItem_Click);
             // 
             // inputToolStripMenuItem
             // 
@@ -199,7 +200,7 @@
             // 
             this.allowToolStripMenuItem.Image = global::w3bot.Resource1.keyboard_add;
             this.allowToolStripMenuItem.Name = "allowToolStripMenuItem";
-            this.allowToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.allowToolStripMenuItem.Size = new System.Drawing.Size(104, 22);
             this.allowToolStripMenuItem.Text = "Allow";
             this.allowToolStripMenuItem.Click += new System.EventHandler(this.allowToolStripMenuItem_Click);
             // 
@@ -207,7 +208,7 @@
             // 
             this.blockToolStripMenuItem.Image = global::w3bot.Resource1.keyboard_delete;
             this.blockToolStripMenuItem.Name = "blockToolStripMenuItem";
-            this.blockToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.blockToolStripMenuItem.Size = new System.Drawing.Size(104, 22);
             this.blockToolStripMenuItem.Text = "Block";
             this.blockToolStripMenuItem.Click += new System.EventHandler(this.blockToolStripMenuItem_Click);
             // 
