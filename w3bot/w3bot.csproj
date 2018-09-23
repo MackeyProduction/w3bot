@@ -74,6 +74,10 @@
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
+    <Reference Include="TestScript, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\w3bot\compiled\TestScript.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="bot\Browser.cs" />
@@ -93,6 +97,7 @@
     <Compile Include="core\CoreInformation.cs" />
     <Compile Include="core\CoreSettings.cs" />
     <Compile Include="core\Debug.cs" />
+    <Compile Include="core\FormControl.cs" />
     <Compile Include="core\ScriptItem.cs" />
     <Compile Include="core\Scriptloader.cs" />
     <Compile Include="enumeration\Keys.cs" />
@@ -155,6 +160,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resource1.resx</DependentUpon>
     </Compile>
+    <Compile Include="test\TestScript.cs" />
     <Compile Include="wrapper\AbstractBotProcessor.cs">
       <SubType>Component</SubType>
     </Compile>

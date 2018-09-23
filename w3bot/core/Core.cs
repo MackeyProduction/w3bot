@@ -16,11 +16,26 @@ namespace w3bot.core
     {
         internal delegate void Drawable(Graphics g);
         public static event Drawable paintings = delegate { };
-        internal static Form mainWindow { get; set; }
+        internal Form mainWindow { get; set; }
         internal static CoreInformation coreInformation { get { return new CoreInformation(); } }
         internal static Bot bot { get { return new Bot(); } set { } }
-        internal static RichTextBox logbox { get; set; }
-        internal static TabControl tabs { get; set; }
+        internal RichTextBox logbox { get; set; }
+        internal TabControl tabs { get; set; }
+        internal static Core _core { get; set; }
+
+        /// <summary>
+        /// Initializes the core.
+        /// </summary>
+        /// <param name="core">The core instance.</param>
+        /// <param name="formControl">Form controls like window, logbox and tabs.</param>
+        internal static void Initialize(Core core, FormControl formControl)
+        {
+            _core = core;
+            _core.mainWindow = formControl.mainWindow;
+            _core.logbox = formControl.logbox;
+            _core.tabs = formControl.tabs;
+            Bot.AddConfiguration(core);
+        }
 
         /// <summary>
         /// Execute the action in a safe thread to avoid thread crashes.
@@ -29,11 +44,11 @@ namespace w3bot.core
         internal static void ExeThreadSafe(Action a)
         {
             Thread thread;
-            if (mainWindow.InvokeRequired)
+            if (_core.mainWindow.InvokeRequired)
             {
                 thread = new Thread(new ThreadStart(delegate
                 {
-                    mainWindow.Invoke((MethodInvoker)delegate { a(); });
+                    _core.mainWindow.Invoke((MethodInvoker)delegate { a(); });
                 }));
                 thread.Start();
             }
@@ -55,7 +70,7 @@ namespace w3bot.core
         /// </summary>
         internal static void ReInit()
         {
-            tabs.TabPages.Clear();
+            _core.tabs.TabPages.Clear();
         }
 
         /// <summary>
@@ -69,13 +84,13 @@ namespace w3bot.core
             string result = "[" + DateTime.Now.Hour + ":" + DateTime.Now.Minute + ":" + DateTime.Now.Second + "]" + "\t\t" + msg + '\n';
             ExeThreadSafe(delegate
             {
-                logbox.SelectionStart = logbox.TextLength;
-                logbox.SelectionLength = 0;
-                logbox.SelectionColor = color;
-                logbox.AppendText(result);
-                logbox.SelectionColor = logbox.ForeColor;
-                logbox.SelectionStart = logbox.Text.Length;
-                logbox.ScrollToCaret();
+                _core.logbox.SelectionStart = _core.logbox.TextLength;
+                _core.logbox.SelectionLength = 0;
+                _core.logbox.SelectionColor = color;
+                _core.logbox.AppendText(result);
+                _core.logbox.SelectionColor = _core.logbox.ForeColor;
+                _core.logbox.SelectionStart = _core.logbox.Text.Length;
+                _core.logbox.ScrollToCaret();
             });
 
             return result;

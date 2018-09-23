@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using w3bot.bot;
 using w3bot.core;
+using w3bot.evt;
 using w3bot.interfaces;
 
 namespace w3bot.wrapper
@@ -90,7 +91,7 @@ namespace w3bot.wrapper
 
         public void Navigate(string url)
         {
-            if (_chromeBrowser.IsBrowserInitialized)
+            if (!_chromeBrowser.IsDisposed)
             {
                 if (!url.Contains("://"))
                     url = "http://" + url;

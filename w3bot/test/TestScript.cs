@@ -7,12 +7,11 @@ using w3bot.bot;
 using w3bot.evt;
 using w3bot.interfaces;
 using w3bot.listener;
-using System.Windows.Forms;
 
-namespace TestScript
+namespace w3bot.test
 {
     [ScriptManifest("TestScript", "YouTube", "Test the bot functionality.", "NoChoice", 1.0)]
-    public class Class1 : Bot, IScript
+    public class TestScript : Bot, IScript
     {
         public void onFinish()
         {
@@ -27,7 +26,7 @@ namespace TestScript
             Initialize(browserWindow);
             browserWindow.Open();
 
-            Browser.Navigate("youtube.com");
+            Browser.Navigate("github.com");
 
             return true;
         }

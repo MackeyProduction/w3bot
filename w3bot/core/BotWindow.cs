@@ -47,11 +47,15 @@ namespace w3bot.core
         /// </summary>
         public void Open()
         {
-            this.Controls.Add(_chromiumBrowser);
-            _chromiumBrowser.Dock = DockStyle.Fill;
-            _bot.botTab.TabPages.Add(this);
-            _bot.botTab.SelectedTab = this;
-            _chromiumBrowser.Invalidate();
+            Core.ExeThreadSafe(delegate
+            {
+                this.Controls.Add(_chromiumBrowser);
+                _chromiumBrowser.Dock = DockStyle.Fill;
+                _bot.botTab.TabPages.Add(this);
+                _bot.botTab.SelectedTab = this;
+                _bot.botTab.SelectedTab.Text = _name;
+                _chromiumBrowser.Invalidate();
+            });
         }
 
         /// <summary>
@@ -102,7 +106,6 @@ namespace w3bot.core
         private void ChromiumBrowser_AddressChanged(object sender, AddressChangedEventArgs e)
         {
             Status.Log(e.Address);
-            _bot.RefreshTabPageThreadSafe(1);
         }
         
         private void ChromiumBrowser_LoadingStateChanged(object sender, LoadingStateChangedEventArgs e)

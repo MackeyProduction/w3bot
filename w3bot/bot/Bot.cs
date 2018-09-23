@@ -17,15 +17,21 @@ namespace w3bot.bot
     public class Bot
     {
         internal ChromiumWebBrowser browser { get; set; }
-        internal Size ClientSize { get { return Core.mainWindow.Size; } }
+        internal Size ClientSize { get { return _core.mainWindow.Size; } }
         internal Size FrameSize { get; }
-        internal TabControl botTab { get { return Core.tabs; } set { } }
+        internal TabControl botTab { get { return _core.tabs; } set { } }
         private BotWindow _botWindow;
         internal BotWindow botWindow { get { return _botWindow; } set { _botWindow = value; } }
         private delegate void RefreshTabPageDelegate(int tabPage);
         private CoreSettings _coreSettings;
         internal CoreSettings coreSettings { get { return _coreSettings; } set { _coreSettings = value; } }
-        internal Core core { get { return new Core(); } }
+        private static Core _core;
+        internal Core core { get { return _core; } set { _core = value; } }
+
+        internal static void AddConfiguration(Core core)
+        {
+            _core = core;
+        }
 
         /// <summary>
         /// Creates a new BotWindow which allows you to send input.
@@ -38,6 +44,10 @@ namespace w3bot.bot
             return new BotWindow(this, name, url, new BotProcessor(this));
         }
 
+        /// <summary>
+        /// Initializes all necessarily settings for the BotWindow. After initializing you need to use the Open() method to open the window.
+        /// </summary>
+        /// <param name="botWindow"></param>
         public void Initialize(BotWindow botWindow)
         {
             _botWindow = botWindow;
@@ -53,21 +63,6 @@ namespace w3bot.bot
 
             if (botWindow._url != "")
                 Browser.Navigate(botWindow._url);
-        }
-
-        public void RefreshTabPageThreadSafe(int tabPage)
-        {
-            if (botTab.InvokeRequired)
-            {
-                botTab.Invoke(new RefreshTabPageDelegate(RefreshTabPageThreadSafe), new object[] { tabPage });
-            }
-            else
-            {
-                if (botTab.TabPages.Count > tabPage)
-                {
-                    botTab.TabPages[tabPage].Refresh();
-                }
-            }
         }
     }
 }

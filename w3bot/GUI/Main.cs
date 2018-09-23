@@ -12,6 +12,8 @@ using CefSharp.WinForms;
 using w3bot.core;
 using System.Globalization;
 using w3bot.evt;
+using w3bot.test;
+using System.Threading;
 
 namespace w3bot.GUI
 {
@@ -23,9 +25,7 @@ namespace w3bot.GUI
         {
             InitializeComponent();
             
-            mainWindow = this;
-            tabs = tabControlMain;
-            logbox = textBoxLog;
+            Initialize(this, new FormControl(this, textBoxLog, tabControlMain));
             BotDirectories.CreateDirs();
         }
 
@@ -69,6 +69,11 @@ namespace w3bot.GUI
 
         private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            //new Thread(new ThreadStart(delegate
+            //{
+            //    TestScript.Class1 testScript = new TestScript.Class1();
+            //    testScript.onStart();
+            //})).Start();
             new About().ShowDialog();
         }
 
