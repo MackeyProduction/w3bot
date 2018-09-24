@@ -23,7 +23,6 @@ namespace w3bot.core
         internal List<ScriptItem> LoadScripts()
         {
             var dir = BotDirectories.compiledDir;
-            var scriptItem = new ScriptItem();
             var scriptItemList = new List<ScriptItem>();
 
             try
@@ -35,6 +34,7 @@ namespace w3bot.core
                         // loading assembly file
                         var assembly = Assembly.LoadFile(file);
                         var types = assembly.GetTypes();
+                        var scriptItem = new ScriptItem();
                         Attribute[] attributes = null;
                         ScriptManifest manifest = null;
 

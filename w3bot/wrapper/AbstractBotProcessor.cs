@@ -20,5 +20,6 @@ namespace w3bot.wrapper
         abstract internal ChromiumWebBrowser GetBrowser();
         abstract internal Point MousePos { get; set; }
         abstract internal Bitmap Frame { get; }
+        abstract internal void GetFocus();
     }
 }

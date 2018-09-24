@@ -18,18 +18,21 @@ namespace w3bot.core
         public static event Drawable paintings = delegate { };
         internal Form mainWindow { get; set; }
         internal static CoreInformation coreInformation { get { return new CoreInformation(); } }
-        internal static Bot bot { get { return new Bot(); } set { } }
+        private static Bot _bot;
+        internal static Bot bot { get { return _bot; } set { _bot = value; } }
         internal RichTextBox logbox { get; set; }
         internal TabControl tabs { get; set; }
         internal static Core _core { get; set; }
+        internal BotStub runningScript { get; set; }
 
         /// <summary>
         /// Initializes the core.
         /// </summary>
         /// <param name="core">The core instance.</param>
         /// <param name="formControl">Form controls like window, logbox and tabs.</param>
-        internal static void Initialize(Core core, FormControl formControl)
+        internal static void Initialize(Core core, Bot bot, FormControl formControl)
         {
+            _bot = bot;
             _core = core;
             _core.mainWindow = formControl.mainWindow;
             _core.logbox = formControl.logbox;

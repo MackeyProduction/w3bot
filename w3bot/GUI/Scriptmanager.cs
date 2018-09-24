@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using w3bot.bot;
 using w3bot.core;
 using w3bot.interfaces;
 using w3bot.listener;
@@ -16,24 +17,31 @@ namespace w3bot.GUI
 {
     public partial class Scriptmanager : Form
     {
-        private Action script_started;
-        private Action script_stopped;
+        private Bot _bot;
+        private Action _start, _stop;
 
         public Scriptmanager()
         {
             InitializeComponent();
         }
 
-        public Scriptmanager(Action script_started, Action script_stopped)
+        public Scriptmanager(Bot bot, Action start, Action stop)
         {
             InitializeComponent();
-            this.script_started = script_started;
-            this.script_stopped = script_stopped;
+            _start = start;
+            _stop = stop;
+            _bot = bot;
         }
 
         private void buttonStart_Click(object sender, EventArgs e)
         {
-
+            if (listViewScripts.SelectedItems.Count == 1)
+            {
+                _bot.core.runningScript = new BotStub(_bot, ((ScriptItem)listViewScripts.SelectedItems[0]).script, _stop);
+                Bot.AddConfiguration(_bot.core);
+                _start();
+                this.Close();
+            }
         }
 
         private void Scriptmanager_Load(object sender, EventArgs e)

@@ -25,6 +25,7 @@ namespace w3bot.core
         internal String _proxy { get; set; }
         internal BotProcessor botProcessor { get; set; }
         internal Point mouse = new Point(0, 0);
+        bool input = false;
 
         /// <summary>
         /// Initialize a new BotProcessor to configure cef browser settings and chromium browser.
@@ -87,10 +88,65 @@ namespace w3bot.core
 
         internal override void AllowInput()
         {
+            if (!input)
+            {
+                //_bot.core.mainWindow.Activated += MainWindow_Activated;
+
+                _bot.core.mainWindow.MouseMove += MainWindow_MouseMove;
+                MouseUp += MainWindow_MouseUp;
+                MouseDown += MainWindow_MouseDown;
+                MouseClick += BotProcessor_MouseClick;
+                input = true;
+            }
+        }
+
+        private void BotProcessor_MouseClick(object sender, MouseEventArgs e)
+        {
+            chromiumBrowser.FrameLoadEnd += (fSender, args) =>
+            {
+                args.Browser.GetHost().SendMouseClickEvent(e.X, e.Y, (MouseButtonType)e.Button, false, 1, CefEventFlags.None);
+            };
+        }
+
+        private void MainWindow_Activated(object sender, EventArgs e)
+        {
+            chromiumBrowser.Focus();
+        }
+
+        private void MainWindow_MouseDown(object sender, MouseEventArgs e)
+        {
+            chromiumBrowser.FrameLoadEnd += (fSender, args) =>
+            {
+                args.Browser.GetHost().SendMouseClickEvent(e.X, e.Y, (MouseButtonType)e.Button, false, 1, CefEventFlags.None);
+            };
+        }
+
+        private void MainWindow_MouseUp(object sender, MouseEventArgs e)
+        {
+            chromiumBrowser.FrameLoadEnd += (fSender, args) =>
+            {
+                args.Browser.GetHost().SendMouseClickEvent(e.X, e.Y, (MouseButtonType)e.Button, true, 1, CefEventFlags.None);
+            };
+        }
+
+        private void MainWindow_MouseMove(object sender, MouseEventArgs e)
+        {
+            chromiumBrowser.FrameLoadEnd += (fSender, args) =>
+            {
+                args.Browser.GetHost().SendMouseMoveEvent(e.X, e.Y, false, CefEventFlags.None);
+            };
+            _bot.core.mainWindow.Invalidate();
         }
 
         internal override void BlockInput()
         {
+            if (!input)
+            {
+                _bot.core.mainWindow.MouseMove -= MainWindow_MouseMove;
+                _bot.core.mainWindow.MouseUp -= MainWindow_MouseUp;
+                _bot.core.mainWindow.MouseDown -= MainWindow_MouseDown;
+                input = false;
+            }
         }
 
         internal override void Destroy()
@@ -125,6 +181,14 @@ namespace w3bot.core
             {
                 throw new NotImplementedException();
             }
+        }
+
+        internal override void GetFocus()
+        {
+            Core.ExeThreadSafe(delegate
+            {
+                chromiumBrowser.Focus();
+            });
         }
     }
 }

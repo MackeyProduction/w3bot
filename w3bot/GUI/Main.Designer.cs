@@ -131,6 +131,7 @@
             this.visitToolStripMenuItem.Name = "visitToolStripMenuItem";
             this.visitToolStripMenuItem.Size = new System.Drawing.Size(153, 22);
             this.visitToolStripMenuItem.Text = "Visit w3bot.org";
+            this.visitToolStripMenuItem.Click += new System.EventHandler(this.visitToolStripMenuItem_Click);
             // 
             // aboutToolStripMenuItem
             // 
@@ -177,6 +178,7 @@
             this.stopToolStripMenuItem.Name = "stopToolStripMenuItem";
             this.stopToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.stopToolStripMenuItem.Text = "Stop";
+            this.stopToolStripMenuItem.Click += new System.EventHandler(this.stopToolStripMenuItem_Click);
             // 
             // addToolStripMenuItem
             // 

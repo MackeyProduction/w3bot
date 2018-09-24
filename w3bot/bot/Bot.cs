@@ -5,6 +5,7 @@ using System.ComponentModel;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using w3bot.bot;
@@ -63,6 +64,35 @@ namespace w3bot.bot
 
             if (botWindow._url != "")
                 Browser.Navigate(botWindow._url);
+        }
+
+        /// <summary>
+        /// Pauses the current running script for 1000 milliseconds (1 second)
+        /// </summary>
+        public static void Sleep()
+        {
+            Thread.Sleep(1000);
+        }
+
+        /// <summary>
+        /// Pauses the current running script for a given time.
+        /// </summary>
+        /// <param name="delay"></param>
+        public static void Sleep(int delay)
+        {
+            Thread.Sleep(delay);
+        }
+
+        /// <summary>
+        /// Pauses the current running script for a given time. The time will be a random value between the two given parameters
+        /// </summary>
+        /// <param name="minDelay">The minimum time in milliseconds to sleep</param>
+        /// <param name="maxDelay">The maximum time in milliseconds to sleep</param>
+        public static void Sleep(int minDelay, int maxDelay)
+        {
+            Random ran = new Random(DateTime.Now.Millisecond);
+            int delay = ran.Next(minDelay, maxDelay + 1);
+            Thread.Sleep(delay);
         }
     }
 }

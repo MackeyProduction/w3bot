@@ -34,7 +34,12 @@ namespace TestScript
 
         public int onUpdate()
         {
-            return 100;
+            if (Browser.IsReady)
+            {
+                Status.Log("Hello world!");
+            }
+
+            return 1000;
         }
     }
 }

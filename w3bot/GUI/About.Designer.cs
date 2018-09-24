@@ -51,7 +51,7 @@ namespace w3bot.GUI
             this.linkLabel1.TabIndex = 0;
             this.linkLabel1.TabStop = true;
             this.linkLabel1.Text = "w3bot.org";
-            this.linkLabel1.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel1_LinkClicked);
+            this.linkLabel1.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel1_LinkClicked_1);
             // 
             // labelVersion
             // 
@@ -67,9 +67,9 @@ namespace w3bot.GUI
             this.label3.AutoSize = true;
             this.label3.Location = new System.Drawing.Point(12, 48);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(108, 13);
+            this.label3.Size = new System.Drawing.Size(179, 13);
             this.label3.TabIndex = 3;
-            this.label3.Text = "Written by RubyX377";
+            this.label3.Text = "Written by RubyX377 and NoChoice";
             // 
             // label2
             // 
@@ -148,11 +148,6 @@ namespace w3bot.GUI
             this.ResumeLayout(false);
             this.PerformLayout();
 
-        }
-
-        private void About_Load(object sender, EventArgs e)
-        {
-            
         }
 
         private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)

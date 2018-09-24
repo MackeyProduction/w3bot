@@ -14,33 +14,56 @@ using System.Globalization;
 using w3bot.evt;
 using w3bot.test;
 using System.Threading;
+using System.Diagnostics;
+using w3bot.bot;
 
 namespace w3bot.GUI
 {
     internal partial class Main : Core
     {
         string title = "w3bot.org " + CoreInformation.programVersion.ToString("0.0", CultureInfo.InvariantCulture);
+        private bool nextKill = false;  // flag to tell the next time the script will be killed without question
+        private BotWindow botMain;
 
         public Main()
         {
             InitializeComponent();
-            
-            Initialize(this, new FormControl(this, textBoxLog, tabControlMain));
+
+            this.Text = title + " - Idle...";
+            Initialize(this, new Bot(), new FormControl(this, textBoxLog, tabControlMain));
             BotDirectories.CreateDirs();
         }
 
         private void Main_Load(object sender, EventArgs e)
         {
             Status.Log("Welcome to " + title);
-            var botMain = bot.CreateBrowserWindow("View", "google.com");
+            botMain = bot.CreateBrowserWindow("View", "google.com");
             bot.Initialize(botMain);
             botMain.Open();
-            Mouse.Move(200, 200);
+
+            Bot.AddConfiguration(this);
+            blockToolStripMenuItem.PerformClick();
         }
 
         private void Main_FormClosing(object sender, FormClosingEventArgs e)
         {
-            Cef.Shutdown();
+            if (runningScript != null && runningScript._running)
+            {
+                if (MessageBox.Show("Do you want to close w3bot? A script is still running.", "Close", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+                {
+                    Cef.Shutdown();
+                    runningScript.onFinish();
+                    runningScript.onKill();
+                }
+                else
+                {
+                    e.Cancel = true;
+                }
+            }
+            else
+            {
+                Cef.Shutdown();
+            }
         }
 
         private void exitToolStripMenuItem_Click(object sender, EventArgs e)
@@ -69,11 +92,6 @@ namespace w3bot.GUI
 
         private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            //new Thread(new ThreadStart(delegate
-            //{
-            //    TestScript.Class1 testScript = new TestScript.Class1();
-            //    testScript.onStart();
-            //})).Start();
             new About().ShowDialog();
         }
 
@@ -89,6 +107,8 @@ namespace w3bot.GUI
 
         private void allowToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            botMain._processor.AllowInput();
+
             allowToolStripMenuItem.Checked = true;
             blockToolStripMenuItem.Checked = false;
             inputToolStripMenuItem.Image = Resource1.keyboard;
@@ -96,6 +116,9 @@ namespace w3bot.GUI
 
         private void blockToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            botMain._processor.BlockInput();
+            botMain._processor.GetFocus();
+
             blockToolStripMenuItem.Checked = true;
             allowToolStripMenuItem.Checked = false;
             inputToolStripMenuItem.Image = Resource1.keyboard_delete;
@@ -103,7 +126,28 @@ namespace w3bot.GUI
 
         private void startToolStripMenuItem1_Click(object sender, EventArgs e)
         {
-            new Scriptmanager(Script_started, Script_stopped).ShowDialog();
+            if (runningScript == null)
+            {
+                new Scriptmanager(bot, Script_started, Script_stopped).ShowDialog();
+            }
+            else
+            {
+                if (runningScript._running)
+                {
+                    if (runningScript._pausing)
+                    {
+                        runningScript.onResume();
+                        this.Text = title + " - Script running...";
+                        startToolStripMenuItem1.Text = "Pause";
+                    }
+                    else
+                    {
+                        runningScript.onPause();
+                        this.Text = title + " - Script paused...";
+                        startToolStripMenuItem1.Text = "Resume";
+                    }
+                }
+            }
         }
 
         private void Script_started()
@@ -112,17 +156,17 @@ namespace w3bot.GUI
             this.Text = title + " - Script running...";
             stopToolStripMenuItem.Enabled = true;
             blockToolStripMenuItem.PerformClick();
-            //Core.bot.GetFocus(); //make sure botting is possible by focusing the view
+            botMain._processor.GetFocus(); //make sure botting is possible by focusing the view
         }
 
         private void Script_stopped()
         {
-            //nextKill = false;
+            nextKill = false;
             startToolStripMenuItem1.Text = "Start";
             stopToolStripMenuItem.Text = "Stop";
             this.Text = title + " - Idle...";
             stopToolStripMenuItem.Enabled = false;
-            //Core.runningScript = null;
+            runningScript = null;
         }
 
         private void mousePositionToolStripMenuItem_Click(object sender, EventArgs e)
@@ -132,8 +176,34 @@ namespace w3bot.GUI
 
         private void addToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            
             new CompileScript().ShowDialog();
+        }
+
+        private void stopToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (runningScript != null)
+            {
+                if (nextKill)
+                {
+                    runningScript.onKill();
+                    Status.Warning("Script has been terminated");
+                    return;
+                }
+
+                if (MessageBox.Show("Are you sure you want to stop the running script?", "Stop Script?", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+                {
+                    runningScript.onFinish();
+                    runningScript.onResume(); //resume script to make sure it doest stuck in the sleep loop
+                    nextKill = true;
+                    stopToolStripMenuItem.Text = "Stopping...";
+                    this.Text = title + " - Script stopping...";
+                }
+            }
+        }
+
+        private void visitToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Process.Start("http://w3bot.org");
         }
     }
 }
