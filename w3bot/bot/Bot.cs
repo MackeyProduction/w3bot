@@ -1,4 +1,4 @@
-﻿using CefSharp.WinForms;
+﻿using CefSharp.OffScreen;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -55,7 +55,7 @@ namespace w3bot.bot
             _coreSettings = new CoreSettings();
             _coreSettings.browserAdapter = new BrowserAdapter(this);
             _coreSettings.inputAdapter = new InputAdapter(new MouseAdapter(this), new KeyboardAdapter(this));
-            
+
             // add configuration
             Browser.AddConfiguration(this);
             Mouse.AddConfiguration(this);

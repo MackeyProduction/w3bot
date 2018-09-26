@@ -1,5 +1,5 @@
 ﻿using CefSharp;
-using CefSharp.WinForms;
+using CefSharp.OffScreen;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -31,15 +31,13 @@ namespace w3bot.core
         /// <param name="processor">The current processor instance.</param>
         internal BotWindow(Bot bot, string name, string url, AbstractBotProcessor processor)
         {
+            DoubleBuffered = true;
             _bot = bot;
             _name = name;
             _url = url;
             _processor = processor;
             _chromiumBrowser = _processor.GetBrowser();
             _chromiumBrowser.FrameLoadEnd += ChromiumBrowser_FrameLoadEnd;
-            _chromiumBrowser.AddressChanged += ChromiumBrowser_AddressChanged;
-            _chromiumBrowser.LoadingStateChanged += ChromiumBrowser_LoadingStateChanged;
-            Activate();
         }
 
         /// <summary>
@@ -49,12 +47,12 @@ namespace w3bot.core
         {
             Core.ExeThreadSafe(delegate
             {
-                this.Controls.Add(_chromiumBrowser);
-                _chromiumBrowser.Dock = DockStyle.Fill;
                 _bot.botTab.TabPages.Add(this);
                 _bot.botTab.SelectedTab = this;
                 _bot.botTab.SelectedTab.Text = _name;
-                _chromiumBrowser.Invalidate();
+                _processor.ActivateProcessor(this);
+
+                Activate();
             });
         }
 
@@ -82,7 +80,7 @@ namespace w3bot.core
             Core.ExeThreadSafe(delegate
             {
                 _bot.botTab.SelectedTab = this;
-                _processor.ActivateProcessor();
+                _processor.ActivateProcessor(this);
             });
         }
 
@@ -101,37 +99,6 @@ namespace w3bot.core
                     _sourceCode = taskHtml.Result;
                 });
             }
-        }
-
-        private void ChromiumBrowser_AddressChanged(object sender, AddressChangedEventArgs e)
-        {
-            Status.Log(e.Address);
-        }
-        
-        private void ChromiumBrowser_LoadingStateChanged(object sender, LoadingStateChangedEventArgs e)
-        {
-            //if (!e.Browser.IsLoading)
-            //{
-            //    Core.ExeThreadSafe(delegate
-            //    {
-            //        var panel = new Panel();
-
-            //        panel.Size = _bot.ClientSize;
-            //        panel.Location = new Point(100, 100);
-            //        panel.Focus();
-
-            //        PaintEventHandler paintHandler = (senderP, args) =>
-            //        {
-            //            var g = panel.CreateGraphics();
-            //            Font font = new Font("Arial", 8);
-            //            g.DrawString("Mouse: " + 0 + ", " + 0, font, Brushes.Green, 200, 200);
-            //        };
-
-            //        this.Controls.Add(panel);
-            //        panel.Invalidate();
-            //        _bot.botTab.SelectedTab = this;
-            //    });
-            //}
         }
     }
 }

@@ -1,6 +1,5 @@
 ﻿using CefSharp;
-using CefSharp.WinForms;
-using CefSharp.WinForms.Internals;
+using CefSharp.OffScreen;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,13 +18,18 @@ namespace w3bot.core
 {
     class BotProcessor : AbstractBotProcessor
     {
-        public static ChromiumWebBrowser chromiumBrowser { get; set; }
+        public ChromiumWebBrowser chromiumBrowser { get; set; }
         internal Bot _bot;
         internal String _userAgent { get; set; }
         internal String _proxy { get; set; }
         internal BotProcessor botProcessor { get; set; }
         internal Point mouse = new Point(0, 0);
         bool input = false;
+        System.Windows.Forms.Timer timer = new System.Windows.Forms.Timer();
+        BotWindow _botWindow;
+        private bool initialized = false;
+        private Bitmap browserBitmap;
+        private IBrowserHost browserHost;
 
         /// <summary>
         /// Initialize a new BotProcessor to configure cef browser settings and chromium browser.
@@ -35,12 +39,17 @@ namespace w3bot.core
         public BotProcessor(Bot bot, ProxyOptions proxyOptions = null)
         {
             _bot = bot;
+            Size = new Size(1024, 600);
 
             if (!Cef.IsInitialized)
             {
                 // load cef settings
                 CefSettings settings = new CefSettings();
                 settings.BrowserSubprocessPath = @"x86\CefSharp.BrowserSubprocess.exe";
+                settings.CachePath = "Cache";
+                settings.PersistSessionCookies = true;
+                settings.PersistUserPreferences = true;
+
                 _userAgent = settings.UserAgent;
 
                 // start proxy server
@@ -52,99 +61,94 @@ namespace w3bot.core
             }
             
             chromiumBrowser = new ChromiumWebBrowser("https://www.google.com/");
-            chromiumBrowser.Size = ClientSize;
+            chromiumBrowser.Size = this.ClientSize;
             _bot.browser = chromiumBrowser;
-
-            chromiumBrowser.LoadingStateChanged += ChromiumBrowser_LoadingStateChanged;
         }
 
-        private void ChromiumBrowser_LoadingStateChanged(object sender, LoadingStateChangedEventArgs e)
+        private void ChromiumBrowser_BrowserInitialized(object sender, EventArgs e)
         {
-            //if (!e.Browser.IsLoading)
-            //{
-            //    Core.ExeThreadSafe(delegate
-            //    {
-            //        var panel = new Panel();
-
-            //        panel.Size = _bot.ClientSize;
-            //        panel.Location = new Point(0, 0);
-            //        panel.BorderStyle = BorderStyle.None;
-            //        panel.Dock = DockStyle.Fill;
-            //        var g = panel.CreateGraphics();
-            //        Font font = new Font("Arial", 8);
-            //        g.DrawString("Mouse: " + 0 + ", " + 0, font, Brushes.Green, 200, 200);
-            //        Core.mainWindow.Controls.Add(panel);
-            //        panel.Focus();
-            //        panel.Invalidate();
-            //    });
-            //}
+            browserHost = _botWindow._chromiumBrowser.GetBrowserHost();
+            initialized = true;
         }
 
-        internal override void ActivateProcessor()
+        internal override void ActivateProcessor(BotWindow botWindow)
         {
-            if (!chromiumBrowser.IsDisposed)
-                botProcessor = this;
+            timer.Tick += Timer_Tick;
+            timer.Interval = 100;
+
+            _botWindow = botWindow;
+            chromiumBrowser.BrowserInitialized += ChromiumBrowser_BrowserInitialized;
+            _botWindow._chromiumBrowser.FrameLoadEnd += _chromiumBrowser_FrameLoadEnd;
+        }
+
+        private void _botWindow_MouseMove(object sender, MouseEventArgs e)
+        {
+            mouse = new Point(e.X, e.Y);
+            browserHost.SendMouseMoveEvent(e.X, e.Y, false, CefEventFlags.None);
+        }
+
+        private void _chromiumBrowser_FrameLoadEnd(object sender, FrameLoadEndEventArgs e)
+        {
+            if (initialized)
+            {
+                if (e.Frame.IsMain)
+                {
+                    FetchBitmap();
+                    _botWindow.Paint += Bot_Paint;
+                    timer.Start();
+                }
+            }
+        }
+
+        private void FetchBitmap()
+        {
+            _botWindow._chromiumBrowser.ScreenshotAsync().ContinueWith(task =>
+            {
+                // load browser bitmap
+                browserBitmap = task.Result;
+                _botWindow.Invalidate();
+            });
+        }
+
+        private void Timer_Tick(object sender, EventArgs e)
+        {
+            _botWindow.Invalidate();
+        }
+
+        private void Bot_Paint(object sender, PaintEventArgs e)
+        {
+            FetchBitmap();
+            if (browserBitmap == null) return;
+            if (!initialized) return;
+
+            Pen greenPen = new Pen(Color.Green);
+
+            var g = e.Graphics;
+            g.DrawImage(browserBitmap, 0, 0);
+
+            g.DrawString("Test", new Font(new FontFamily("Arial"), 12), Brushes.Green, 10, 10);
+
+            // draw mouse
+            Point m = mouse;
+            g.DrawLine(greenPen, new Point(m.X - 5, m.Y - 5), new Point(m.X + 5, m.Y + 5));
+            g.DrawLine(greenPen, new Point(m.X - 5, m.Y + 5), new Point(m.X + 5, m.Y - 5));
+
         }
 
         internal override void AllowInput()
         {
             if (!input)
             {
-                //_bot.core.mainWindow.Activated += MainWindow_Activated;
-
-                _bot.core.mainWindow.MouseMove += MainWindow_MouseMove;
-                MouseUp += MainWindow_MouseUp;
-                MouseDown += MainWindow_MouseDown;
-                MouseClick += BotProcessor_MouseClick;
+                _botWindow.MouseMove += _botWindow_MouseMove;
                 input = true;
             }
         }
 
-        private void BotProcessor_MouseClick(object sender, MouseEventArgs e)
-        {
-            chromiumBrowser.FrameLoadEnd += (fSender, args) =>
-            {
-                args.Browser.GetHost().SendMouseClickEvent(e.X, e.Y, (MouseButtonType)e.Button, false, 1, CefEventFlags.None);
-            };
-        }
-
-        private void MainWindow_Activated(object sender, EventArgs e)
-        {
-            chromiumBrowser.Focus();
-        }
-
-        private void MainWindow_MouseDown(object sender, MouseEventArgs e)
-        {
-            chromiumBrowser.FrameLoadEnd += (fSender, args) =>
-            {
-                args.Browser.GetHost().SendMouseClickEvent(e.X, e.Y, (MouseButtonType)e.Button, false, 1, CefEventFlags.None);
-            };
-        }
-
-        private void MainWindow_MouseUp(object sender, MouseEventArgs e)
-        {
-            chromiumBrowser.FrameLoadEnd += (fSender, args) =>
-            {
-                args.Browser.GetHost().SendMouseClickEvent(e.X, e.Y, (MouseButtonType)e.Button, true, 1, CefEventFlags.None);
-            };
-        }
-
-        private void MainWindow_MouseMove(object sender, MouseEventArgs e)
-        {
-            chromiumBrowser.FrameLoadEnd += (fSender, args) =>
-            {
-                args.Browser.GetHost().SendMouseMoveEvent(e.X, e.Y, false, CefEventFlags.None);
-            };
-            _bot.core.mainWindow.Invalidate();
-        }
-
         internal override void BlockInput()
         {
-            if (!input)
+            if (input)
             {
-                _bot.core.mainWindow.MouseMove -= MainWindow_MouseMove;
-                _bot.core.mainWindow.MouseUp -= MainWindow_MouseUp;
-                _bot.core.mainWindow.MouseDown -= MainWindow_MouseDown;
+                _botWindow.MouseMove -= _botWindow_MouseMove;
                 input = false;
             }
         }
@@ -187,7 +191,7 @@ namespace w3bot.core
         {
             Core.ExeThreadSafe(delegate
             {
-                chromiumBrowser.Focus();
+                this.Focus();
             });
         }
     }

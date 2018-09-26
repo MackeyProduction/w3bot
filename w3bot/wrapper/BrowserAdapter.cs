@@ -1,5 +1,5 @@
 ﻿using CefSharp;
-using CefSharp.WinForms;
+using CefSharp.OffScreen;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,6 +16,7 @@ namespace w3bot.wrapper
     {
         internal ChromiumWebBrowser _chromeBrowser = null;
         internal BotWindow _botWindow;
+        internal IBrowserHost _browserHost;
 
         public BrowserAdapter(Bot bot) : base(bot)
         {
@@ -23,6 +24,13 @@ namespace w3bot.wrapper
             if (_bot.botWindow == null) throw new InvalidOperationException("The Botwindow isn't initialized. Please initialize the botwindow with the Initialize() method.");
             _botWindow = _bot.botWindow;
             _chromeBrowser = _botWindow._chromiumBrowser;
+
+            _chromeBrowser.BrowserInitialized += _chromeBrowser_BrowserInitialized;
+        }
+
+        private void _chromeBrowser_BrowserInitialized(object sender, EventArgs e)
+        {
+            _browserHost = _chromeBrowser.GetBrowserHost();
         }
 
         public bool IsReady
@@ -91,7 +99,8 @@ namespace w3bot.wrapper
 
         public void Navigate(string url)
         {
-            if (!_chromeBrowser.IsDisposed)
+            if (_browserHost == null) return;
+            if (!_browserHost.IsDisposed)
             {
                 if (!url.Contains("://"))
                     url = "http://" + url;
