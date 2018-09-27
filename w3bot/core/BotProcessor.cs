@@ -63,11 +63,13 @@ namespace w3bot.core
             chromiumBrowser = new ChromiumWebBrowser("https://www.google.com/");
             chromiumBrowser.Size = this.ClientSize;
             _bot.browser = chromiumBrowser;
+
+            chromiumBrowser.BrowserInitialized += ChromiumBrowser_BrowserInitialized;
         }
 
         private void ChromiumBrowser_BrowserInitialized(object sender, EventArgs e)
         {
-            browserHost = _botWindow._chromiumBrowser.GetBrowserHost();
+            browserHost = chromiumBrowser.GetBrowserHost();
             initialized = true;
         }
 
@@ -79,7 +81,6 @@ namespace w3bot.core
 
             if (botWindow == null) return;
             _botWindow = botWindow;
-            chromiumBrowser.BrowserInitialized += ChromiumBrowser_BrowserInitialized;
             _botWindow._chromiumBrowser.FrameLoadEnd += _chromiumBrowser_FrameLoadEnd;
         }
 
