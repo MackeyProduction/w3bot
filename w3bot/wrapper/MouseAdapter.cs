@@ -18,6 +18,7 @@ namespace w3bot.wrapper
         internal Bot _bot;
         internal BotWindow _botWindow;
         internal ChromiumWebBrowser _chromiumBrowser;
+        internal MouseEvent _mouseEvent;
 
         /// <summary>
         /// w3bot instance for MouseAdapter.
@@ -73,9 +74,10 @@ namespace w3bot.wrapper
                         }
 
                         // Executes mouse click
-                        args.Browser.GetHost().SendMouseClickEvent(new MouseEvent(), mouseButtonType, up, 1);
+                        Move(_bot.botWindow._processor.MousePos.X, _bot.botWindow._processor.MousePos.Y);
+                        args.Browser.GetHost().SendMouseClickEvent(_mouseEvent, mouseButtonType, up, 1);
                         System.Threading.Thread.Sleep(100);
-                        args.Browser.GetHost().SendMouseClickEvent(new MouseEvent(), mouseButtonType, down, 1);
+                        args.Browser.GetHost().SendMouseClickEvent(_mouseEvent, mouseButtonType, down, 1);
                     }
                 };
             });
@@ -94,7 +96,8 @@ namespace w3bot.wrapper
                 {
                     if (args.Frame.IsMain)
                     {
-                        args.Browser.GetHost().SendMouseMoveEvent(new CefSharp.MouseEvent(x, y, CefSharp.CefEventFlags.None), false);
+                        _mouseEvent = new CefSharp.MouseEvent(x, y, CefSharp.CefEventFlags.None);
+                        args.Browser.GetHost().SendMouseMoveEvent(_mouseEvent, false);
                     }
                 };
             });

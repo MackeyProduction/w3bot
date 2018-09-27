@@ -26,10 +26,10 @@ namespace w3bot.core
         internal Point mouse = new Point(0, 0);
         bool input = false;
         System.Windows.Forms.Timer timer = new System.Windows.Forms.Timer();
-        BotWindow _botWindow;
+        private BotWindow _botWindow;
         private bool initialized = false;
         private Bitmap browserBitmap;
-        private IBrowserHost browserHost;
+        internal IBrowserHost browserHost;
 
         /// <summary>
         /// Initialize a new BotProcessor to configure cef browser settings and chromium browser.
@@ -74,8 +74,10 @@ namespace w3bot.core
         internal override void ActivateProcessor(BotWindow botWindow)
         {
             timer.Tick += Timer_Tick;
-            timer.Interval = 100;
+            timer.Interval = 25;
+            timer.Start();
 
+            if (botWindow == null) return;
             _botWindow = botWindow;
             chromiumBrowser.BrowserInitialized += ChromiumBrowser_BrowserInitialized;
             _botWindow._chromiumBrowser.FrameLoadEnd += _chromiumBrowser_FrameLoadEnd;
@@ -93,9 +95,7 @@ namespace w3bot.core
             {
                 if (e.Frame.IsMain)
                 {
-                    FetchBitmap();
                     _botWindow.Paint += Bot_Paint;
-                    timer.Start();
                 }
             }
         }
@@ -106,7 +106,6 @@ namespace w3bot.core
             {
                 // load browser bitmap
                 browserBitmap = task.Result;
-                _botWindow.Invalidate();
             });
         }
 
@@ -132,7 +131,6 @@ namespace w3bot.core
             Point m = mouse;
             g.DrawLine(greenPen, new Point(m.X - 5, m.Y - 5), new Point(m.X + 5, m.Y + 5));
             g.DrawLine(greenPen, new Point(m.X - 5, m.Y + 5), new Point(m.X + 5, m.Y - 5));
-
         }
 
         internal override void AllowInput()
@@ -140,8 +138,59 @@ namespace w3bot.core
             if (!input)
             {
                 _botWindow.MouseMove += _botWindow_MouseMove;
+                _botWindow.MouseUp += _botWindow_MouseUp;
+                _botWindow.MouseDown += _botWindow_MouseDown;
+                _bot.core.mainWindow.KeyPress += MainWindow_KeyPress;
+                _botWindow.MouseWheel += _botWindow_MouseWheel;
                 input = true;
             }
+        }
+
+        private void _botWindow_MouseWheel(object sender, MouseEventArgs e)
+        {
+            int deltaX = 0, deltaY = 0;
+            deltaY = e.Delta;
+
+            browserHost.SendMouseWheelEvent(e.X, e.Y, deltaX, deltaY, CefEventFlags.None);
+        }
+
+        private void MainWindow_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            KeyEvent keyEvent = new KeyEvent();
+            keyEvent.Type = KeyEventType.Char;
+            keyEvent.WindowsKeyCode = e.KeyChar;
+            browserHost.SendKeyEvent(keyEvent);
+        }
+
+        private void _botWindow_MouseDown(object sender, MouseEventArgs e)
+        {
+            browserHost.SendMouseClickEvent(e.X, e.Y, MouseEvent(e), true, 1, CefEventFlags.None);
+        }
+
+        private void _botWindow_MouseUp(object sender, MouseEventArgs e)
+        {
+            browserHost.SendMouseClickEvent(e.X, e.Y, MouseEvent(e), false, 1, CefEventFlags.None);
+        }
+
+        private MouseButtonType MouseEvent(MouseEventArgs e)
+        {
+            MouseButtonType mType = MouseButtonType.Left;
+            switch (e.Button)
+            {
+                case MouseButtons.Left:
+                    mType = MouseButtonType.Left;
+                    break;
+                case MouseButtons.Right:
+                    mType = MouseButtonType.Right;
+                    break;
+                case MouseButtons.Middle:
+                    mType = MouseButtonType.Middle;
+                    break;
+                default:
+                    break;
+            }
+
+            return mType;
         }
 
         internal override void BlockInput()
@@ -149,6 +198,10 @@ namespace w3bot.core
             if (input)
             {
                 _botWindow.MouseMove -= _botWindow_MouseMove;
+                _botWindow.MouseUp -= _botWindow_MouseUp;
+                _botWindow.MouseDown -= _botWindow_MouseDown;
+                _bot.core.mainWindow.KeyPress -= MainWindow_KeyPress;
+                _botWindow.MouseWheel -= _botWindow_MouseWheel;
                 input = false;
             }
         }
@@ -183,7 +236,7 @@ namespace w3bot.core
         {
             get
             {
-                throw new NotImplementedException();
+                return browserBitmap;
             }
         }
 

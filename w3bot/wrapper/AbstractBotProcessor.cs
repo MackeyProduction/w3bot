@@ -1,4 +1,5 @@
-﻿using CefSharp.OffScreen;
+﻿using CefSharp;
+using CefSharp.OffScreen;
 using System;
 using System.Collections.Generic;
 using System.Drawing;

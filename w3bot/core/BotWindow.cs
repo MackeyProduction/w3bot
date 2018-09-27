@@ -38,6 +38,7 @@ namespace w3bot.core
             _processor = processor;
             _chromiumBrowser = _processor.GetBrowser();
             _chromiumBrowser.FrameLoadEnd += ChromiumBrowser_FrameLoadEnd;
+            Activate();
         }
 
         /// <summary>
@@ -50,9 +51,6 @@ namespace w3bot.core
                 _bot.botTab.TabPages.Add(this);
                 _bot.botTab.SelectedTab = this;
                 _bot.botTab.SelectedTab.Text = _name;
-                _processor.ActivateProcessor(this);
-
-                Activate();
             });
         }
 
