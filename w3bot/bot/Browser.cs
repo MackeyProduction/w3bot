@@ -14,7 +14,7 @@ namespace w3bot.bot
         private static BrowserAdapter _browserAdapter = null;
 
         /// <summary>
-        /// 
+        /// Returns true when the browser is finished loading.
         /// </summary>
         public static bool IsReady
         {
@@ -25,7 +25,7 @@ namespace w3bot.bot
         }
 
         /// <summary>
-        /// 
+        /// Returns the configured proxy.
         /// </summary>
         public static string Proxy
         {
@@ -36,7 +36,7 @@ namespace w3bot.bot
         }
 
         /// <summary>
-        /// 
+        /// Returns the source code from the current website.
         /// </summary>
         public static string SouceCode
         {
@@ -46,6 +46,9 @@ namespace w3bot.bot
             }
         }
 
+        /// <summary>
+        /// Returns the user agent from the current BotWindow.
+        /// </summary>
         public static string UserAgent
         {
             get
@@ -55,7 +58,7 @@ namespace w3bot.bot
         }
 
         /// <summary>
-        /// 
+        /// Returns an empty string.
         /// </summary>
         public static void ClearProxy()
         {
@@ -63,7 +66,7 @@ namespace w3bot.bot
         }
 
         /// <summary>
-        /// 
+        /// Returns an empty string.
         /// </summary>
         public static void ClearUserAgent()
         {
@@ -71,7 +74,7 @@ namespace w3bot.bot
         }
 
         /// <summary>
-        /// 
+        /// Opens the previous page.
         /// </summary>
         public static void GoBack()
         {
@@ -79,7 +82,7 @@ namespace w3bot.bot
         }
 
         /// <summary>
-        /// 
+        /// Opens the next page.
         /// </summary>
         public static void GoForward()
         {
@@ -87,7 +90,7 @@ namespace w3bot.bot
         }
 
         /// <summary>
-        /// 
+        /// Loads the specific URL.
         /// </summary>
         /// <param name="url"></param>
         public static void Navigate(string url)
@@ -96,7 +99,7 @@ namespace w3bot.bot
         }
 
         /// <summary>
-        /// 
+        /// Reloads the page being displayed.
         /// </summary>
         public static void Refresh()
         {
@@ -109,7 +112,7 @@ namespace w3bot.bot
         /// <param name="bot">The bot instance.</param>
         internal static void AddConfiguration(Bot bot)
         {
-            _browserAdapter = bot.coreSettings.browserAdapter;
+            _browserAdapter = bot.botSettings.browserAdapter;
         }
     }
 }

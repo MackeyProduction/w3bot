@@ -7,12 +7,12 @@ using w3bot.wrapper;
 
 namespace w3bot.core
 {
-    internal struct CoreSettings
+    internal struct BotSettings
     {
         internal BrowserAdapter browserAdapter { get; set; }
         internal InputAdapter inputAdapter { get; set; }
 
-        internal CoreSettings(BrowserAdapter browserAdapter, InputAdapter inputAdapter)
+        internal BotSettings(BrowserAdapter browserAdapter, InputAdapter inputAdapter)
         {
             this.browserAdapter = browserAdapter;
             this.inputAdapter = inputAdapter;

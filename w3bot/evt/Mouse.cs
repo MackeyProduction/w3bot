@@ -56,7 +56,7 @@ namespace w3bot.evt
 
         internal static void AddConfiguration(Bot bot)
         {
-            _mouseAdapter = bot.coreSettings.inputAdapter.mouseAdapter;
+            _mouseAdapter = bot.botSettings.inputAdapter.mouseAdapter;
         }
     }
 }

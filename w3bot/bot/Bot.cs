@@ -17,15 +17,16 @@ namespace w3bot.bot
 {
     public class Bot
     {
-        internal ChromiumWebBrowser browser { get; set; }
+        internal delegate void Drawable(Graphics g);
+        internal static event Drawable paintings = delegate { };
+        public ChromiumWebBrowser browser { get; set; }
         internal Size ClientSize { get { return _core.mainWindow.Size; } }
         internal Size FrameSize { get; }
         internal TabControl botTab { get { return _core.tabs; } set { } }
         private BotWindow _botWindow;
         internal BotWindow botWindow { get { return _botWindow; } set { _botWindow = value; } }
-        private delegate void RefreshTabPageDelegate(int tabPage);
-        private CoreSettings _coreSettings;
-        internal CoreSettings coreSettings { get { return _coreSettings; } set { _coreSettings = value; } }
+        private BotSettings _botSettings;
+        internal BotSettings botSettings { get { return _botSettings; } set { _botSettings = value; } }
         private static Core _core;
         internal Core core { get { return _core; } set { _core = value; } }
 
@@ -52,15 +53,14 @@ namespace w3bot.bot
         public void Initialize(BotWindow botWindow)
         {
             _botWindow = botWindow;
-            _coreSettings = new CoreSettings();
-            _coreSettings.browserAdapter = new BrowserAdapter(this);
-            _coreSettings.inputAdapter = new InputAdapter(new MouseAdapter(this), new KeyboardAdapter(this));
+            _botSettings = new BotSettings();
+            _botSettings.browserAdapter = new BrowserAdapter(this);
+            _botSettings.inputAdapter = new InputAdapter(new MouseAdapter(this), new KeyboardAdapter(this));
             
             // add configuration
             Browser.AddConfiguration(this);
             Mouse.AddConfiguration(this);
             Debug.AddConfiguration(this);
-            Debug.toggle(Debug.Mouse); //activate mouse drawing
 
             if (botWindow._url != "")
                 Browser.Navigate(botWindow._url);
@@ -93,6 +93,15 @@ namespace w3bot.bot
             Random ran = new Random(DateTime.Now.Millisecond);
             int delay = ran.Next(minDelay, maxDelay + 1);
             Thread.Sleep(delay);
+        }
+
+        /// <summary>
+        /// Refreshs the paint of the current bot window.
+        /// </summary>
+        /// <param name="g"></param>
+        internal void RefreshPaints(Graphics g)
+        {
+            paintings(g);
         }
     }
 }

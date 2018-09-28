@@ -260,6 +260,7 @@
             this.mouseToolStripMenuItem.Name = "mouseToolStripMenuItem";
             this.mouseToolStripMenuItem.Size = new System.Drawing.Size(166, 22);
             this.mouseToolStripMenuItem.Text = "Mouse";
+            this.mouseToolStripMenuItem.Click += new System.EventHandler(this.mouseToolStripMenuItem_Click);
             // 
             // mousePositionToolStripMenuItem
             // 
@@ -278,6 +279,7 @@
             this.pixelColorToolStripMenuItem.Name = "pixelColorToolStripMenuItem";
             this.pixelColorToolStripMenuItem.Size = new System.Drawing.Size(166, 22);
             this.pixelColorToolStripMenuItem.Text = "Pixel Color";
+            this.pixelColorToolStripMenuItem.Click += new System.EventHandler(this.pixelColorToolStripMenuItem_Click);
             // 
             // layoutBoundsToolStripMenuItem
             // 

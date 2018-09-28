@@ -205,5 +205,15 @@ namespace w3bot.GUI
         {
             Process.Start("http://w3bot.org");
         }
+
+        private void pixelColorToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            pixelColorToolStripMenuItem.Checked = core.Debug.toggle(core.Debug.PixelColor);
+        }
+
+        private void mouseToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            mouseToolStripMenuItem.Checked = core.Debug.toggle(core.Debug.Mouse);
+        }
     }
 }

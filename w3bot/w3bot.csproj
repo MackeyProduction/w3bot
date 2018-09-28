@@ -95,7 +95,7 @@
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="core\CoreInformation.cs" />
-    <Compile Include="core\CoreSettings.cs" />
+    <Compile Include="core\BotSettings.cs" />
     <Compile Include="core\Debug.cs" />
     <Compile Include="core\FormControl.cs" />
     <Compile Include="core\ScriptItem.cs" />
@@ -152,6 +152,12 @@
     <Compile Include="interfaces\IKeyboardInput.cs" />
     <Compile Include="interfaces\IMouseInput.cs" />
     <Compile Include="interfaces\IScript.cs" />
+    <Compile Include="listener\IAddressChangedListener.cs" />
+    <Compile Include="listener\IDocumentLoadListener.cs" />
+    <Compile Include="listener\IDocumentReadyListener.cs" />
+    <Compile Include="listener\IKeyPressListener.cs" />
+    <Compile Include="listener\IMouseEventListener.cs" />
+    <Compile Include="listener\IPaintListener.cs" />
     <Compile Include="listener\ScriptManifest.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

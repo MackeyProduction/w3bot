@@ -18,18 +18,18 @@ namespace w3bot.core
 {
     class BotProcessor : AbstractBotProcessor
     {
-        public ChromiumWebBrowser chromiumBrowser { get; set; }
+        private ChromiumWebBrowser chromiumBrowser { get; set; }
         internal Bot _bot;
         internal String _userAgent { get; set; }
         internal String _proxy { get; set; }
         internal BotProcessor botProcessor { get; set; }
-        internal Point mouse = new Point(0, 0);
-        bool input = false;
-        System.Windows.Forms.Timer timer = new System.Windows.Forms.Timer();
+        private Point mouse = new Point(0, 0);
+        private bool input = false;
+        private System.Windows.Forms.Timer timer = new System.Windows.Forms.Timer();
         private BotWindow _botWindow;
         private bool initialized = false;
         private Bitmap browserBitmap;
-        internal IBrowserHost browserHost;
+        private IBrowserHost browserHost;
 
         /// <summary>
         /// Initialize a new BotProcessor to configure cef browser settings and chromium browser.
@@ -126,12 +126,8 @@ namespace w3bot.core
             var g = e.Graphics;
             g.DrawImage(browserBitmap, 0, 0);
 
-            g.DrawString("Test", new Font(new FontFamily("Arial"), 12), Brushes.Green, 10, 10);
-
-            // draw mouse
-            Point m = mouse;
-            g.DrawLine(greenPen, new Point(m.X - 5, m.Y - 5), new Point(m.X + 5, m.Y + 5));
-            g.DrawLine(greenPen, new Point(m.X - 5, m.Y + 5), new Point(m.X + 5, m.Y - 5));
+            // load user paint
+            _bot.RefreshPaints(g);
         }
 
         internal override void AllowInput()

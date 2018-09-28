@@ -14,8 +14,6 @@ namespace w3bot.core
 {
     internal class Core : Form
     {
-        internal delegate void Drawable(Graphics g);
-        public static event Drawable paintings = delegate { };
         internal Form mainWindow { get; set; }
         internal static CoreInformation coreInformation { get { return new CoreInformation(); } }
         private static Bot _bot;
@@ -57,15 +55,6 @@ namespace w3bot.core
             }
             else
                 a();
-        }
-
-        /// <summary>
-        /// Refreshs the paint of the current bot window.
-        /// </summary>
-        /// <param name="g"></param>
-        internal static void RefreshPaints(Graphics g)
-        {
-            paintings(g);
         }
 
         /// <summary>
