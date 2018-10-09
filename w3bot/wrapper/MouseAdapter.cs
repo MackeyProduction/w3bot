@@ -5,10 +5,12 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using w3bot.bot;
 using w3bot.core;
 using w3bot.enumeration;
+using w3bot.evt;
 using w3bot.interfaces;
 
 namespace w3bot.wrapper
@@ -41,45 +43,51 @@ namespace w3bot.wrapper
         {
             Core.ExeThreadSafe(delegate
             {
-                _chromiumBrowser.FrameLoadEnd += (sender, args) =>
+                if (_chromiumBrowser.GetMainFrame().IsMain)
                 {
-                    if (args.Frame.IsMain)
+                    MouseButtonType mouseButtonType = 0;
+                    bool up = false;
+                    bool down = false;
+
+                    // get button type
+                    switch (button)
                     {
-                        MouseButtonType mouseButtonType = 0;
-                        bool up = false;
-                        bool down = false;
-
-                        switch (button)
-                        {
-                            case Keys.Button.LEFT:
-                                mouseButtonType = MouseButtonType.Left;
-                                break;
-                            case Keys.Button.MIDDLE:
-                                mouseButtonType = MouseButtonType.Middle;
-                                break;
-                            case Keys.Button.RIGHT:
-                                mouseButtonType = MouseButtonType.Right;
-                                break;
-                        }
-                        
-                        if (evt == Keys.Event.DOWN || evt == Keys.Event.DOWNUP)
-                        {
+                        case Keys.Button.LEFT:
+                            mouseButtonType = MouseButtonType.Left;
+                            break;
+                        case Keys.Button.MIDDLE:
+                            mouseButtonType = MouseButtonType.Middle;
+                            break;
+                        case Keys.Button.RIGHT:
+                            mouseButtonType = MouseButtonType.Right;
+                            break;
+                    }
+                    
+                    // get button event
+                    switch (evt)
+                    {
+                        case Keys.Event.NULL:
+                            break;
+                        case Keys.Event.DOWN:
                             down = true;
-                        }
-
-                        if (evt == Keys.Event.UP || evt == Keys.Event.DOWNUP)
-                        {
+                            break;
+                        case Keys.Event.UP:
                             up = true;
                             down = false;
-                        }
-
-                        // Executes mouse click
-                        Move(_bot.botWindow._processor.MousePos.X, _bot.botWindow._processor.MousePos.Y);
-                        args.Browser.GetHost().SendMouseClickEvent(_mouseEvent, mouseButtonType, up, 1);
-                        System.Threading.Thread.Sleep(100);
-                        args.Browser.GetHost().SendMouseClickEvent(_mouseEvent, mouseButtonType, down, 1);
+                            break;
+                        case Keys.Event.DOWNUP:
+                            down = true;
+                            up = true;
+                            break;
+                        default:
+                            break;
                     }
-                };
+                    
+                    // Executes mouse click
+                    _chromiumBrowser.GetBrowserHost().SendMouseClickEvent(_mouseEvent, mouseButtonType, up, 1);
+                    Thread.Sleep(100);
+                    _chromiumBrowser.GetBrowserHost().SendMouseClickEvent(_mouseEvent, mouseButtonType, down, 1);
+                }
             });
         }
 
@@ -92,14 +100,11 @@ namespace w3bot.wrapper
         {
             Core.ExeThreadSafe(delegate
             {
-                _chromiumBrowser.FrameLoadEnd += (sender, args) =>
+                if (_chromiumBrowser.GetMainFrame().IsMain)
                 {
-                    if (args.Frame.IsMain)
-                    {
-                        _mouseEvent = new CefSharp.MouseEvent(x, y, CefSharp.CefEventFlags.None);
-                        args.Browser.GetHost().SendMouseMoveEvent(_mouseEvent, false);
-                    }
-                };
+                    _mouseEvent = new MouseEvent(x, y, CefEventFlags.None);
+                    _chromiumBrowser.GetBrowserHost().SendMouseMoveEvent(_mouseEvent, false);
+                }
             });
         }
 
@@ -112,29 +117,26 @@ namespace w3bot.wrapper
         {
             Core.ExeThreadSafe(delegate
             {
-                _chromiumBrowser.FrameLoadEnd += (sender, args) =>
+                if (_chromiumBrowser.GetMainFrame().IsMain)
                 {
-                    if (args.Frame.IsMain)
+                    int vert = 0, hort = 0;
+                    switch (wheel)
                     {
-                        int vert = 0, hort = 0;
-                        switch (wheel)
-                        {
-                            case Keys.Wheel.DOWN:
-                                vert += amount;
-                                break;
-                            case Keys.Wheel.LEFT:
-                                hort -= amount;
-                                break;
-                            case Keys.Wheel.RIGHT:
-                                hort += amount;
-                                break;
-                            case Keys.Wheel.UP:
-                                vert -= amount;
-                                break;
-                        }
-                        args.Browser.GetHost().SendMouseWheelEvent(new MouseEvent(), vert, hort);
+                        case Keys.Wheel.DOWN:
+                            vert += amount;
+                            break;
+                        case Keys.Wheel.LEFT:
+                            hort -= amount;
+                            break;
+                        case Keys.Wheel.RIGHT:
+                            hort += amount;
+                            break;
+                        case Keys.Wheel.UP:
+                            vert -= amount;
+                            break;
                     }
-                };
+                    _chromiumBrowser.GetBrowserHost().SendMouseWheelEvent(new MouseEvent(), vert, hort);
+                }
             });
         }
     }

@@ -44,15 +44,8 @@ namespace w3bot.core
         /// <param name="a">Executes the action.</param>
         internal static void ExeThreadSafe(Action a)
         {
-            Thread thread;
             if (_core.mainWindow.InvokeRequired)
-            {
-                thread = new Thread(new ThreadStart(delegate
-                {
-                    _core.mainWindow.Invoke((MethodInvoker)delegate { a(); });
-                }));
-                thread.Start();
-            }
+                _core.mainWindow.Invoke((MethodInvoker)delegate { a(); });
             else
                 a();
         }

@@ -27,7 +27,7 @@ namespace TestScript
             Initialize(browserWindow);
             browserWindow.Open();
 
-            Browser.Navigate("youtube.com");
+            Browser.Navigate("google.com");
 
             return true;
         }
@@ -36,7 +36,9 @@ namespace TestScript
         {
             if (Browser.IsReady)
             {
-                Status.Log("Hello world!");
+                Mouse.Move(414, 402);
+                Mouse.LeftClick(414, 402);
+                Status.Log("Executed.");
             }
 
             return 1000;
