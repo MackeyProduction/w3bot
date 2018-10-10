@@ -38,6 +38,7 @@ namespace TestScript
             {
                 Mouse.Move(414, 402);
                 Mouse.LeftClick(414, 402);
+                Frame.FindPixel(255, 255, 255, 255);
                 Status.Log("Executed.");
             }
 

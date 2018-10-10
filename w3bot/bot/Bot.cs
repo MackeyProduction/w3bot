@@ -60,6 +60,7 @@ namespace w3bot.bot
             // add configuration
             Browser.AddConfiguration(this);
             Mouse.AddConfiguration(this);
+            Frame.AddConfiguration(this);
             Debug.AddConfiguration(this);
 
             if (botWindow._url != "")

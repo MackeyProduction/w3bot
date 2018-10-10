@@ -167,6 +167,7 @@
       <DependentUpon>Resource1.resx</DependentUpon>
     </Compile>
     <Compile Include="test\TestScript.cs" />
+    <Compile Include="util\PixelSearchPattern.cs" />
     <Compile Include="wrapper\AbstractBotProcessor.cs">
       <SubType>Component</SubType>
     </Compile>
