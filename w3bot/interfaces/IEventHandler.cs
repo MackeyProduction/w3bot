@@ -14,6 +14,6 @@ namespace w3bot.interfaces
         /// <summary>
         /// Executes event.
         /// </summary>
-        void Verify();
+        void Apply();
     }
 }

@@ -20,7 +20,7 @@ namespace w3bot.handler
             _script = script;
         }
 
-        public void Verify()
+        public void Apply()
         {
             if (_script is IPaintListener)
             {

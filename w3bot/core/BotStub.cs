@@ -117,7 +117,7 @@ namespace w3bot.core
             eventHandler.Bind(new InputHandler(_bot, _script));
             eventHandler.Bind(new PaintHandler(_bot, _script));
 
-            eventHandler.Verify();
+            eventHandler.Apply();
         }
     }
 }

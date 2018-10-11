@@ -41,8 +41,8 @@ namespace TestScript
             {
                 Mouse.Move(414, 402);
                 Mouse.LeftClick(414, 402);
-                //var point = Frame.FindPixel(66, 133, 244, 255);
-                //Status.Log($"X: {point.X}, Y: {point.Y}.");
+                var point = Frame.FindPixel(66, 133, 244, 255);
+                Status.Log($"X: {point.X}, Y: {point.Y}.");
                 Status.Log("Executed.");
                 //return 0;
             }

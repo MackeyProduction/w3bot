@@ -38,13 +38,13 @@ namespace w3bot.handler
         /// <summary>
         /// In Bind() method stored events will be executed.
         /// </summary>
-        public void Verify()
+        public void Apply()
         {
             foreach (var handler in _eventHandlers)
             {
                 if (handler is IEventHandler)
                 {
-                    handler.Verify();
+                    handler.Apply();
                 }
             }
         }

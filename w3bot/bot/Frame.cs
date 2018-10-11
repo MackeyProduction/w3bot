@@ -1,4 +1,7 @@
 ﻿using CefSharp.OffScreen;
+using Emgu.CV;
+using Emgu.CV.CvEnum;
+using Emgu.CV.Structure;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -19,66 +22,79 @@ namespace w3bot.bot
         static ChromiumWebBrowser _chromiumBrowser;
         static BotWindow _botWindow;
         static Bot _bot;
+        static Bitmap browserBitmap;
+        static Point point;
 
         /// <summary>
         /// Finds a pixel by a given color.
         /// </summary>
         /// <param name="pattern"></param>
-        public static Point FindPixel(PixelSearchPattern pattern)
+        public static List<Point> FindAllPixel(PixelSearchPattern pattern)
         {
-            Point point = new Point();
+            List<Point> pointList = new List<Point>();
 
             Core.ExeThreadSafe(delegate
             {
-                Bitmap browserBitmap;
-                _chromiumBrowser.ScreenshotAsync().ContinueWith(task =>
+                try
                 {
-                    try
+                    // fetch browser bitmap
+                    browserBitmap = _bot.botWindow._processor.Frame;
+
+                    if (browserBitmap != null)
                     {
-                        // load browser bitmap
-                        browserBitmap = task.Result;
+                        // locks bitmap in memory
+                        BitmapData bitmapData = browserBitmap.LockBits(new Rectangle(0, 0, browserBitmap.Width, browserBitmap.Height), ImageLockMode.ReadWrite, browserBitmap.PixelFormat);
 
-                        if (browserBitmap != null)
+                        // retrieve color depth in bits each pixel and determine the byte buffer size
+                        int bytesPerPixel = Bitmap.GetPixelFormatSize(browserBitmap.PixelFormat) / 8;
+                        int byteCount = bitmapData.Stride * browserBitmap.Height;
+                        byte[] pixels = new byte[byteCount];
+
+                        // get first pointer from pixel and copy values to an unmanaged memory pointer
+                        IntPtr ptrFirstPixel = bitmapData.Scan0;
+                        Marshal.Copy(ptrFirstPixel, pixels, 0, pixels.Length);
+
+                        int heightInPixels = bitmapData.Height;
+                        int widthInBytes = bitmapData.Width * bytesPerPixel;
+
+                        for (int y = 0; y < heightInPixels; y++)
                         {
-                            BitmapData imageData = browserBitmap.LockBits(new Rectangle(0, 0, browserBitmap.Width, browserBitmap.Height), ImageLockMode.ReadWrite, PixelFormat.Format24bppRgb);
-
-                            byte[] imageBytes = new byte[Math.Abs(imageData.Stride) * browserBitmap.Height];
-                            IntPtr scan0 = imageData.Scan0;
-
-                            Marshal.Copy(scan0, imageBytes, 0, imageBytes.Length);
-
-                            byte unmatchingValue = 0;
-                            byte matchingValue = 255;
-                            int toleranceSquared = pattern.tolerance * pattern.tolerance;
-
-                            for (int y = 0; y < imageData.Width; y++)
+                            // retrieve current line by y coordinate and line from bitmap
+                            int currentLine = y * bitmapData.Stride;
+                            for (int x = 0; x < widthInBytes; x = x + bytesPerPixel)
                             {
-                                int i = y * imageData.Stride;
-                                for (int x = 0; x < imageBytes.Length; x += 3)
+                                int oldBlue = pixels[currentLine + x];
+                                int oldGreen = pixels[currentLine + x + 1];
+                                int oldRed = pixels[currentLine + x + 2];
+
+                                // calculate new pixel value
+                                pixels[currentLine + x] = (byte)oldBlue;
+                                pixels[currentLine + x + 1] = (byte)oldGreen;
+                                pixels[currentLine + x + 2] = (byte)oldRed;
+
+                                if (pixels[currentLine + x] == pattern.B && pixels[currentLine + x + 1] == pattern.G && pixels[currentLine + x + 2] == pattern.R)
                                 {
-                                    int diffR = imageBytes[i + 2] - pattern.R;
-                                    int diffG = imageBytes[i + 1] - pattern.G;
-                                    int diffB = imageBytes[i] - pattern.B;
-
-                                    int distance = diffR * diffR + diffG * diffG + diffB * diffB;
-
-                                    imageBytes[i] = imageBytes[i + 1] = imageBytes[i + 2] = distance >
-                                      toleranceSquared ? unmatchingValue : matchingValue;
-
-                                    point = new Point(x, y);
+                                    point = new Point(x / bytesPerPixel, y);
+                                    pointList.Add(point);
                                 }
                             }
-
-                            Marshal.Copy(imageBytes, 0, scan0, imageBytes.Length);
-                            browserBitmap.UnlockBits(imageData);
                         }
+
+                        // copy modified bytes back
+                        Marshal.Copy(pixels, 0, ptrFirstPixel, pixels.Length);
+                        browserBitmap.UnlockBits(bitmapData);
                     }
-                    catch (Exception)
-                    { }
-                });
+                }
+                catch (Exception)
+                { }
             });
 
-            return point;
+            return pointList;
+        }
+
+        public static Point FindPixel(PixelSearchPattern pattern)
+        {
+            return FindAllPixel(pattern)[0];
         }
 
         public static Point FindPixel(byte r, byte g, byte b, byte tolerance)
@@ -86,9 +102,28 @@ namespace w3bot.bot
             return FindPixel(new PixelSearchPattern(r, g, b, tolerance));
         }
 
-        public static void FindImage(Bitmap bitmap, PixelSearchPattern pattern)
+        public static Point FindImage(Bitmap bitmap, PixelSearchPattern pattern)
         {
-            
+            browserBitmap = _bot.botWindow._processor.Frame;
+            Image<Bgr, byte> bImage = new Image<Bgr, byte>(browserBitmap);
+            Image<Bgr, byte> comparedImage = new Image<Bgr, byte>(bitmap);
+
+            double Threshold = 0.8; //set it to a decimal value between 0 and 1.00, 1.00 meaning that the images must be identical
+
+            Image<Gray, float> Matches = bImage.MatchTemplate(comparedImage, TemplateMatchingType.CcoeffNormed);
+
+            for (int y = 0; y < Matches.Data.GetLength(0); y++)
+            {
+                for (int x = 0; x < Matches.Data.GetLength(1); x++)
+                {
+                    if (Matches.Data[y, x, 0] >= Threshold) //Check if its a valid match
+                    {
+                        point = new Point(x, y);
+                    }
+                }
+            }
+
+            return point;
         }
 
         internal static void AddConfiguration(Bot bot)
