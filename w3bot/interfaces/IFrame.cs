@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace w3bot.interfaces
 {
-    interface IFrame
+    public interface IFrame
     {
     }
 }

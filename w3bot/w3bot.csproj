@@ -146,8 +146,13 @@
     <Compile Include="GUI\Source.Designer.cs">
       <DependentUpon>Source.cs</DependentUpon>
     </Compile>
+    <Compile Include="handler\BrowserHandler.cs" />
+    <Compile Include="handler\EventHandler.cs" />
+    <Compile Include="handler\InputHandler.cs" />
+    <Compile Include="handler\PaintHandler.cs" />
     <Compile Include="interfaces\IBotWindow.cs" />
     <Compile Include="interfaces\IBrowser.cs" />
+    <Compile Include="interfaces\IEventHandler.cs" />
     <Compile Include="interfaces\IFrame.cs" />
     <Compile Include="interfaces\IKeyboardInput.cs" />
     <Compile Include="interfaces\IMouseInput.cs" />

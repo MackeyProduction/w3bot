@@ -7,7 +7,7 @@ using System.Windows.Forms;
 
 namespace w3bot.listener
 {
-    interface IKeyPressListener
+    public interface IKeyPressListener
     {
         void KeyPress(object sender, KeyPressEventArgs e);
     }

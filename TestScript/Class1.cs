@@ -8,11 +8,14 @@ using w3bot.evt;
 using w3bot.interfaces;
 using w3bot.listener;
 using System.Windows.Forms;
+using CefSharp;
+using CefSharp.OffScreen;
+using System.Drawing;
 
 namespace TestScript
 {
     [ScriptManifest("TestScript", "YouTube", "Test the bot functionality.", "NoChoice", 1.0)]
-    public class Class1 : Bot, IScript
+    public class Class1 : Bot, IScript, IDocumentReadyListener, IPaintListener
     {
         public void onFinish()
         {
@@ -38,11 +41,23 @@ namespace TestScript
             {
                 Mouse.Move(414, 402);
                 Mouse.LeftClick(414, 402);
-                Frame.FindPixel(255, 255, 255, 255);
+                //var point = Frame.FindPixel(66, 133, 244, 255);
+                //Status.Log($"X: {point.X}, Y: {point.Y}.");
                 Status.Log("Executed.");
+                //return 0;
             }
 
             return 1000;
+        }
+
+        public void DocumentReady(object sender, FrameLoadEndEventArgs e)
+        {
+            Status.Log("Finished loading.");
+        }
+
+        public void OnPaint(Graphics g)
+        {
+            g.DrawString("Hello World", new Font("Arial", 12, FontStyle.Regular), Brushes.Green, 100, 100);
         }
     }
 }

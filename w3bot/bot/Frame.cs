@@ -6,6 +6,7 @@ using System.Drawing.Imaging;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using w3bot.core;
 using w3bot.evt;
@@ -23,46 +24,66 @@ namespace w3bot.bot
         /// Finds a pixel by a given color.
         /// </summary>
         /// <param name="pattern"></param>
-        public static void FindPixel(PixelSearchPattern pattern)
+        public static Point FindPixel(PixelSearchPattern pattern)
         {
-            Bitmap browserBitmap;
-            _chromiumBrowser.ScreenshotAsync().ContinueWith(task =>
+            Point point = new Point();
+
+            Core.ExeThreadSafe(delegate
             {
-                // load browser bitmap
-                browserBitmap = task.Result;
-
-                BitmapData imageData = browserBitmap.LockBits(new Rectangle(0, 0, browserBitmap.Width, browserBitmap.Height), ImageLockMode.ReadWrite, PixelFormat.Format24bppRgb);
-
-                byte[] imageBytes = new byte[Math.Abs(imageData.Stride) * browserBitmap.Height];
-                IntPtr scan0 = imageData.Scan0;
-
-                Marshal.Copy(scan0, imageBytes, 0, imageBytes.Length);
-
-                byte unmatchingValue = 0;
-                byte matchingValue = 255;
-                int toleranceSquared = pattern.tolerance * pattern.tolerance;
-
-                for (int i = 0; i < imageBytes.Length; i += 3)
+                Bitmap browserBitmap;
+                _chromiumBrowser.ScreenshotAsync().ContinueWith(task =>
                 {
-                    int diffR = imageBytes[i + 2] - pattern.R;
-                    int diffG = imageBytes[i + 1] - pattern.G;
-                    int diffB = imageBytes[i] - pattern.B;
+                    try
+                    {
+                        // load browser bitmap
+                        browserBitmap = task.Result;
 
-                    int distance = diffR * diffR + diffG * diffG + diffB * diffB;
+                        if (browserBitmap != null)
+                        {
+                            BitmapData imageData = browserBitmap.LockBits(new Rectangle(0, 0, browserBitmap.Width, browserBitmap.Height), ImageLockMode.ReadWrite, PixelFormat.Format24bppRgb);
 
-                    imageBytes[i] = imageBytes[i + 1] = imageBytes[i + 2] = distance >
-                      toleranceSquared ? unmatchingValue : matchingValue;
-                }
+                            byte[] imageBytes = new byte[Math.Abs(imageData.Stride) * browserBitmap.Height];
+                            IntPtr scan0 = imageData.Scan0;
 
-                Marshal.Copy(imageBytes, 0, scan0, imageBytes.Length);
+                            Marshal.Copy(scan0, imageBytes, 0, imageBytes.Length);
 
-                browserBitmap.UnlockBits(imageData);
+                            byte unmatchingValue = 0;
+                            byte matchingValue = 255;
+                            int toleranceSquared = pattern.tolerance * pattern.tolerance;
+
+                            for (int y = 0; y < imageData.Width; y++)
+                            {
+                                int i = y * imageData.Stride;
+                                for (int x = 0; x < imageBytes.Length; x += 3)
+                                {
+                                    int diffR = imageBytes[i + 2] - pattern.R;
+                                    int diffG = imageBytes[i + 1] - pattern.G;
+                                    int diffB = imageBytes[i] - pattern.B;
+
+                                    int distance = diffR * diffR + diffG * diffG + diffB * diffB;
+
+                                    imageBytes[i] = imageBytes[i + 1] = imageBytes[i + 2] = distance >
+                                      toleranceSquared ? unmatchingValue : matchingValue;
+
+                                    point = new Point(x, y);
+                                }
+                            }
+
+                            Marshal.Copy(imageBytes, 0, scan0, imageBytes.Length);
+                            browserBitmap.UnlockBits(imageData);
+                        }
+                    }
+                    catch (Exception)
+                    { }
+                });
             });
+
+            return point;
         }
 
-        public static void FindPixel(byte r, byte g, byte b, byte tolerance)
+        public static Point FindPixel(byte r, byte g, byte b, byte tolerance)
         {
-            FindPixel(new PixelSearchPattern(r, g, b, tolerance));
+            return FindPixel(new PixelSearchPattern(r, g, b, tolerance));
         }
 
         public static void FindImage(Bitmap bitmap, PixelSearchPattern pattern)

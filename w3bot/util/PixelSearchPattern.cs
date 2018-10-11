@@ -8,7 +8,7 @@ namespace w3bot.util
 {
     public struct PixelSearchPattern
     {
-        internal PixelSearchPattern(byte r = 0, byte g = 0, byte b = 0, byte tolerance = 255)
+        public PixelSearchPattern(byte r = 0, byte g = 0, byte b = 0, byte tolerance = 255)
         {
             this.R = r;
             this.G = g;

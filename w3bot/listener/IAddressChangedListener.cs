@@ -7,7 +7,7 @@ using CefSharp;
 
 namespace w3bot.listener
 {
-    interface IAddressChangedListener
+    public interface IAddressChangedListener
     {
         void AddressChanged(object sender, AddressChangedEventArgs e);
     }

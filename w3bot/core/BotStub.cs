@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using w3bot.bot;
 using w3bot.evt;
+using w3bot.handler;
 using w3bot.interfaces;
 
 namespace w3bot.core
@@ -30,6 +31,7 @@ namespace w3bot.core
             // Process
             try
             {
+                ExecuteEvents();
                 _botStub.onStart();
                 _botStub.onUpdate();
             }
@@ -106,6 +108,16 @@ namespace w3bot.core
         {
             _scriptThread.Abort();
             _drawThread.Abort();
+        }
+
+        internal void ExecuteEvents()
+        {
+            var eventHandler = new handler.EventHandler();
+            eventHandler.Bind(new BrowserHandler(_bot, _script));
+            eventHandler.Bind(new InputHandler(_bot, _script));
+            eventHandler.Bind(new PaintHandler(_bot, _script));
+
+            eventHandler.Verify();
         }
     }
 }

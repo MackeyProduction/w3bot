@@ -7,7 +7,7 @@ using System.Windows.Forms;
 
 namespace w3bot.listener
 {
-    interface IMouseEventListener
+    public interface IMouseEventListener
     {
         void MouseEvent(object sender, MouseEventArgs e);
     }

@@ -7,7 +7,7 @@ using CefSharp;
 
 namespace w3bot.listener
 {
-    interface IDocumentReadyListener
+    public interface IDocumentReadyListener
     {
         void DocumentReady(object sender, FrameLoadEndEventArgs e);
     }
