@@ -9,6 +9,6 @@ namespace w3bot.listener
 {
     public interface IDocumentReadyListener
     {
-        void DocumentReady(object sender, ChromiumBrowserEventArgs e);
+        void DocumentReady(object sender, FrameLoadEndEventArgs e);
     }
 }

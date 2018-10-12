@@ -9,6 +9,6 @@ namespace w3bot.listener
 {
     public interface IAddressChangedListener
     {
-        void AddressChanged(object sender, ChromiumBrowserEventArgs e);
+        void AddressChanged(object sender, AddressChangedEventArgs e);
     }
 }

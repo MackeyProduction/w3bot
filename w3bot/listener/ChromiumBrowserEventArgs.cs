@@ -12,22 +12,17 @@ namespace w3bot.listener
     public class ChromiumBrowserEventArgs : EventArgs
     {
         public delegate void ChromiumBrowserDocumentReady(object sender, FrameLoadEndEventArgs e);
-        public event ChromiumBrowserDocumentReady DocumentReadyEvent = delegate { };
+        public static event ChromiumBrowserDocumentReady DocumentReadyEvent = delegate { };
         public delegate void ChromiumBrowserDocumentLoad(object sender, FrameLoadStartEventArgs e);
-        public event ChromiumBrowserDocumentLoad DocumentLoadEvent = delegate { };
-        public delegate void ChromiumBrowserAddressChanged(object sender, ChromiumBrowserEventArgs e);
-        public event ChromiumBrowserAddressChanged DocumentAddressChangedEvent = delegate { };
+        public static event ChromiumBrowserDocumentLoad DocumentLoadEvent = delegate { };
+        public delegate void ChromiumBrowserAddressChanged(object sender, AddressChangedEventArgs e);
+        public static event ChromiumBrowserAddressChanged DocumentAddressChangedEvent = delegate { };
 
         public FrameLoadEndEventArgs DocumentReadyEventArgs { get; set; }
         public FrameLoadStartEventArgs DocumentLoadEventArgs { get; set; }
         public AddressChangedEventArgs DocumentAddressChangedEventArgs { get; set; }
 
-        internal void AddAddressChangedEvent(IAddressChangedListener addressChanged)
-        {
-            DocumentAddressChangedEvent += addressChanged.AddressChanged;
-        }
-
-        internal void ExecuteAddressChangedEvent(object sender, ChromiumBrowserEventArgs e)
+        internal void ExecuteAddressChangedEvent(object sender, AddressChangedEventArgs e)
         {
             DocumentAddressChangedEvent(sender, e);
         }
@@ -35,6 +30,11 @@ namespace w3bot.listener
         internal void ExecuteDocumentReadyEvent(object sender, FrameLoadEndEventArgs e)
         {
             DocumentReadyEvent(sender, e);
+        }
+
+        internal void ExecuteDocumentLoadEvent(object sender, FrameLoadStartEventArgs e)
+        {
+            DocumentLoadEvent(sender, e);
         }
     }
 }

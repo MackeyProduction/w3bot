@@ -15,7 +15,6 @@ namespace w3bot.handler
     {
         private Bot _bot;
         private IScript _script;
-        Bot.ChromiumBrowserDelegate browserEvt;
 
         public BrowserHandler(Bot bot, IScript script)
         {
@@ -27,21 +26,17 @@ namespace w3bot.handler
         {
             if (_script is IAddressChangedListener)
             {
-                //Bot.chromeBrowserEvents.DocumentAddressChangedEvent += ((IAddressChangedListener)_script).AddressChanged;
-                Bot.ChromiumBrowserEvent += ((IAddressChangedListener)_script).AddressChanged;
-                //_bot.chromeBrowserEvents.DocumentAddressChangedEvent += ((IAddressChangedListener)_script).AddressChanged;
-                //_bot.botWindow._chromiumBrowser.AddressChanged += ((IAddressChangedListener)_script).AddressChanged;
+                Bot.DocumentAddressChangedEvent += ((IAddressChangedListener)_script).AddressChanged;
             }
 
             if (_script is IDocumentLoadListener)
             {
-                _bot.botWindow._chromiumBrowser.FrameLoadStart += ((IDocumentLoadListener)_script).DocumentLoad;
+                Bot.DocumentLoadEvent += ((IDocumentLoadListener)_script).DocumentLoad;
             }
 
             if (_script is IDocumentReadyListener)
             {
-                Bot.ChromiumBrowserEvent += ((IDocumentReadyListener)_script).DocumentReady;
-                //_bot.botWindow._chromiumBrowser.FrameLoadEnd += ((IDocumentReadyListener)_script).DocumentReady;
+                Bot.DocumentReadyEvent += ((IDocumentReadyListener)_script).DocumentReady;
             }
         }
     }

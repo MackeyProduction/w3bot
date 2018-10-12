@@ -37,12 +37,12 @@ namespace w3bot.test
             return 100;
         }
 
-        public void DocumentReady(object sender, ChromiumBrowserEventArgs e)
+        public void DocumentReady(object sender, FrameLoadEndEventArgs e)
         {
             Status.Log("Document is ready.");
         }
 
-        public void AddressChanged(object sender, ChromiumBrowserEventArgs e)
+        public void AddressChanged(object sender, AddressChangedEventArgs e)
         {
             Status.Log("Meh.");
         }

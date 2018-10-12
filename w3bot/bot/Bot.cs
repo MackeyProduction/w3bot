@@ -17,7 +17,7 @@ using w3bot.wrapper;
 
 namespace w3bot.bot
 {
-    public class Bot
+    public class Bot : ChromiumBrowserEventArgs
     {
         internal delegate void Drawable(Graphics g);
         internal static event Drawable paintings = delegate { };
@@ -115,7 +115,7 @@ namespace w3bot.bot
             paintings(g);
         }
 
-        internal void ExecuteEvents(object sender, ChromiumBrowserEventArgs e)
+        public void ExecuteBrowserEvents(object sender, ChromiumBrowserEventArgs e)
         {
             ChromiumBrowserEvent(sender, e);
         }

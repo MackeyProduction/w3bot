@@ -84,20 +84,18 @@ namespace w3bot.core
             _botWindow = botWindow;
             _botWindow._chromiumBrowser.FrameLoadEnd += _chromiumBrowser_FrameLoadEnd;
             _botWindow._chromiumBrowser.AddressChanged += _chromiumBrowser_AddressChanged;
+            _botWindow._chromiumBrowser.FrameLoadStart += _chromiumBrowser_FrameLoadStart;
+        }
+
+        private void _chromiumBrowser_FrameLoadStart(object sender, FrameLoadStartEventArgs e)
+        {
+            _bot.ExecuteDocumentLoadEvent(sender, e);
         }
 
         private void _chromiumBrowser_AddressChanged(object sender, AddressChangedEventArgs e)
         {
-            Status.Log(e.Browser.IsLoading);
-            var a = Bot.chromeBrowserEvents;
-            a.DocumentAddressChangedEventArgs = e;
-            _bot.ExecuteEvents(sender, a);
+            _bot.ExecuteAddressChangedEvent(sender, e);
         }
-
-        //private void Bot_ChromiumBrowserEvent(object sender, ChromiumBrowserEventArgs e)
-        //{
-        //    _bot.ExecuteEvents(sender, e);
-        //}
 
         private void _botWindow_MouseMove(object sender, MouseEventArgs e)
         {
@@ -112,11 +110,7 @@ namespace w3bot.core
                 if (e.Frame.IsMain)
                 {
                     _botWindow.Paint += Bot_Paint;
-
-                    Status.Log(e.Browser.IsLoading);
-                    var a = Bot.chromeBrowserEvents;
-                    a.DocumentReadyEventArgs = e;
-                    _bot.ExecuteEvents(sender, a);
+                    _bot.ExecuteDocumentReadyEvent(sender, e);
                 }
             }
         }
