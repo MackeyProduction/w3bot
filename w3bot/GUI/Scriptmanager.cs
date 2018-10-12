@@ -33,7 +33,7 @@ namespace w3bot.GUI
             _bot = bot;
         }
 
-        private void buttonStart_Click(object sender, EventArgs e)
+        private void buttonStart_Click(object sender, System.EventArgs e)
         {
             if (listViewScripts.SelectedItems.Count == 1)
             {
@@ -44,7 +44,7 @@ namespace w3bot.GUI
             }
         }
 
-        private void Scriptmanager_Load(object sender, EventArgs e)
+        private void Scriptmanager_Load(object sender, System.EventArgs e)
         {
             Scriptloader scriptLoader = new Scriptloader();
             

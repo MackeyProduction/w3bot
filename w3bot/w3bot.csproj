@@ -169,6 +169,7 @@
     <Compile Include="interfaces\IKeyboardInput.cs" />
     <Compile Include="interfaces\IMouseInput.cs" />
     <Compile Include="interfaces\IScript.cs" />
+    <Compile Include="listener\ChromiumBrowserEventArgs.cs" />
     <Compile Include="listener\IAddressChangedListener.cs" />
     <Compile Include="listener\IDocumentLoadListener.cs" />
     <Compile Include="listener\IDocumentReadyListener.cs" />

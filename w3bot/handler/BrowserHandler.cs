@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 using w3bot.bot;
 using w3bot.evt;
 using w3bot.interfaces;
@@ -14,6 +15,7 @@ namespace w3bot.handler
     {
         private Bot _bot;
         private IScript _script;
+        Bot.ChromiumBrowserDelegate browserEvt;
 
         public BrowserHandler(Bot bot, IScript script)
         {
@@ -25,7 +27,10 @@ namespace w3bot.handler
         {
             if (_script is IAddressChangedListener)
             {
-                _bot.botWindow._chromiumBrowser.AddressChanged += ((IAddressChangedListener)_script).AddressChanged;
+                //Bot.chromeBrowserEvents.DocumentAddressChangedEvent += ((IAddressChangedListener)_script).AddressChanged;
+                Bot.ChromiumBrowserEvent += ((IAddressChangedListener)_script).AddressChanged;
+                //_bot.chromeBrowserEvents.DocumentAddressChangedEvent += ((IAddressChangedListener)_script).AddressChanged;
+                //_bot.botWindow._chromiumBrowser.AddressChanged += ((IAddressChangedListener)_script).AddressChanged;
             }
 
             if (_script is IDocumentLoadListener)
@@ -35,7 +40,8 @@ namespace w3bot.handler
 
             if (_script is IDocumentReadyListener)
             {
-                _bot.botWindow._chromiumBrowser.FrameLoadEnd += ((IDocumentReadyListener)_script).DocumentReady;
+                Bot.ChromiumBrowserEvent += ((IDocumentReadyListener)_script).DocumentReady;
+                //_bot.botWindow._chromiumBrowser.FrameLoadEnd += ((IDocumentReadyListener)_script).DocumentReady;
             }
         }
     }

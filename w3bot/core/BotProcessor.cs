@@ -13,6 +13,7 @@ using w3bot.interfaces;
 using w3bot.wrapper;
 using System.Drawing;
 using w3bot.evt;
+using w3bot.listener;
 
 namespace w3bot.core
 {
@@ -82,7 +83,21 @@ namespace w3bot.core
             if (botWindow == null) return;
             _botWindow = botWindow;
             _botWindow._chromiumBrowser.FrameLoadEnd += _chromiumBrowser_FrameLoadEnd;
+            _botWindow._chromiumBrowser.AddressChanged += _chromiumBrowser_AddressChanged;
         }
+
+        private void _chromiumBrowser_AddressChanged(object sender, AddressChangedEventArgs e)
+        {
+            Status.Log(e.Browser.IsLoading);
+            var a = Bot.chromeBrowserEvents;
+            a.DocumentAddressChangedEventArgs = e;
+            _bot.ExecuteEvents(sender, a);
+        }
+
+        //private void Bot_ChromiumBrowserEvent(object sender, ChromiumBrowserEventArgs e)
+        //{
+        //    _bot.ExecuteEvents(sender, e);
+        //}
 
         private void _botWindow_MouseMove(object sender, MouseEventArgs e)
         {
@@ -97,6 +112,11 @@ namespace w3bot.core
                 if (e.Frame.IsMain)
                 {
                     _botWindow.Paint += Bot_Paint;
+
+                    Status.Log(e.Browser.IsLoading);
+                    var a = Bot.chromeBrowserEvents;
+                    a.DocumentReadyEventArgs = e;
+                    _bot.ExecuteEvents(sender, a);
                 }
             }
         }

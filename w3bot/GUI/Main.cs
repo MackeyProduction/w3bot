@@ -92,6 +92,12 @@ namespace w3bot.GUI
 
         private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            new Thread(new ThreadStart(delegate
+            {
+                test.TestScript testScript = new test.TestScript();
+                BotStub botStub = new BotStub(bot, testScript, Script_stopped);
+                botStub.onStart();
+            })).Start();
             new About().ShowDialog();
         }
 

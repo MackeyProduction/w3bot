@@ -26,7 +26,7 @@ namespace w3bot.bot
         static Point point;
 
         /// <summary>
-        /// Finds a pixel by a given color.
+        /// Finds all matching pixels by a given color.
         /// </summary>
         /// <param name="pattern"></param>
         public static List<Point> FindAllPixel(PixelSearchPattern pattern)
@@ -92,38 +92,73 @@ namespace w3bot.bot
             return pointList;
         }
 
+        /// <summary>
+        /// Finds a pixel by a given color.
+        /// </summary>
+        /// <param name="pattern"></param>
+        /// <returns></returns>
         public static Point FindPixel(PixelSearchPattern pattern)
         {
-            return FindAllPixel(pattern)[0];
+            return (FindAllPixel(pattern).Count > 0) ? FindAllPixel(pattern)[0] : new Point();
         }
 
+        /// <summary>
+        /// Finds a pixel by a given color.
+        /// </summary>
+        /// <param name="r"></param>
+        /// <param name="g"></param>
+        /// <param name="b"></param>
+        /// <param name="tolerance"></param>
+        /// <returns></returns>
         public static Point FindPixel(byte r, byte g, byte b, byte tolerance)
         {
             return FindPixel(new PixelSearchPattern(r, g, b, tolerance));
         }
 
-        public static Point FindImage(Bitmap bitmap, PixelSearchPattern pattern)
+        /// <summary>
+        /// Finds an image by a given bitmap. This method use the OpenCV library for fast template matching.
+        /// </summary>
+        /// <param name="bitmap">The bitmap for template matching.</param>
+        /// <param name="tolerance">The threshold of the bitmap. It should set to a decimal value between 0 and 1.0, 1.0 means that the images must be identical with the browser bitmap. Current threshold is 0.8.</param>
+        /// <returns>Returns the position of the bitmap in bot window.</returns>
+        public static Rectangle FindImage(Bitmap bitmap, double tolerance = 0.8)
         {
-            browserBitmap = _bot.botWindow._processor.Frame;
-            Image<Bgr, byte> bImage = new Image<Bgr, byte>(browserBitmap);
-            Image<Bgr, byte> comparedImage = new Image<Bgr, byte>(bitmap);
+            Rectangle rectangle = new Rectangle();
 
-            double Threshold = 0.8; //set it to a decimal value between 0 and 1.00, 1.00 meaning that the images must be identical
-
-            Image<Gray, float> Matches = bImage.MatchTemplate(comparedImage, TemplateMatchingType.CcoeffNormed);
-
-            for (int y = 0; y < Matches.Data.GetLength(0); y++)
+            Core.ExeThreadSafe(delegate
             {
-                for (int x = 0; x < Matches.Data.GetLength(1); x++)
+                browserBitmap = _bot.botWindow._processor.Frame;
+                Image<Bgr, byte> bImage = new Image<Bgr, byte>(browserBitmap);
+                Image<Bgr, byte> comparedImage = new Image<Bgr, byte>(bitmap);
+
+                double Threshold = tolerance; //set it to a decimal value between 0 and 1.00, 1.00 meaning that the images must be identical
+
+                Image<Gray, float> Matches = bImage.MatchTemplate(comparedImage, TemplateMatchingType.CcoeffNormed);
+
+                for (int y = 0; y < Matches.Data.GetLength(0); y++)
                 {
-                    if (Matches.Data[y, x, 0] >= Threshold) //Check if its a valid match
+                    for (int x = 0; x < Matches.Data.GetLength(1); x++)
                     {
-                        point = new Point(x, y);
+                        if (Matches.Data[y, x, 0] >= Threshold) //Check if its a valid match
+                        {
+                            point = new Point(x, y);
+                            rectangle = new Rectangle(point, new Size(bitmap.Width, bitmap.Height));
+                        }
                     }
                 }
-            }
+            });
 
-            return point;
+            return rectangle;
+        }
+
+        /// <summary>
+        /// Finds text in the bot window. This method use the OpenCV library for text detection.
+        /// </summary>
+        /// <param name="text">The text for text detection.</param>
+        /// <returns>Returns the position by the text.</returns>
+        public static Rectangle FindText(string text)
+        {
+            return new Rectangle();
         }
 
         internal static void AddConfiguration(Bot bot)

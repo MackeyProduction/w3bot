@@ -1,4 +1,5 @@
-﻿using CefSharp.OffScreen;
+﻿using CefSharp;
+using CefSharp.OffScreen;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -11,6 +12,7 @@ using System.Windows.Forms;
 using w3bot.bot;
 using w3bot.core;
 using w3bot.evt;
+using w3bot.listener;
 using w3bot.wrapper;
 
 namespace w3bot.bot
@@ -19,6 +21,12 @@ namespace w3bot.bot
     {
         internal delegate void Drawable(Graphics g);
         internal static event Drawable paintings = delegate { };
+        private static ChromiumBrowserEventArgs _chromeBrowserEvents;
+        internal static ChromiumBrowserEventArgs chromeBrowserEvents { get { return _chromeBrowserEvents; } set { _chromeBrowserEvents = value; } }
+        internal delegate void ChromiumBrowserDelegate(object sender, ChromiumBrowserEventArgs e);
+        internal static event ChromiumBrowserDelegate ChromiumBrowserEvent = delegate { };
+        internal delegate void EventHandlerDelegate(object sender, EventArgs e);
+        internal static event EventHandlerDelegate EvtHandler = delegate { };
         public ChromiumWebBrowser browser { get; set; }
         internal Size ClientSize { get { return _core.mainWindow.Size; } }
         internal Size FrameSize { get; }
@@ -56,7 +64,7 @@ namespace w3bot.bot
             _botSettings = new BotSettings();
             _botSettings.browserAdapter = new BrowserAdapter(this);
             _botSettings.inputAdapter = new InputAdapter(new MouseAdapter(this), new KeyboardAdapter(this));
-            
+
             // add configuration
             Browser.AddConfiguration(this);
             Mouse.AddConfiguration(this);
@@ -65,6 +73,8 @@ namespace w3bot.bot
 
             if (botWindow._url != "")
                 Browser.Navigate(botWindow._url);
+
+            _chromeBrowserEvents = new ChromiumBrowserEventArgs();
         }
 
         /// <summary>
@@ -103,6 +113,16 @@ namespace w3bot.bot
         internal void RefreshPaints(Graphics g)
         {
             paintings(g);
+        }
+
+        internal void ExecuteEvents(object sender, ChromiumBrowserEventArgs e)
+        {
+            ChromiumBrowserEvent(sender, e);
+        }
+
+        internal void ExecuteUserEvents(object sender, EventArgs e)
+        {
+
         }
     }
 }

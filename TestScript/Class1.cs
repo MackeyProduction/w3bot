@@ -11,6 +11,7 @@ using System.Windows.Forms;
 using CefSharp;
 using CefSharp.OffScreen;
 using System.Drawing;
+using w3bot.util;
 
 namespace TestScript
 {
@@ -42,7 +43,9 @@ namespace TestScript
                 Mouse.Move(414, 402);
                 Mouse.LeftClick(414, 402);
                 var point = Frame.FindPixel(66, 133, 244, 255);
+                var imagePoint = Frame.FindImage(new Bitmap("Unbenannt.bmp"));
                 Status.Log($"X: {point.X}, Y: {point.Y}.");
+                Status.Log($"X: {imagePoint.X}, Y: {imagePoint.Y}.");
                 Status.Log("Executed.");
                 //return 0;
             }
@@ -50,7 +53,7 @@ namespace TestScript
             return 1000;
         }
 
-        public void DocumentReady(object sender, FrameLoadEndEventArgs e)
+        public void DocumentReady(object sender, ChromiumBrowserEventArgs e)
         {
             Status.Log("Finished loading.");
         }
