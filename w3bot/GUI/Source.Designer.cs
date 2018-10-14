@@ -28,20 +28,20 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.richTextBox1 = new System.Windows.Forms.RichTextBox();
+            this.sourceCodeRichTextBox = new System.Windows.Forms.RichTextBox();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
-            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.tbUrl = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             // 
-            // richTextBox1
+            // sourceCodeRichTextBox
             // 
-            this.richTextBox1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.richTextBox1.Location = new System.Drawing.Point(0, 24);
-            this.richTextBox1.Name = "richTextBox1";
-            this.richTextBox1.Size = new System.Drawing.Size(854, 465);
-            this.richTextBox1.TabIndex = 0;
-            this.richTextBox1.Text = "";
+            this.sourceCodeRichTextBox.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.sourceCodeRichTextBox.Location = new System.Drawing.Point(0, 24);
+            this.sourceCodeRichTextBox.Name = "sourceCodeRichTextBox";
+            this.sourceCodeRichTextBox.Size = new System.Drawing.Size(854, 465);
+            this.sourceCodeRichTextBox.TabIndex = 0;
+            this.sourceCodeRichTextBox.Text = "";
             // 
             // menuStrip1
             // 
@@ -59,20 +59,20 @@
             this.statusStrip1.TabIndex = 2;
             this.statusStrip1.Text = "statusStrip1";
             // 
-            // textBox1
+            // tbUrl
             // 
-            this.textBox1.Location = new System.Drawing.Point(1, 490);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(196, 20);
-            this.textBox1.TabIndex = 3;
+            this.tbUrl.Location = new System.Drawing.Point(1, 490);
+            this.tbUrl.Name = "tbUrl";
+            this.tbUrl.Size = new System.Drawing.Size(196, 20);
+            this.tbUrl.TabIndex = 3;
             // 
             // Source
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(854, 511);
-            this.Controls.Add(this.textBox1);
-            this.Controls.Add(this.richTextBox1);
+            this.Controls.Add(this.tbUrl);
+            this.Controls.Add(this.sourceCodeRichTextBox);
             this.Controls.Add(this.statusStrip1);
             this.Controls.Add(this.menuStrip1);
             this.MainMenuStrip = this.menuStrip1;
@@ -85,9 +85,9 @@
 
         #endregion
 
-        private System.Windows.Forms.RichTextBox richTextBox1;
+        private System.Windows.Forms.RichTextBox sourceCodeRichTextBox;
         private System.Windows.Forms.MenuStrip menuStrip1;
         private System.Windows.Forms.StatusStrip statusStrip1;
-        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.TextBox tbUrl;
     }
 }

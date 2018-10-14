@@ -7,21 +7,20 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using w3bot.core;
 
 namespace w3bot.GUI
 {
-    public partial class Source : Form
+    public partial class LaplacianEdge : Form
     {
-        public Source()
+        public LaplacianEdge()
         {
             InitializeComponent();
         }
 
-        public Source(string sourceCode, string url)
+        private void numericApertureSize_ValueChanged(object sender, EventArgs e)
         {
-            InitializeComponent();
-            sourceCodeRichTextBox.Text = sourceCode;
-            tbUrl.Text = url;
+            Debug.ApplyLaplacian((int)numericApertureSize.Value);
         }
     }
 }

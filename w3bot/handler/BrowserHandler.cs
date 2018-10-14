@@ -39,5 +39,23 @@ namespace w3bot.handler
                 Bot.DocumentReadyEvent += ((IDocumentReadyListener)_script).DocumentReady;
             }
         }
+
+        public void Destroy()
+        {
+            if (_script is IAddressChangedListener)
+            {
+                Bot.DocumentAddressChangedEvent -= ((IAddressChangedListener)_script).AddressChanged;
+            }
+
+            if (_script is IDocumentLoadListener)
+            {
+                Bot.DocumentLoadEvent -= ((IDocumentLoadListener)_script).DocumentLoad;
+            }
+
+            if (_script is IDocumentReadyListener)
+            {
+                Bot.DocumentReadyEvent -= ((IDocumentReadyListener)_script).DocumentReady;
+            }
+        }
     }
 }

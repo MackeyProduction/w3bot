@@ -48,5 +48,19 @@ namespace w3bot.handler
                 }
             }
         }
+
+        /// <summary>
+        /// Destroys all binded events.
+        /// </summary>
+        public void Destroy()
+        {
+            foreach (var handler in _eventHandlers)
+            {
+                if (handler is IEventHandler)
+                {
+                    handler.Destroy();
+                }
+            }
+        }
     }
 }

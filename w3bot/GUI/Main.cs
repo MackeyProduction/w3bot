@@ -108,7 +108,7 @@ namespace w3bot.GUI
 
         private void sourceCodeToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            new Source().ShowDialog();
+            new Source(bot.botWindow._sourceCode, bot.botWindow._url).ShowDialog();
         }
 
         private void allowToolStripMenuItem_Click(object sender, EventArgs e)
@@ -220,6 +220,42 @@ namespace w3bot.GUI
         private void mouseToolStripMenuItem_Click(object sender, EventArgs e)
         {
             mouseToolStripMenuItem.Checked = core.Debug.toggle(core.Debug.Mouse);
+        }
+
+        private void edgesToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+        }
+
+        private void cannyToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            cannyToolStripMenuItem.Checked = core.Debug.toggle(core.Debug.CannyEdges);
+        }
+
+        private void sobelToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            sobelToolStripMenuItem.Checked = core.Debug.toggle(core.Debug.SobelEdges);
+        }
+
+        private void laplacianToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            laplacianToolStripMenuItem.Checked = core.Debug.toggle(core.Debug.LaplacianEdges);
+        }
+
+        private void devToolsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            bot.botWindow._chromiumBrowser.ShowDevTools();
+        }
+
+        private void magnifierToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            magnifierToolStripMenuItem.Checked = core.Debug.toggle(core.Debug.Magnifier);
+        }
+
+        private void updatesToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            bot.botWindow._doubleBuffered = false;
+            Bot.AddConfiguration(this);
+            updatesToolStripMenuItem.Checked = core.Debug.toggle(core.Debug.NoDoubleBuffer);
         }
     }
 }

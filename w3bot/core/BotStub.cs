@@ -20,6 +20,7 @@ namespace w3bot.core
         internal Thread _scriptThread, _drawThread;
         internal bool _running, _pausing;
         private Bot _bot;
+        private handler.EventHandler eventHandler;
 
         internal BotStub(Bot bot, IScript script, Action scriptStoppedCallback)
         {
@@ -47,6 +48,8 @@ namespace w3bot.core
         internal void onFinish()
         {
             _running = false;
+            _script.onFinish();
+            DestroyEvents();
         }
 
         internal void onStart()
@@ -112,12 +115,17 @@ namespace w3bot.core
 
         internal void ExecuteEvents()
         {
-            var eventHandler = new handler.EventHandler();
+            eventHandler = new handler.EventHandler();
             eventHandler.Bind(new BrowserHandler(_bot, _script));
             eventHandler.Bind(new InputHandler(_bot, _script));
             eventHandler.Bind(new PaintHandler(_bot, _script));
 
             eventHandler.Apply();
+        }
+
+        internal void DestroyEvents()
+        {
+            eventHandler.Destroy();
         }
     }
 }

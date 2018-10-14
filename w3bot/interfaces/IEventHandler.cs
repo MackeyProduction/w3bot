@@ -15,5 +15,10 @@ namespace w3bot.interfaces
         /// Executes event.
         /// </summary>
         void Apply();
+
+        /// <summary>
+        /// Destroys an event.
+        /// </summary>
+        void Destroy();
     }
 }

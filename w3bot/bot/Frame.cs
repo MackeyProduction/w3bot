@@ -25,6 +25,8 @@ namespace w3bot.bot
         static Bitmap browserBitmap;
         static Point point;
 
+        public static Bitmap MainFrame { get { return _bot.botWindow._processor.Frame; } }
+
         /// <summary>
         /// Finds all matching pixels by a given color.
         /// </summary>

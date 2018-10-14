@@ -12,12 +12,13 @@ using System.Windows.Forms;
 using w3bot.bot;
 using w3bot.core;
 using w3bot.evt;
+using w3bot.interfaces;
 using w3bot.listener;
 using w3bot.wrapper;
 
 namespace w3bot.bot
 {
-    public class Bot : ChromiumBrowserEventArgs
+    public class Bot : ChromiumBrowserEventArgs, IBot
     {
         internal delegate void Drawable(Graphics g);
         internal static event Drawable paintings = delegate { };

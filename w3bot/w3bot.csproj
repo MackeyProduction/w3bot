@@ -128,11 +128,23 @@
     <Compile Include="GUI\Account.Designer.cs">
       <DependentUpon>Account.cs</DependentUpon>
     </Compile>
+    <Compile Include="GUI\CannyEdge.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GUI\CannyEdge.Designer.cs">
+      <DependentUpon>CannyEdge.cs</DependentUpon>
+    </Compile>
     <Compile Include="GUI\CompileScript.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="GUI\CompileScript.Designer.cs">
       <DependentUpon>CompileScript.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GUI\LaplacianEdge.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GUI\LaplacianEdge.Designer.cs">
+      <DependentUpon>LaplacianEdge.cs</DependentUpon>
     </Compile>
     <Compile Include="GUI\Loading.cs">
       <SubType>Form</SubType>
@@ -152,6 +164,12 @@
     <Compile Include="GUI\Scriptmanager.Designer.cs">
       <DependentUpon>Scriptmanager.cs</DependentUpon>
     </Compile>
+    <Compile Include="GUI\SobelEdge.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GUI\SobelEdge.Designer.cs">
+      <DependentUpon>SobelEdge.cs</DependentUpon>
+    </Compile>
     <Compile Include="GUI\Source.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -162,6 +180,7 @@
     <Compile Include="handler\EventHandler.cs" />
     <Compile Include="handler\InputHandler.cs" />
     <Compile Include="handler\PaintHandler.cs" />
+    <Compile Include="interfaces\IBot.cs" />
     <Compile Include="interfaces\IBotWindow.cs" />
     <Compile Include="interfaces\IBrowser.cs" />
     <Compile Include="interfaces\IEventHandler.cs" />
@@ -195,11 +214,18 @@
     <Compile Include="wrapper\InputAdapter.cs" />
     <Compile Include="wrapper\KeyboardAdapter.cs" />
     <Compile Include="wrapper\MouseAdapter.cs" />
+    <Compile Include="wrapper\Pixel.cs" />
     <EmbeddedResource Include="GUI\About.resx">
       <DependentUpon>About.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="GUI\CannyEdge.resx">
+      <DependentUpon>CannyEdge.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="GUI\CompileScript.resx">
       <DependentUpon>CompileScript.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\LaplacianEdge.resx">
+      <DependentUpon>LaplacianEdge.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GUI\Loading.resx">
       <DependentUpon>Loading.cs</DependentUpon>
@@ -209,6 +235,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="GUI\Scriptmanager.resx">
       <DependentUpon>Scriptmanager.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\SobelEdge.resx">
+      <DependentUpon>SobelEdge.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\Source.resx">
+      <DependentUpon>Source.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

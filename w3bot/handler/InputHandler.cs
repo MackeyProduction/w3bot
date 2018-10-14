@@ -32,5 +32,10 @@ namespace w3bot.handler
                 // TODO
             }
         }
+
+        public void Destroy()
+        {
+            
+        }
     }
 }

@@ -27,5 +27,13 @@ namespace w3bot.handler
                 Bot.paintings += ((IPaintListener)_script).OnPaint;
             }
         }
+
+        public void Destroy()
+        {
+            if (_script is IPaintListener)
+            {
+                Bot.paintings -= ((IPaintListener)_script).OnPaint;
+            }
+        }
     }
 }

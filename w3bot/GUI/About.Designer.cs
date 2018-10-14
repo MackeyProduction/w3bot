@@ -121,9 +121,9 @@ namespace w3bot.GUI
             this.label1.AutoSize = true;
             this.label1.Location = new System.Drawing.Point(12, 74);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(162, 39);
+            this.label1.Size = new System.Drawing.Size(162, 52);
             this.label1.TabIndex = 9;
-            this.label1.Text = "Build using the following Libaries:\r\n.NET Framework 4.5.2\r\nCefSharp";
+            this.label1.Text = "Build using the following Libaries:\r\n.NET Framework 4.5.2\r\nCefSharp\r\nEmgu CV";
             // 
             // About
             // 

@@ -53,11 +53,13 @@
             this.mousePositionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
             this.pixelColorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.layoutBoundsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.cannyEdgesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.edgesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.cannyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.sobelToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.laplacianToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.magnifierToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
-            this.elementIDToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.devToolsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.sourceCodeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tabControlMain = new System.Windows.Forms.TabControl();
             this.menuStripMain.SuspendLayout();
@@ -224,11 +226,10 @@
             this.mousePositionToolStripMenuItem,
             this.toolStripSeparator5,
             this.pixelColorToolStripMenuItem,
-            this.layoutBoundsToolStripMenuItem,
-            this.cannyEdgesToolStripMenuItem,
+            this.edgesToolStripMenuItem,
             this.magnifierToolStripMenuItem,
             this.toolStripSeparator4,
-            this.elementIDToolStripMenuItem,
+            this.devToolsToolStripMenuItem,
             this.sourceCodeToolStripMenuItem});
             this.debugToolStripMenuItem.Image = global::w3bot.Resource1.bug;
             this.debugToolStripMenuItem.Name = "debugToolStripMenuItem";
@@ -249,6 +250,7 @@
             this.updatesToolStripMenuItem.Name = "updatesToolStripMenuItem";
             this.updatesToolStripMenuItem.Size = new System.Drawing.Size(166, 22);
             this.updatesToolStripMenuItem.Text = "No Double Buffer";
+            this.updatesToolStripMenuItem.Click += new System.EventHandler(this.updatesToolStripMenuItem_Click);
             // 
             // toolStripSeparator3
             // 
@@ -281,34 +283,56 @@
             this.pixelColorToolStripMenuItem.Text = "Pixel Color";
             this.pixelColorToolStripMenuItem.Click += new System.EventHandler(this.pixelColorToolStripMenuItem_Click);
             // 
-            // layoutBoundsToolStripMenuItem
+            // edgesToolStripMenuItem
             // 
-            this.layoutBoundsToolStripMenuItem.Name = "layoutBoundsToolStripMenuItem";
-            this.layoutBoundsToolStripMenuItem.Size = new System.Drawing.Size(166, 22);
-            this.layoutBoundsToolStripMenuItem.Text = "Layout Bounds";
+            this.edgesToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.cannyToolStripMenuItem,
+            this.sobelToolStripMenuItem,
+            this.laplacianToolStripMenuItem});
+            this.edgesToolStripMenuItem.Name = "edgesToolStripMenuItem";
+            this.edgesToolStripMenuItem.Size = new System.Drawing.Size(166, 22);
+            this.edgesToolStripMenuItem.Text = "Edge";
+            this.edgesToolStripMenuItem.Click += new System.EventHandler(this.edgesToolStripMenuItem_Click);
             // 
-            // cannyEdgesToolStripMenuItem
+            // cannyToolStripMenuItem
             // 
-            this.cannyEdgesToolStripMenuItem.Name = "cannyEdgesToolStripMenuItem";
-            this.cannyEdgesToolStripMenuItem.Size = new System.Drawing.Size(166, 22);
-            this.cannyEdgesToolStripMenuItem.Text = "Canny Edges";
+            this.cannyToolStripMenuItem.Name = "cannyToolStripMenuItem";
+            this.cannyToolStripMenuItem.Size = new System.Drawing.Size(124, 22);
+            this.cannyToolStripMenuItem.Text = "Canny";
+            this.cannyToolStripMenuItem.Click += new System.EventHandler(this.cannyToolStripMenuItem_Click);
+            // 
+            // sobelToolStripMenuItem
+            // 
+            this.sobelToolStripMenuItem.Name = "sobelToolStripMenuItem";
+            this.sobelToolStripMenuItem.Size = new System.Drawing.Size(124, 22);
+            this.sobelToolStripMenuItem.Text = "Sobel";
+            this.sobelToolStripMenuItem.Click += new System.EventHandler(this.sobelToolStripMenuItem_Click);
+            // 
+            // laplacianToolStripMenuItem
+            // 
+            this.laplacianToolStripMenuItem.Name = "laplacianToolStripMenuItem";
+            this.laplacianToolStripMenuItem.Size = new System.Drawing.Size(124, 22);
+            this.laplacianToolStripMenuItem.Text = "Laplacian";
+            this.laplacianToolStripMenuItem.Click += new System.EventHandler(this.laplacianToolStripMenuItem_Click);
             // 
             // magnifierToolStripMenuItem
             // 
             this.magnifierToolStripMenuItem.Name = "magnifierToolStripMenuItem";
             this.magnifierToolStripMenuItem.Size = new System.Drawing.Size(166, 22);
             this.magnifierToolStripMenuItem.Text = "Magnifier";
+            this.magnifierToolStripMenuItem.Click += new System.EventHandler(this.magnifierToolStripMenuItem_Click);
             // 
             // toolStripSeparator4
             // 
             this.toolStripSeparator4.Name = "toolStripSeparator4";
             this.toolStripSeparator4.Size = new System.Drawing.Size(163, 6);
             // 
-            // elementIDToolStripMenuItem
+            // devToolsToolStripMenuItem
             // 
-            this.elementIDToolStripMenuItem.Name = "elementIDToolStripMenuItem";
-            this.elementIDToolStripMenuItem.Size = new System.Drawing.Size(166, 22);
-            this.elementIDToolStripMenuItem.Text = "Element ID";
+            this.devToolsToolStripMenuItem.Name = "devToolsToolStripMenuItem";
+            this.devToolsToolStripMenuItem.Size = new System.Drawing.Size(166, 22);
+            this.devToolsToolStripMenuItem.Text = "Dev Tools";
+            this.devToolsToolStripMenuItem.Click += new System.EventHandler(this.devToolsToolStripMenuItem_Click);
             // 
             // sourceCodeToolStripMenuItem
             // 
@@ -375,16 +399,18 @@
         private System.Windows.Forms.ToolStripMenuItem pixelColorToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
         private System.Windows.Forms.ToolStripMenuItem exitToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem elementIDToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem devToolsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem logboxToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
         private System.Windows.Forms.ToolStripMenuItem magnifierToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem cannyEdgesToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem edgesToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem mouseToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator5;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator4;
         private System.Windows.Forms.ToolStripMenuItem sourceCodeToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem layoutBoundsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem cannyToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem sobelToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem laplacianToolStripMenuItem;
     }
 }
 

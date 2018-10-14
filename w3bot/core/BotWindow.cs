@@ -22,6 +22,9 @@ namespace w3bot.core
         internal Bot _bot;
         internal String _name, _url;
         internal String _sourceCode { get; set; }
+        internal bool doubleBuffered = true;
+        internal bool _doubleBuffered { get { return doubleBuffered; } set { doubleBuffered = false; } }
+        internal bool isVanished = false, isClosed = false;
 
         /// <summary>
         /// Creates a new BotWindow instance.
@@ -31,7 +34,7 @@ namespace w3bot.core
         /// <param name="processor">The current processor instance.</param>
         internal BotWindow(Bot bot, string name, string url, AbstractBotProcessor processor)
         {
-            DoubleBuffered = true;
+            DoubleBuffered = _doubleBuffered;
             _bot = bot;
             _name = name;
             _url = url;
@@ -46,8 +49,10 @@ namespace w3bot.core
         /// </summary>
         public void Open()
         {
+            if (isClosed) throw new InvalidOperationException("The Botwindow is already destroyed. It can't be reopen.");
             Core.ExeThreadSafe(delegate
             {
+                isVanished = false;
                 _bot.botTab.TabPages.Add(this);
                 _bot.botTab.SelectedTab = this;
                 _bot.botTab.SelectedTab.Text = _name;
@@ -59,7 +64,15 @@ namespace w3bot.core
         /// </summary>
         public void Vanish()
         {
-            
+            if (isClosed) throw new InvalidOperationException("The Botwindow is already destroyed. It can't be vanished.");
+            if (isVanished) return;
+            Core.ExeThreadSafe(delegate
+            {
+                _bot.botTab.TabPages.Remove(this);
+                int bots = _bot.botTab.TabPages.Count;
+                if (bots > 0) ((BotWindow)_bot.botTab.TabPages[bots - 1]).Activate();
+                isVanished = true;
+            });
         }
 
         /// <summary>
@@ -67,7 +80,15 @@ namespace w3bot.core
         /// </summary>
         public void Destroy()
         {
-            
+            if (isClosed) throw new InvalidOperationException("The Botwindow is already destroyed. It can't be closed.");
+            Core.ExeThreadSafe(delegate
+            {
+                this.Controls.Remove(_processor);
+                _processor.Destroy();
+                _processor = null;
+                Vanish();
+                isClosed = true;
+            });
         }
 
         /// <summary>
@@ -75,8 +96,10 @@ namespace w3bot.core
         /// </summary>
         public void Activate()
         {
+            if (isClosed) throw new InvalidOperationException("The Botwindow is already destroyed. It can't be reactivated.");
             Core.ExeThreadSafe(delegate
             {
+                //if (_bot.botWindow != null) _bot.botWindow._processor.BlockInput();
                 _bot.botTab.SelectedTab = this;
                 _processor.ActivateProcessor(this);
             });

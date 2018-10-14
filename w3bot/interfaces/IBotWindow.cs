@@ -3,13 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using w3bot.wrapper;
 
 namespace w3bot.interfaces
 {
     /// <summary>
     /// w3bot interface for BotWindow.
     /// </summary>
-    interface IBotWindow
+    public interface IBotWindow
     {
         /// <summary>
         /// Open a new window.
