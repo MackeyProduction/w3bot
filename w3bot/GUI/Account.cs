@@ -20,7 +20,7 @@ namespace w3bot.GUI
 
         private void btnLogin_Click(object sender, EventArgs e)
         {
-            var user = new User();
+            var user = new Auth();
             user.Login(tbUsername.Text, tbPassword.Text);
         }
     }

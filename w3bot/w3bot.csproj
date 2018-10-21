@@ -128,7 +128,13 @@
     <Compile Include="core\ScriptItem.cs" />
     <Compile Include="core\Scriptloader.cs" />
     <Compile Include="database\Connection.cs" />
+    <Compile Include="database\Auth.cs" />
+    <Compile Include="database\OperatingSystem.cs" />
+    <Compile Include="database\Proxy.cs" />
+    <Compile Include="database\Session.cs" />
+    <Compile Include="database\Software.cs" />
     <Compile Include="database\User.cs" />
+    <Compile Include="database\UserAgent.cs" />
     <Compile Include="enumeration\Keys.cs" />
     <Compile Include="evt\Keyboard.cs" />
     <Compile Include="evt\Mouse.cs" />
@@ -204,7 +210,11 @@
     <Compile Include="interfaces\IFrame.cs" />
     <Compile Include="interfaces\IKeyboardInput.cs" />
     <Compile Include="interfaces\IMouseInput.cs" />
+    <Compile Include="interfaces\IOperatingSystem.cs" />
+    <Compile Include="interfaces\IProxy.cs" />
     <Compile Include="interfaces\IScript.cs" />
+    <Compile Include="interfaces\ISoftware.cs" />
+    <Compile Include="interfaces\IUserAgent.cs" />
     <Compile Include="listener\ChromiumBrowserEventArgs.cs" />
     <Compile Include="listener\IAddressChangedListener.cs" />
     <Compile Include="listener\IDocumentLoadListener.cs" />

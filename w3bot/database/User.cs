@@ -1,32 +1,35 @@
-﻿using Newtonsoft.Json;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using w3bot.interfaces;
 
 namespace w3bot.database
 {
     internal class User
     {
-        internal async void Login(string username, string password)
+        internal IProxy Proxy;
+        internal IUserAgent UserAgent;
+
+        internal IProxy GetProxy()
         {
-            var values = new Dictionary<string, string>
-            {
-                { "username", username },
-                { "password", password }
-            };
-
-            var data = await Connection.PostRequest("login", values);
-            dynamic result = JsonConvert.DeserializeObject(data);
-
-            // set session id
-            Connection.SESSION_ID = result.message;
+            return null;
         }
 
-        internal void Logout()
+        internal void AddProxyConnection(string name, string ip, int port, string username, string password)
         {
-            Connection.SESSION_ID = null;
+            
+        }
+
+        internal IUserAgent GetUserAgent()
+        {
+            return null;
+        }
+
+        internal void AddUserAgent(IOperatingSystem operatingSystem, ISoftware software)
+        {
+
         }
     }
 }
