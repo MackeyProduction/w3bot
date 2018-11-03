@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace w3bot.interfaces
+namespace w3bot.database.interfaces
 {
     /// <summary>
     /// w3bot interface for operating system of user agent.

@@ -11,43 +11,60 @@ namespace w3bot.database
     {
         private static HttpClient _httpClient;
         internal const string ENDPOINT = "http://127.0.0.1:8000/api";
-        internal static string SESSION_ID;
+        internal static string TOKEN;
 
         static Connection()
         {
             if (_httpClient == null)
             {
                 _httpClient = new HttpClient();
-                Open();
             }
         }
 
-        internal static void Open()
+        internal static async Task<HttpResponseMessage> GetRequest(string endpoint)
         {
-            try
+            if (Connection.TOKEN != null)
             {
-                var result = GetRequest($"{ENDPOINT}");
+                var values = new Dictionary<string, string>
+                {
+                    { "Authorization", "Bearer " + Connection.TOKEN },
+                };
+
+                return await SendWithHeader(endpoint, values, HttpMethod.Get);
             }
-            catch (Exception) { }
+
+            return await _httpClient.GetAsync($"{ENDPOINT}/{endpoint}");
         }
 
-        internal static void Close()
-        {
-
-        }
-
-        internal static async Task<string> GetRequest(string endpoint)
-        {
-            return await _httpClient.GetStringAsync(endpoint);
-        }
-
-        internal static async Task<string> PostRequest(string endpoint, Dictionary<string, string> data)
+        internal static async Task<HttpResponseMessage> PostRequest(string endpoint, Dictionary<string, string> data, bool header = false)
         {
             var content = new FormUrlEncodedContent(data);
-            var response = await _httpClient.PostAsync($"{ENDPOINT}/{endpoint}", content);
-            var responseString = await response.Content.ReadAsStringAsync();
 
-            return responseString;
+            if (header)
+            {
+                return await SendWithHeader(endpoint, data, HttpMethod.Post);
+            }
+
+            var response = await _httpClient.PostAsync($"{ENDPOINT}/{endpoint}", content);
+            
+            return response;
+        }
+
+        private static async Task<HttpResponseMessage> SendWithHeader(string endpoint, Dictionary<string, string> data, HttpMethod method)
+        {
+            _httpClient.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
+            var request = new HttpRequestMessage(method, $"{ENDPOINT}/{endpoint}");
+
+            // adding dictionary data to header
+            if (data.Count > 0)
+            {
+                foreach (KeyValuePair<string, string> dictionary in data)
+                {
+                    request.Headers.Add(dictionary.Key, dictionary.Value);
+                }
+            }
+
+            return await _httpClient.SendAsync(request);
         }
     }
 }

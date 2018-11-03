@@ -3,22 +3,26 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using w3bot.interfaces;
+using w3bot.database.interfaces;
 
-namespace w3bot.database
+namespace w3bot.database.entity
 {
     internal class UserAgent : IUserAgent
     {
+        private IOperatingSystem _operatingSystem;
+        private ISoftware _software;
+
         internal UserAgent(IOperatingSystem operatingSystem, ISoftware software)
         {
-
+            _operatingSystem = operatingSystem;
+            _software = software;
         }
 
         public IOperatingSystem OperatingSystem
         {
             get
             {
-                throw new NotImplementedException();
+                return _operatingSystem;
             }
 
             set
@@ -31,7 +35,7 @@ namespace w3bot.database
         {
             get
             {
-                throw new NotImplementedException();
+                return _software;
             }
 
             set

@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace w3bot.database
+namespace w3bot.database.entity
 {
-    internal class Session
+    internal class UP
     {
     }
 }
