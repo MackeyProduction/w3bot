@@ -9,12 +9,27 @@ namespace w3bot.database.entity
 {
     internal class OperatingSystem : IOperatingSystem
     {
+        private int _id;
         private string _name, _version;
 
-        internal OperatingSystem(string name, string version)
+        internal OperatingSystem()
         {
+            _id = 0;
+        }
+
+        internal OperatingSystem(int id, string name, string version)
+        {
+            _id = id;
             _name = name;
             _version = version;
+        }
+
+        public int Id
+        {
+            get
+            {
+                return _id;
+            }
         }
 
         public string Name

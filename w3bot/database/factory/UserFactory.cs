@@ -18,7 +18,7 @@ namespace w3bot.database.factory
         {
             return new Dictionary<string, object>
             {
-                { "entity", new User((string)data.username, "", (string)data.email, DateTime.ParseExact(((string)data.registerDate.date).Split(' ')[0], "yyyy-MM-dd", System.Globalization.CultureInfo.InvariantCulture), null) }
+                { "entity", new User((int)data.id, (string)data.username, (string)data.email, DateTime.ParseExact(((string)data.registerDate.date).Split(' ')[0], "yyyy-MM-dd", System.Globalization.CultureInfo.InvariantCulture), null) }
             };
         }
     }

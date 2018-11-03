@@ -24,7 +24,7 @@ namespace w3bot.database.interfaces
         /// <summary>
         /// The password from the user.
         /// </summary>
-        string Password { get; }
+        string Password { get; set; }
 
         /// <summary>
         /// The email address from the user.

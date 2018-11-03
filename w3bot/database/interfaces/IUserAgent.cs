@@ -12,6 +12,11 @@ namespace w3bot.database.interfaces
     interface IUserAgent
     {
         /// <summary>
+        /// The unique identifier of the user agent.
+        /// </summary>
+        int Id { get; }
+
+        /// <summary>
         /// The operating system of user agent.
         /// </summary>
         IOperatingSystem OperatingSystem { get; set; }

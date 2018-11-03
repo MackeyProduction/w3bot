@@ -9,14 +9,44 @@ namespace w3bot.database.entity
 {
     internal class Software : ISoftware
     {
+        private int _id;
         private string _name, _version, _LEName, _LEVersion;
+        private ISoftwareExtras _extras;
 
-        internal Software(string name, string version, string LEName, string LEVersion)
+        internal Software()
         {
+            _id = 0;
+        }
+
+        internal Software(int id, string name, string version, string LEName, string LEVersion, ISoftwareExtras extras)
+        {
+            _id = id;
             _name = name;
             _version = version;
             _LEName = LEName;
             _LEVersion = LEVersion;
+            _extras = extras;
+        }
+
+        public ISoftwareExtras Extas
+        {
+            get
+            {
+                return _extras;
+            }
+
+            set
+            {
+                _extras = value;
+            }
+        }
+
+        public int Id
+        {
+            get
+            {
+                return _id;
+            }
         }
 
         public string LEName

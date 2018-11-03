@@ -141,6 +141,8 @@
     <Compile Include="database\helper\EntityMappingHelper.cs" />
     <Compile Include="database\interfaces\IGroup.cs" />
     <Compile Include="database\interfaces\IRepository.cs" />
+    <Compile Include="database\interfaces\ISoftwareExtras.cs" />
+    <Compile Include="database\interfaces\IUP.cs" />
     <Compile Include="database\interfaces\IUser.cs" />
     <Compile Include="database\interfaces\IUUA.cs" />
     <Compile Include="database\helper\RepositoryHelper.cs" />
@@ -150,7 +152,6 @@
     <Compile Include="database\repository\UUARepository.cs" />
     <Compile Include="database\response\AbstractResponse.cs" />
     <Compile Include="database\response\AuthResponse.cs" />
-    <Compile Include="database\entity\Session.cs" />
     <Compile Include="database\entity\Software.cs" />
     <Compile Include="database\entity\User.cs" />
     <Compile Include="database\entity\UserAgent.cs" />
