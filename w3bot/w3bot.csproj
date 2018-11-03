@@ -69,10 +69,25 @@
       <HintPath>..\packages\EMGU.CV.3.4.1.2976\lib\net35\Emgu.CV.World.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Google.Protobuf, Version=3.5.1.0, Culture=neutral, PublicKeyToken=a7d26565bac4d604, processorArchitecture=MSIL">
+      <HintPath>..\packages\Google.Protobuf.3.5.1\lib\net45\Google.Protobuf.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=11.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.11.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System">
       <HintPath>..\..\..\..\..\..\..\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5.2\System.dll</HintPath>
     </Reference>
+    <Reference Include="System.ComponentModel" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Configuration.Install" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Drawing.Design" />
+    <Reference Include="System.Management" />
+    <Reference Include="System.Transactions" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -112,6 +127,34 @@
     <Compile Include="core\FormControl.cs" />
     <Compile Include="core\ScriptItem.cs" />
     <Compile Include="core\Scriptloader.cs" />
+    <Compile Include="database\Connection.cs" />
+    <Compile Include="database\Auth.cs" />
+    <Compile Include="database\entity\Group.cs" />
+    <Compile Include="database\entity\SoftwareExtras.cs" />
+    <Compile Include="database\entity\UP.cs" />
+    <Compile Include="database\entity\UUA.cs" />
+    <Compile Include="database\factory\AbstractResponseModel.cs" />
+    <Compile Include="database\factory\AuthFactory.cs" />
+    <Compile Include="database\entity\OperatingSystem.cs" />
+    <Compile Include="database\entity\Proxy.cs" />
+    <Compile Include="database\factory\UserFactory.cs" />
+    <Compile Include="database\helper\EntityMappingHelper.cs" />
+    <Compile Include="database\interfaces\IGroup.cs" />
+    <Compile Include="database\interfaces\IRepository.cs" />
+    <Compile Include="database\interfaces\IUser.cs" />
+    <Compile Include="database\interfaces\IUUA.cs" />
+    <Compile Include="database\helper\RepositoryHelper.cs" />
+    <Compile Include="database\repository\RepositoryManager.cs" />
+    <Compile Include="database\repository\UPRepository.cs" />
+    <Compile Include="database\repository\UserRepository.cs" />
+    <Compile Include="database\repository\UUARepository.cs" />
+    <Compile Include="database\response\AbstractResponse.cs" />
+    <Compile Include="database\response\AuthResponse.cs" />
+    <Compile Include="database\entity\Session.cs" />
+    <Compile Include="database\entity\Software.cs" />
+    <Compile Include="database\entity\User.cs" />
+    <Compile Include="database\entity\UserAgent.cs" />
+    <Compile Include="database\response\UserResponse.cs" />
     <Compile Include="enumeration\Keys.cs" />
     <Compile Include="evt\Keyboard.cs" />
     <Compile Include="evt\Mouse.cs" />
@@ -187,7 +230,11 @@
     <Compile Include="interfaces\IFrame.cs" />
     <Compile Include="interfaces\IKeyboardInput.cs" />
     <Compile Include="interfaces\IMouseInput.cs" />
+    <Compile Include="database\interfaces\IOperatingSystem.cs" />
+    <Compile Include="database\interfaces\IProxy.cs" />
     <Compile Include="interfaces\IScript.cs" />
+    <Compile Include="database\interfaces\ISoftware.cs" />
+    <Compile Include="database\interfaces\IUserAgent.cs" />
     <Compile Include="listener\ChromiumBrowserEventArgs.cs" />
     <Compile Include="listener\IAddressChangedListener.cs" />
     <Compile Include="listener\IDocumentLoadListener.cs" />
@@ -217,6 +264,9 @@
     <Compile Include="wrapper\Pixel.cs" />
     <EmbeddedResource Include="GUI\About.resx">
       <DependentUpon>About.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\Account.resx">
+      <DependentUpon>Account.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GUI\CannyEdge.resx">
       <DependentUpon>CannyEdge.cs</DependentUpon>
