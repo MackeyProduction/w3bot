@@ -13,6 +13,11 @@ namespace w3bot.database.entity
         private IUser _user;
         private IUserAgent _userAgent;
 
+        internal UUA()
+        {
+            _id = 0;
+        }
+
         internal UUA(int id, IUser user, IUserAgent userAgent)
         {
             _id = id;
@@ -34,6 +39,11 @@ namespace w3bot.database.entity
             {
                 return _user;
             }
+
+            set
+            {
+                _user = value;
+            }
         }
 
         public IUserAgent UserAgent
@@ -41,6 +51,11 @@ namespace w3bot.database.entity
             get
             {
                 return _userAgent;
+            }
+
+            set
+            {
+                _userAgent = value;
             }
         }
     }

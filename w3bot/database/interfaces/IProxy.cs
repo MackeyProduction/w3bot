@@ -12,6 +12,11 @@ namespace w3bot.database.interfaces
     interface IProxy
     {
         /// <summary>
+        /// The unique identifier of the proxy.
+        /// </summary>
+        int Id { get; }
+
+        /// <summary>
         /// The name of the proxy.
         /// </summary>
         string ProxyName { get; set; }

@@ -7,23 +7,18 @@ using System.Threading.Tasks;
 namespace w3bot.database.interfaces
 {
     /// <summary>
-    /// w3bot interface for UUA entity.
+    /// w3bot interface for software extras entity.
     /// </summary>
-    interface IUUA
+    interface ISoftwareExtras
     {
         /// <summary>
-        /// The unique identifier for user agent.
+        /// The unique identifier for software extras.
         /// </summary>
         int Id { get; }
 
         /// <summary>
-        /// The user of the user agent.
+        /// The software extras info.
         /// </summary>
-        IUser User { get; set; }
-
-        /// <summary>
-        /// The user agent.
-        /// </summary>
-        IUserAgent UserAgent { get; set; }
+        string Info { get; set; }
     }
 }

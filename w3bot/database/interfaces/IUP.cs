@@ -7,23 +7,23 @@ using System.Threading.Tasks;
 namespace w3bot.database.interfaces
 {
     /// <summary>
-    /// w3bot interface for operating system of user agent.
+    /// w3bot interface for UP entity.
     /// </summary>
-    interface IOperatingSystem
+    interface IUP
     {
         /// <summary>
-        /// The unique identifier of the operating system.
+        /// The unique identifier of the UP entity.
         /// </summary>
         int Id { get; }
 
         /// <summary>
-        /// The name of the operating system.
+        /// The proxy.
         /// </summary>
-        string Name { get; set; }
+        IProxy Proxy { get; set; }
 
         /// <summary>
-        /// The version of the operating system.
+        /// The user.
         /// </summary>
-        string Version { get; set; }
+        IUser User { get; set; }
     }
 }

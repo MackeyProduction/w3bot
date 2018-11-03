@@ -10,14 +10,20 @@ namespace w3bot.database.entity
 {
     internal class User : IUser
     {
+        private int _id;
         private string _username, _password, _email;
         private DateTime _registerDate;
         private IGroup _group;
 
-        internal User(string username, string password, string email, DateTime registerDate, IGroup group)
+        internal User()
         {
+            _id = 0;
+        }
+
+        internal User(int id, string username, string email, DateTime registerDate, IGroup group)
+        {
+            _id = id;
             _username = username;
-            _password = password;
             _email = email;
             _registerDate = registerDate;
             _group = group;
@@ -53,7 +59,7 @@ namespace w3bot.database.entity
         {
             get
             {
-                throw new NotImplementedException();
+                return _id;
             }
         }
 
@@ -62,6 +68,11 @@ namespace w3bot.database.entity
             get
             {
                 return _password;
+            }
+
+            set
+            {
+                _password = value;
             }
         }
 

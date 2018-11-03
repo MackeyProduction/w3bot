@@ -9,13 +9,28 @@ namespace w3bot.database.entity
 {
     internal class UserAgent : IUserAgent
     {
+        private int _id;
         private IOperatingSystem _operatingSystem;
         private ISoftware _software;
 
-        internal UserAgent(IOperatingSystem operatingSystem, ISoftware software)
+        internal UserAgent()
         {
+            _id = 0;
+        }
+
+        internal UserAgent(int id, IOperatingSystem operatingSystem, ISoftware software)
+        {
+            _id = id;
             _operatingSystem = operatingSystem;
             _software = software;
+        }
+
+        public int Id
+        {
+            get
+            {
+                return _id;
+            }
         }
 
         public IOperatingSystem OperatingSystem
@@ -27,7 +42,7 @@ namespace w3bot.database.entity
 
             set
             {
-                throw new NotImplementedException();
+                _operatingSystem = value;
             }
         }
 
@@ -40,7 +55,7 @@ namespace w3bot.database.entity
 
             set
             {
-                throw new NotImplementedException();
+                _software = value;
             }
         }
     }
