@@ -43,13 +43,50 @@ namespace w3bot.database
 
         internal async void Logout()
         {
+            await Connection.PostRequest("logout", GetBearerHeader(), true);
+            //_authFactory.GetLogoutResponse(response);
+        }
+
+        internal async void Register(string username, string password, string email)
+        {
+            var values = new Dictionary<string, string>
+                {
+                    { "username", username },
+                    { "password", password },
+                    { "email", email }
+                };
+
+            await Connection.PostRequest("register", values);
+        }
+
+        internal async void ForgotPassword(string username)
+        {
+            var values = new Dictionary<string, string>
+                {
+                    { "username", username }
+                };
+
+            await Connection.PostRequest("forgot", values);
+        }
+
+        internal async void Refresh(string expiredToken)
+        {
+            var values = new Dictionary<string, string>
+                {
+                    { "expiredToken", expiredToken }
+                };
+
+            await Connection.PostRequest("refresh", values);
+        }
+
+        internal Dictionary<string, string> GetBearerHeader()
+        {
             var values = new Dictionary<string, string>
                 {
                     { "Authorization", "Bearer " + Connection.TOKEN },
                 };
 
-            var response = await Connection.PostRequest("logout", values, true);
-            //_authFactory.GetLogoutResponse(response);
+            return values;
         }
     }
 }

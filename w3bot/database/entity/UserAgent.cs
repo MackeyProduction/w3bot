@@ -12,17 +12,19 @@ namespace w3bot.database.entity
         private int _id;
         private IOperatingSystem _operatingSystem;
         private ISoftware _software;
+        private string _agent;
 
         internal UserAgent()
         {
             _id = 0;
         }
 
-        internal UserAgent(int id, IOperatingSystem operatingSystem, ISoftware software)
+        internal UserAgent(int id, IOperatingSystem operatingSystem, ISoftware software, string agent)
         {
             _id = id;
             _operatingSystem = operatingSystem;
             _software = software;
+            _agent = agent;
         }
 
         public int Id
@@ -56,6 +58,19 @@ namespace w3bot.database.entity
             set
             {
                 _software = value;
+            }
+        }
+
+        public string Agent
+        {
+            get
+            {
+                return _agent;
+            }
+
+            set
+            {
+                _agent = value;
             }
         }
     }

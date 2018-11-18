@@ -137,7 +137,9 @@
     <Compile Include="database\factory\AuthFactory.cs" />
     <Compile Include="database\entity\OperatingSystem.cs" />
     <Compile Include="database\entity\Proxy.cs" />
+    <Compile Include="database\factory\ProxyFactory.cs" />
     <Compile Include="database\factory\UserFactory.cs" />
+    <Compile Include="database\factory\UserAgentFactory.cs" />
     <Compile Include="database\helper\EntityMappingHelper.cs" />
     <Compile Include="database\interfaces\IGroup.cs" />
     <Compile Include="database\interfaces\IRepository.cs" />
@@ -147,15 +149,17 @@
     <Compile Include="database\interfaces\IUUA.cs" />
     <Compile Include="database\helper\RepositoryHelper.cs" />
     <Compile Include="database\repository\RepositoryManager.cs" />
-    <Compile Include="database\repository\UPRepository.cs" />
+    <Compile Include="database\repository\ProxyRepository.cs" />
     <Compile Include="database\repository\UserRepository.cs" />
-    <Compile Include="database\repository\UUARepository.cs" />
+    <Compile Include="database\repository\UserAgentRepository.cs" />
     <Compile Include="database\response\AbstractResponse.cs" />
     <Compile Include="database\response\AuthResponse.cs" />
     <Compile Include="database\entity\Software.cs" />
     <Compile Include="database\entity\User.cs" />
     <Compile Include="database\entity\UserAgent.cs" />
+    <Compile Include="database\response\ProxyResponse.cs" />
     <Compile Include="database\response\UserResponse.cs" />
+    <Compile Include="database\response\UserAgentResponse.cs" />
     <Compile Include="enumeration\Keys.cs" />
     <Compile Include="evt\Keyboard.cs" />
     <Compile Include="evt\Mouse.cs" />
@@ -184,6 +188,12 @@
     <Compile Include="GUI\CompileScript.Designer.cs">
       <DependentUpon>CompileScript.cs</DependentUpon>
     </Compile>
+    <Compile Include="GUI\ForgotPassword.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GUI\ForgotPassword.Designer.cs">
+      <DependentUpon>ForgotPassword.cs</DependentUpon>
+    </Compile>
     <Compile Include="GUI\LaplacianEdge.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -201,6 +211,12 @@
     </Compile>
     <Compile Include="GUI\Main.Designer.cs">
       <DependentUpon>Main.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GUI\Register.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GUI\Register.Designer.cs">
+      <DependentUpon>Register.cs</DependentUpon>
     </Compile>
     <Compile Include="GUI\Scriptmanager.cs">
       <SubType>Form</SubType>
@@ -275,6 +291,9 @@
     <EmbeddedResource Include="GUI\CompileScript.resx">
       <DependentUpon>CompileScript.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="GUI\ForgotPassword.resx">
+      <DependentUpon>ForgotPassword.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="GUI\LaplacianEdge.resx">
       <DependentUpon>LaplacianEdge.cs</DependentUpon>
     </EmbeddedResource>
@@ -283,6 +302,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="GUI\Main.resx">
       <DependentUpon>Main.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\Register.resx">
+      <DependentUpon>Register.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GUI\Scriptmanager.resx">
       <DependentUpon>Scriptmanager.cs</DependentUpon>

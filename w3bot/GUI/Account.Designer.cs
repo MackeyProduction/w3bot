@@ -32,19 +32,19 @@
             this.tbPassword = new System.Windows.Forms.TextBox();
             this.btnLogin = new System.Windows.Forms.Button();
             this.SettingsGroupBox = new System.Windows.Forms.GroupBox();
-            this.LoginGroupBox = new System.Windows.Forms.GroupBox();
-            this.lblUsername = new System.Windows.Forms.Label();
-            this.lblPassword = new System.Windows.Forms.Label();
-            this.linkLblCreateAccount = new System.Windows.Forms.LinkLabel();
-            this.linkLblForgotPassword = new System.Windows.Forms.LinkLabel();
-            this.lblProxy = new System.Windows.Forms.Label();
-            this.cbProxy = new System.Windows.Forms.ComboBox();
-            this.btnAddProxy = new System.Windows.Forms.Button();
-            this.lblUserAgent = new System.Windows.Forms.Label();
+            this.tbBrowserFrames = new System.Windows.Forms.TextBox();
+            this.lblBrowserFrames = new System.Windows.Forms.Label();
             this.btnAddUserAgent = new System.Windows.Forms.Button();
             this.cbUserAgent = new System.Windows.Forms.ComboBox();
-            this.lblBrowserFrames = new System.Windows.Forms.Label();
-            this.tbBrowserFrames = new System.Windows.Forms.TextBox();
+            this.lblUserAgent = new System.Windows.Forms.Label();
+            this.btnAddProxy = new System.Windows.Forms.Button();
+            this.cbProxy = new System.Windows.Forms.ComboBox();
+            this.lblProxy = new System.Windows.Forms.Label();
+            this.LoginGroupBox = new System.Windows.Forms.GroupBox();
+            this.linkLblForgotPassword = new System.Windows.Forms.LinkLabel();
+            this.linkLblCreateAccount = new System.Windows.Forms.LinkLabel();
+            this.lblPassword = new System.Windows.Forms.Label();
+            this.lblUsername = new System.Windows.Forms.Label();
             this.SettingsGroupBox.SuspendLayout();
             this.LoginGroupBox.SuspendLayout();
             this.SuspendLayout();
@@ -91,93 +91,22 @@
             this.SettingsGroupBox.TabStop = false;
             this.SettingsGroupBox.Text = "Settings";
             // 
-            // LoginGroupBox
+            // tbBrowserFrames
             // 
-            this.LoginGroupBox.Controls.Add(this.linkLblForgotPassword);
-            this.LoginGroupBox.Controls.Add(this.linkLblCreateAccount);
-            this.LoginGroupBox.Controls.Add(this.lblPassword);
-            this.LoginGroupBox.Controls.Add(this.lblUsername);
-            this.LoginGroupBox.Controls.Add(this.tbUsername);
-            this.LoginGroupBox.Controls.Add(this.tbPassword);
-            this.LoginGroupBox.Location = new System.Drawing.Point(194, 12);
-            this.LoginGroupBox.Name = "LoginGroupBox";
-            this.LoginGroupBox.Size = new System.Drawing.Size(228, 197);
-            this.LoginGroupBox.TabIndex = 0;
-            this.LoginGroupBox.TabStop = false;
-            this.LoginGroupBox.Text = "User";
+            this.tbBrowserFrames.Location = new System.Drawing.Point(111, 148);
+            this.tbBrowserFrames.Name = "tbBrowserFrames";
+            this.tbBrowserFrames.Size = new System.Drawing.Size(41, 20);
+            this.tbBrowserFrames.TabIndex = 7;
+            this.tbBrowserFrames.Text = "30";
             // 
-            // lblUsername
+            // lblBrowserFrames
             // 
-            this.lblUsername.AutoSize = true;
-            this.lblUsername.Location = new System.Drawing.Point(16, 35);
-            this.lblUsername.Name = "lblUsername";
-            this.lblUsername.Size = new System.Drawing.Size(55, 13);
-            this.lblUsername.TabIndex = 3;
-            this.lblUsername.Text = "Username";
-            // 
-            // lblPassword
-            // 
-            this.lblPassword.AutoSize = true;
-            this.lblPassword.Location = new System.Drawing.Point(16, 87);
-            this.lblPassword.Name = "lblPassword";
-            this.lblPassword.Size = new System.Drawing.Size(53, 13);
-            this.lblPassword.TabIndex = 4;
-            this.lblPassword.Text = "Password";
-            // 
-            // linkLblCreateAccount
-            // 
-            this.linkLblCreateAccount.AutoSize = true;
-            this.linkLblCreateAccount.Location = new System.Drawing.Point(19, 138);
-            this.linkLblCreateAccount.Name = "linkLblCreateAccount";
-            this.linkLblCreateAccount.Size = new System.Drawing.Size(95, 13);
-            this.linkLblCreateAccount.TabIndex = 5;
-            this.linkLblCreateAccount.TabStop = true;
-            this.linkLblCreateAccount.Text = "Create an account";
-            // 
-            // linkLblForgotPassword
-            // 
-            this.linkLblForgotPassword.AutoSize = true;
-            this.linkLblForgotPassword.Location = new System.Drawing.Point(19, 161);
-            this.linkLblForgotPassword.Name = "linkLblForgotPassword";
-            this.linkLblForgotPassword.Size = new System.Drawing.Size(85, 13);
-            this.linkLblForgotPassword.TabIndex = 6;
-            this.linkLblForgotPassword.TabStop = true;
-            this.linkLblForgotPassword.Text = "Forgot password";
-            // 
-            // lblProxy
-            // 
-            this.lblProxy.AutoSize = true;
-            this.lblProxy.Location = new System.Drawing.Point(10, 28);
-            this.lblProxy.Name = "lblProxy";
-            this.lblProxy.Size = new System.Drawing.Size(33, 13);
-            this.lblProxy.TabIndex = 4;
-            this.lblProxy.Text = "Proxy";
-            // 
-            // cbProxy
-            // 
-            this.cbProxy.FormattingEnabled = true;
-            this.cbProxy.Location = new System.Drawing.Point(13, 46);
-            this.cbProxy.Name = "cbProxy";
-            this.cbProxy.Size = new System.Drawing.Size(109, 21);
-            this.cbProxy.TabIndex = 5;
-            // 
-            // btnAddProxy
-            // 
-            this.btnAddProxy.Location = new System.Drawing.Point(128, 46);
-            this.btnAddProxy.Name = "btnAddProxy";
-            this.btnAddProxy.Size = new System.Drawing.Size(24, 23);
-            this.btnAddProxy.TabIndex = 7;
-            this.btnAddProxy.Text = "+";
-            this.btnAddProxy.UseVisualStyleBackColor = true;
-            // 
-            // lblUserAgent
-            // 
-            this.lblUserAgent.AutoSize = true;
-            this.lblUserAgent.Location = new System.Drawing.Point(10, 93);
-            this.lblUserAgent.Name = "lblUserAgent";
-            this.lblUserAgent.Size = new System.Drawing.Size(63, 13);
-            this.lblUserAgent.TabIndex = 8;
-            this.lblUserAgent.Text = "User Agent:";
+            this.lblBrowserFrames.AutoSize = true;
+            this.lblBrowserFrames.Location = new System.Drawing.Point(10, 151);
+            this.lblBrowserFrames.Name = "lblBrowserFrames";
+            this.lblBrowserFrames.Size = new System.Drawing.Size(95, 13);
+            this.lblBrowserFrames.TabIndex = 11;
+            this.lblBrowserFrames.Text = "Browser Frames/s:";
             // 
             // btnAddUserAgent
             // 
@@ -196,22 +125,95 @@
             this.cbUserAgent.Size = new System.Drawing.Size(109, 21);
             this.cbUserAgent.TabIndex = 9;
             // 
-            // lblBrowserFrames
+            // lblUserAgent
             // 
-            this.lblBrowserFrames.AutoSize = true;
-            this.lblBrowserFrames.Location = new System.Drawing.Point(10, 151);
-            this.lblBrowserFrames.Name = "lblBrowserFrames";
-            this.lblBrowserFrames.Size = new System.Drawing.Size(95, 13);
-            this.lblBrowserFrames.TabIndex = 11;
-            this.lblBrowserFrames.Text = "Browser Frames/s:";
+            this.lblUserAgent.AutoSize = true;
+            this.lblUserAgent.Location = new System.Drawing.Point(10, 93);
+            this.lblUserAgent.Name = "lblUserAgent";
+            this.lblUserAgent.Size = new System.Drawing.Size(63, 13);
+            this.lblUserAgent.TabIndex = 8;
+            this.lblUserAgent.Text = "User Agent:";
             // 
-            // tbBrowserFrames
+            // btnAddProxy
             // 
-            this.tbBrowserFrames.Location = new System.Drawing.Point(111, 148);
-            this.tbBrowserFrames.Name = "tbBrowserFrames";
-            this.tbBrowserFrames.Size = new System.Drawing.Size(41, 20);
-            this.tbBrowserFrames.TabIndex = 7;
-            this.tbBrowserFrames.Text = "30";
+            this.btnAddProxy.Location = new System.Drawing.Point(128, 46);
+            this.btnAddProxy.Name = "btnAddProxy";
+            this.btnAddProxy.Size = new System.Drawing.Size(24, 23);
+            this.btnAddProxy.TabIndex = 7;
+            this.btnAddProxy.Text = "+";
+            this.btnAddProxy.UseVisualStyleBackColor = true;
+            // 
+            // cbProxy
+            // 
+            this.cbProxy.FormattingEnabled = true;
+            this.cbProxy.Location = new System.Drawing.Point(13, 46);
+            this.cbProxy.Name = "cbProxy";
+            this.cbProxy.Size = new System.Drawing.Size(109, 21);
+            this.cbProxy.TabIndex = 5;
+            // 
+            // lblProxy
+            // 
+            this.lblProxy.AutoSize = true;
+            this.lblProxy.Location = new System.Drawing.Point(10, 28);
+            this.lblProxy.Name = "lblProxy";
+            this.lblProxy.Size = new System.Drawing.Size(33, 13);
+            this.lblProxy.TabIndex = 4;
+            this.lblProxy.Text = "Proxy";
+            // 
+            // LoginGroupBox
+            // 
+            this.LoginGroupBox.Controls.Add(this.linkLblForgotPassword);
+            this.LoginGroupBox.Controls.Add(this.linkLblCreateAccount);
+            this.LoginGroupBox.Controls.Add(this.lblPassword);
+            this.LoginGroupBox.Controls.Add(this.lblUsername);
+            this.LoginGroupBox.Controls.Add(this.tbUsername);
+            this.LoginGroupBox.Controls.Add(this.tbPassword);
+            this.LoginGroupBox.Location = new System.Drawing.Point(194, 12);
+            this.LoginGroupBox.Name = "LoginGroupBox";
+            this.LoginGroupBox.Size = new System.Drawing.Size(228, 197);
+            this.LoginGroupBox.TabIndex = 0;
+            this.LoginGroupBox.TabStop = false;
+            this.LoginGroupBox.Text = "User";
+            // 
+            // linkLblForgotPassword
+            // 
+            this.linkLblForgotPassword.AutoSize = true;
+            this.linkLblForgotPassword.Location = new System.Drawing.Point(19, 161);
+            this.linkLblForgotPassword.Name = "linkLblForgotPassword";
+            this.linkLblForgotPassword.Size = new System.Drawing.Size(85, 13);
+            this.linkLblForgotPassword.TabIndex = 6;
+            this.linkLblForgotPassword.TabStop = true;
+            this.linkLblForgotPassword.Text = "Forgot password";
+            this.linkLblForgotPassword.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLblForgotPassword_LinkClicked);
+            // 
+            // linkLblCreateAccount
+            // 
+            this.linkLblCreateAccount.AutoSize = true;
+            this.linkLblCreateAccount.Location = new System.Drawing.Point(19, 138);
+            this.linkLblCreateAccount.Name = "linkLblCreateAccount";
+            this.linkLblCreateAccount.Size = new System.Drawing.Size(95, 13);
+            this.linkLblCreateAccount.TabIndex = 5;
+            this.linkLblCreateAccount.TabStop = true;
+            this.linkLblCreateAccount.Text = "Create an account";
+            this.linkLblCreateAccount.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLblCreateAccount_LinkClicked);
+            // 
+            // lblPassword
+            // 
+            this.lblPassword.AutoSize = true;
+            this.lblPassword.Location = new System.Drawing.Point(16, 87);
+            this.lblPassword.Name = "lblPassword";
+            this.lblPassword.Size = new System.Drawing.Size(53, 13);
+            this.lblPassword.TabIndex = 4;
+            this.lblPassword.Text = "Password";
+            // 
+            // lblUsername
+            // 
+            this.lblUsername.AutoSize = true;
+            this.lblUsername.Location = new System.Drawing.Point(16, 35);
+            this.lblUsername.Name = "lblUsername";
+            this.lblUsername.Size = new System.Drawing.Size(55, 13);
+            this.lblUsername.TabIndex = 3;
+            this.lblUsername.Text = "Username";
             // 
             // Account
             // 
