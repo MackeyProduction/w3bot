@@ -3,14 +3,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using w3bot.database.interfaces;
 
 namespace w3bot.database.repository
 {
-    internal class UPRepository : RepositoryManager
+    internal class UserAgentRepository : RepositoryManager
     {
         protected override string FetchRepository()
         {
-            return "UP";
+            return "UserAgent";
         }
     }
 }

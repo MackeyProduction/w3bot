@@ -25,5 +25,10 @@ namespace w3bot.database.interfaces
         /// The software of user agent.
         /// </summary>
         ISoftware Software { get; set; }
+
+        /// <summary>
+        /// The User Agent by software and operating system.
+        /// </summary>
+        string Agent { get; set; }
     }
 }

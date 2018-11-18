@@ -19,8 +19,8 @@ namespace w3bot.database.repository
             _factories = new Dictionary<string, IRepository>
                 {
                     { "User", new RepositoryHelper(await entityHelper.GetEntities("User", "user", new UserResponse())) },
-                    { "UUA", new RepositoryHelper(null) },
-                    { "UP", new RepositoryHelper(null) }
+                    { "UserAgent", new RepositoryHelper(await entityHelper.GetEntities("UserAgent", "user/agent", new UserAgentResponse())) },
+                    { "Proxy", new RepositoryHelper(await entityHelper.GetEntities("Proxy", "user/proxy", new ProxyResponse())) }
                 };
 
             return _factories;
