@@ -37,7 +37,8 @@ namespace w3bot.GUI
         {
             if (listViewScripts.SelectedItems.Count == 1)
             {
-                var taskScheduler = new handler.TaskScheduler(_bot);
+                handler.TaskScheduler.Create = new handler.TaskScheduler(_bot);
+                var taskScheduler = handler.TaskScheduler.Create; 
                 taskScheduler.Bind(new BotStub(_bot, ((ScriptItem)listViewScripts.SelectedItems[0]).script, _stop));
                 taskScheduler.Execute(_bot.botTab.SelectedIndex);
                 _start();

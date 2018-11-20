@@ -201,6 +201,7 @@ namespace w3bot.GUI
                     runningScript.onFinish();
                     runningScript.onResume(); //resume script to make sure it doest stuck in the sleep loop
                     nextKill = true;
+                    runningScriptList.Remove(bot.botTab.SelectedIndex);
                     stopToolStripMenuItem.Text = "Stopping...";
                     this.Text = title + " - Script stopping...";
                 }
@@ -264,15 +265,16 @@ namespace w3bot.GUI
             {
                 if (runningScriptList != null)
                 {
-                    if (bot.botTab.SelectedIndex < runningScriptList.GetItems().Count)
+                    if (bot.botTab.SelectedIndex < runningScriptList.GetItems().Count && bot.botTab.SelectedIndex != -1)
                     {
                         runningScriptList.Execute(bot.botTab.SelectedIndex);
                         runningScript = runningScriptList.GetItems()[bot.botTab.SelectedIndex];
-                        Script_stopped();
+                        bot.botTab.Focus();
+                        Script_started();
                     }
                     else
                     {
-                        Script_started();
+                        Script_stopped();
                     }
                 }
             }

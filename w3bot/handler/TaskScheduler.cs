@@ -14,6 +14,9 @@ namespace w3bot.handler
     {
         private Bot _bot;
         private List<BotStub> _botStubList;
+        private List<Thread> _threads;
+        private static TaskScheduler _instance;
+        private static readonly object padlock = new object();
 
         internal TaskScheduler(Bot bot)
         {
@@ -22,6 +25,25 @@ namespace w3bot.handler
             if (_botStubList == null)
             {
                 _botStubList = new List<BotStub>();
+                _threads = new List<Thread>();
+            }
+        }
+
+        internal static TaskScheduler Create
+        {
+            get
+            {
+                return _instance;
+            }
+            set
+            {
+                lock (padlock)
+                {
+                    if (_instance == null)
+                    {
+                        _instance = value;
+                    }
+                }
             }
         }
 
@@ -37,23 +59,34 @@ namespace w3bot.handler
             Bot.AddConfiguration(_bot.core);
         }
 
+        public void Remove(int tabId)
+        {
+            _botStubList.RemoveAt(tabId);
+            _bot.core.runningScriptList = this;
+            _threads[tabId].Abort();
+            Bot.AddConfiguration(_bot.core);
+        }
+
         public void Execute(int tabId)
         {
-            var thread = new Thread(new ThreadStart(delegate
+            if (tabId != -1 && tabId < _botStubList.Count)
             {
-                if (tabId != -1 && tabId < _botStubList.Count)
-                {
-                    var currentBotStub = _botStubList[tabId];
+                var currentBotStub = _botStubList[tabId];
 
-                    if (!currentBotStub._running)
+                if (!currentBotStub._running)
+                {
+                    var thread = new Thread(new ThreadStart(delegate
+                    {
                         currentBotStub.ExecuteScript();
 
-                    _bot.core.runningScript = currentBotStub;
-                    Bot.AddConfiguration(_bot.core);
-                }
-            }));
+                        _bot.core.runningScript = currentBotStub;
+                        Bot.AddConfiguration(_bot.core);
+                    }));
+                    _threads.Add(thread);
 
-            thread.Start();
+                    _threads[tabId].Start();
+                }
+            }
         }
 
         public void Destroy()
