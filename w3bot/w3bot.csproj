@@ -240,6 +240,7 @@
     <Compile Include="handler\EventHandler.cs" />
     <Compile Include="handler\InputHandler.cs" />
     <Compile Include="handler\PaintHandler.cs" />
+    <Compile Include="handler\TaskScheduler.cs" />
     <Compile Include="interfaces\IBot.cs" />
     <Compile Include="interfaces\IBotWindow.cs" />
     <Compile Include="interfaces\IBrowser.cs" />
@@ -252,6 +253,7 @@
     <Compile Include="interfaces\IScript.cs" />
     <Compile Include="database\interfaces\ISoftware.cs" />
     <Compile Include="database\interfaces\IUserAgent.cs" />
+    <Compile Include="interfaces\ITaskScheduler.cs" />
     <Compile Include="listener\ChromiumBrowserEventArgs.cs" />
     <Compile Include="listener\IAddressChangedListener.cs" />
     <Compile Include="listener\IDocumentLoadListener.cs" />

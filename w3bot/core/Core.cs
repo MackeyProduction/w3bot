@@ -22,6 +22,7 @@ namespace w3bot.core
         internal TabControl tabs { get; set; }
         internal static Core _core { get; set; }
         internal BotStub runningScript { get; set; }
+        internal handler.TaskScheduler runningScriptList { get; set; }
 
         /// <summary>
         /// Initializes the core.

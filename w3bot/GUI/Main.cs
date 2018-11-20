@@ -257,5 +257,26 @@ namespace w3bot.GUI
             Bot.AddConfiguration(this);
             updatesToolStripMenuItem.Checked = core.Debug.toggle(core.Debug.NoDoubleBuffer);
         }
+
+        private void tabControlMain_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            try
+            {
+                if (runningScriptList != null)
+                {
+                    if (bot.botTab.SelectedIndex < runningScriptList.GetItems().Count)
+                    {
+                        runningScriptList.Execute(bot.botTab.SelectedIndex);
+                        runningScript = runningScriptList.GetItems()[bot.botTab.SelectedIndex];
+                        Script_stopped();
+                    }
+                    else
+                    {
+                        Script_started();
+                    }
+                }
+            }
+            catch (Exception) { }
+        }
     }
 }
