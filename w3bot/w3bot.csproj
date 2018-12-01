@@ -107,63 +107,63 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="bot\Browser.cs" />
-    <Compile Include="bot\Frame.cs" />
-    <Compile Include="bot\Bot.cs" />
-    <Compile Include="core\BotDirectories.cs" />
-    <Compile Include="core\BotProcessor.cs">
+    <Compile Include="Bot\Browser.cs" />
+    <Compile Include="Bot\Frame.cs" />
+    <Compile Include="Bot\Bot.cs" />
+    <Compile Include="Core\BotDirectories.cs" />
+    <Compile Include="Core\BotProcessor.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="core\BotStub.cs" />
-    <Compile Include="core\BotWindow.cs">
+    <Compile Include="Core\BotStub.cs" />
+    <Compile Include="Core\BotWindow.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="core\Core.cs">
+    <Compile Include="Core\Core.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="core\CoreInformation.cs" />
-    <Compile Include="core\BotSettings.cs" />
-    <Compile Include="core\Debug.cs" />
-    <Compile Include="core\FormControl.cs" />
-    <Compile Include="core\ScriptItem.cs" />
-    <Compile Include="core\Scriptloader.cs" />
-    <Compile Include="database\Connection.cs" />
-    <Compile Include="database\Auth.cs" />
-    <Compile Include="database\entity\Group.cs" />
-    <Compile Include="database\entity\SoftwareExtras.cs" />
-    <Compile Include="database\entity\UP.cs" />
-    <Compile Include="database\entity\UUA.cs" />
-    <Compile Include="database\factory\AbstractResponseModel.cs" />
-    <Compile Include="database\factory\AuthFactory.cs" />
-    <Compile Include="database\entity\OperatingSystem.cs" />
-    <Compile Include="database\entity\Proxy.cs" />
-    <Compile Include="database\factory\ProxyFactory.cs" />
-    <Compile Include="database\factory\UserFactory.cs" />
-    <Compile Include="database\factory\UserAgentFactory.cs" />
-    <Compile Include="database\helper\EntityMappingHelper.cs" />
-    <Compile Include="database\interfaces\IGroup.cs" />
-    <Compile Include="database\interfaces\IRepository.cs" />
-    <Compile Include="database\interfaces\ISoftwareExtras.cs" />
-    <Compile Include="database\interfaces\IUP.cs" />
-    <Compile Include="database\interfaces\IUser.cs" />
-    <Compile Include="database\interfaces\IUUA.cs" />
-    <Compile Include="database\helper\RepositoryHelper.cs" />
-    <Compile Include="database\repository\RepositoryManager.cs" />
-    <Compile Include="database\repository\ProxyRepository.cs" />
-    <Compile Include="database\repository\UserRepository.cs" />
-    <Compile Include="database\repository\UserAgentRepository.cs" />
-    <Compile Include="database\response\AbstractResponse.cs" />
-    <Compile Include="database\response\AuthResponse.cs" />
-    <Compile Include="database\entity\Software.cs" />
-    <Compile Include="database\entity\User.cs" />
-    <Compile Include="database\entity\UserAgent.cs" />
-    <Compile Include="database\response\ProxyResponse.cs" />
-    <Compile Include="database\response\UserResponse.cs" />
-    <Compile Include="database\response\UserAgentResponse.cs" />
-    <Compile Include="enumeration\Keys.cs" />
-    <Compile Include="evt\Keyboard.cs" />
-    <Compile Include="evt\Mouse.cs" />
-    <Compile Include="evt\Status.cs" />
+    <Compile Include="Core\CoreInformation.cs" />
+    <Compile Include="Core\BotSettings.cs" />
+    <Compile Include="Core\Debug.cs" />
+    <Compile Include="Core\FormControl.cs" />
+    <Compile Include="Core\ScriptItem.cs" />
+    <Compile Include="Core\Scriptloader.cs" />
+    <Compile Include="Database\Connection.cs" />
+    <Compile Include="Database\Auth.cs" />
+    <Compile Include="Database\entity\Group.cs" />
+    <Compile Include="Database\entity\SoftwareExtras.cs" />
+    <Compile Include="Database\entity\UP.cs" />
+    <Compile Include="Database\entity\UUA.cs" />
+    <Compile Include="Database\factory\AbstractResponseModel.cs" />
+    <Compile Include="Database\factory\AuthFactory.cs" />
+    <Compile Include="Database\entity\OperatingSystem.cs" />
+    <Compile Include="Database\entity\Proxy.cs" />
+    <Compile Include="Database\factory\ProxyFactory.cs" />
+    <Compile Include="Database\factory\UserFactory.cs" />
+    <Compile Include="Database\factory\UserAgentFactory.cs" />
+    <Compile Include="Database\helper\EntityMappingHelper.cs" />
+    <Compile Include="Database\interfaces\IGroup.cs" />
+    <Compile Include="Database\interfaces\IRepository.cs" />
+    <Compile Include="Database\interfaces\ISoftwareExtras.cs" />
+    <Compile Include="Database\interfaces\IUP.cs" />
+    <Compile Include="Database\interfaces\IUser.cs" />
+    <Compile Include="Database\interfaces\IUUA.cs" />
+    <Compile Include="Database\helper\RepositoryHelper.cs" />
+    <Compile Include="Database\repository\RepositoryManager.cs" />
+    <Compile Include="Database\repository\ProxyRepository.cs" />
+    <Compile Include="Database\repository\UserRepository.cs" />
+    <Compile Include="Database\repository\UserAgentRepository.cs" />
+    <Compile Include="Database\response\AbstractResponse.cs" />
+    <Compile Include="Database\response\AuthResponse.cs" />
+    <Compile Include="Database\entity\Software.cs" />
+    <Compile Include="Database\entity\User.cs" />
+    <Compile Include="Database\entity\UserAgent.cs" />
+    <Compile Include="Database\response\ProxyResponse.cs" />
+    <Compile Include="Database\response\UserResponse.cs" />
+    <Compile Include="Database\response\UserAgentResponse.cs" />
+    <Compile Include="Enumeration\Keys.cs" />
+    <Compile Include="Evt\Keyboard.cs" />
+    <Compile Include="Evt\Mouse.cs" />
+    <Compile Include="Evt\Status.cs" />
     <Compile Include="GUI\About.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -236,32 +236,32 @@
     <Compile Include="GUI\Source.Designer.cs">
       <DependentUpon>Source.cs</DependentUpon>
     </Compile>
-    <Compile Include="handler\BrowserHandler.cs" />
-    <Compile Include="handler\EventHandler.cs" />
-    <Compile Include="handler\InputHandler.cs" />
-    <Compile Include="handler\PaintHandler.cs" />
-    <Compile Include="handler\TaskScheduler.cs" />
-    <Compile Include="interfaces\IBot.cs" />
-    <Compile Include="interfaces\IBotWindow.cs" />
-    <Compile Include="interfaces\IBrowser.cs" />
-    <Compile Include="interfaces\IEventHandler.cs" />
-    <Compile Include="interfaces\IFrame.cs" />
-    <Compile Include="interfaces\IKeyboardInput.cs" />
-    <Compile Include="interfaces\IMouseInput.cs" />
-    <Compile Include="database\interfaces\IOperatingSystem.cs" />
-    <Compile Include="database\interfaces\IProxy.cs" />
-    <Compile Include="interfaces\IScript.cs" />
-    <Compile Include="database\interfaces\ISoftware.cs" />
-    <Compile Include="database\interfaces\IUserAgent.cs" />
-    <Compile Include="interfaces\ITaskScheduler.cs" />
-    <Compile Include="listener\ChromiumBrowserEventArgs.cs" />
-    <Compile Include="listener\IAddressChangedListener.cs" />
-    <Compile Include="listener\IDocumentLoadListener.cs" />
-    <Compile Include="listener\IDocumentReadyListener.cs" />
-    <Compile Include="listener\IKeyPressListener.cs" />
-    <Compile Include="listener\IMouseEventListener.cs" />
-    <Compile Include="listener\IPaintListener.cs" />
-    <Compile Include="listener\ScriptManifest.cs" />
+    <Compile Include="Handler\BrowserHandler.cs" />
+    <Compile Include="Handler\EventHandler.cs" />
+    <Compile Include="Handler\InputHandler.cs" />
+    <Compile Include="Handler\PaintHandler.cs" />
+    <Compile Include="Handler\TaskScheduler.cs" />
+    <Compile Include="Interfaces\IBot.cs" />
+    <Compile Include="Interfaces\IBotWindow.cs" />
+    <Compile Include="Interfaces\IBrowser.cs" />
+    <Compile Include="Interfaces\IEventHandler.cs" />
+    <Compile Include="Interfaces\IFrame.cs" />
+    <Compile Include="Interfaces\IKeyboardInput.cs" />
+    <Compile Include="Interfaces\IMouseInput.cs" />
+    <Compile Include="Database\interfaces\IOperatingSystem.cs" />
+    <Compile Include="Database\interfaces\IProxy.cs" />
+    <Compile Include="Interfaces\IScript.cs" />
+    <Compile Include="Database\interfaces\ISoftware.cs" />
+    <Compile Include="Database\interfaces\IUserAgent.cs" />
+    <Compile Include="Interfaces\ITaskScheduler.cs" />
+    <Compile Include="Listener\ChromiumBrowserEventArgs.cs" />
+    <Compile Include="Listener\IAddressChangedListener.cs" />
+    <Compile Include="Listener\IDocumentLoadListener.cs" />
+    <Compile Include="Listener\IDocumentReadyListener.cs" />
+    <Compile Include="Listener\IKeyPressListener.cs" />
+    <Compile Include="Listener\IMouseEventListener.cs" />
+    <Compile Include="Listener\IPaintListener.cs" />
+    <Compile Include="Listener\ScriptManifest.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Resource1.Designer.cs">
@@ -269,18 +269,18 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resource1.resx</DependentUpon>
     </Compile>
-    <Compile Include="test\TestScript.cs" />
-    <Compile Include="util\PixelSearchPattern.cs" />
-    <Compile Include="wrapper\AbstractBotProcessor.cs">
+    <Compile Include="Test\TestScript.cs" />
+    <Compile Include="Util\PixelSearchPattern.cs" />
+    <Compile Include="Wrapper\AbstractBotProcessor.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="wrapper\BrowserAdapter.cs">
+    <Compile Include="Wrapper\BrowserAdapter.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="wrapper\InputAdapter.cs" />
-    <Compile Include="wrapper\KeyboardAdapter.cs" />
-    <Compile Include="wrapper\MouseAdapter.cs" />
-    <Compile Include="wrapper\Pixel.cs" />
+    <Compile Include="Wrapper\InputAdapter.cs" />
+    <Compile Include="Wrapper\KeyboardAdapter.cs" />
+    <Compile Include="Wrapper\MouseAdapter.cs" />
+    <Compile Include="Wrapper\Pixel.cs" />
     <EmbeddedResource Include="GUI\About.resx">
       <DependentUpon>About.cs</DependentUpon>
     </EmbeddedResource>
@@ -347,7 +347,7 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="script\" />
+    <Folder Include="Script\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\application.png" />
