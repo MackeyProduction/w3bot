@@ -9,14 +9,19 @@ using w3bot.bot;
 using w3bot.core;
 using w3bot.evt;
 using w3bot.interfaces;
+using w3bot.Interfaces;
+using w3bot.Listener;
 
 namespace w3bot.wrapper
 {
-    class BrowserAdapter : BotProcessor, w3bot.interfaces.IBrowser
+    class BrowserAdapter : BotProcessor, w3bot.interfaces.IBrowser, IWebBrowserEvents
     {
         internal ChromiumWebBrowser _chromeBrowser = null;
         internal BotWindow _botWindow;
         private string url;
+
+        public event EventHandler<FrameLoadStartEventArgs> FrameLoadStart;
+        public event EventHandler<FrameLoadEndEventArgs> FrameLoadEnd;
 
         public BrowserAdapter(Bot bot) : base(bot)
         {
@@ -101,12 +106,45 @@ namespace w3bot.wrapper
             _chromeBrowser.Reload();
         }
 
+        public async Task<object> ExecuteJavascript(string script)
+        {
+            // Check if the browser can execute JavaScript and the ScriptTextBox is filled
+            if (_chromeBrowser.CanExecuteJavascriptInMainFrame && !string.IsNullOrWhiteSpace(script))
+            {
+                // Evaluate javascript and remember the evaluation result
+                JavascriptResponse response = await _chromeBrowser.EvaluateScriptAsync(script);
+                
+                if (response.Result != null)
+                {
+                    // Display the evaluation result if it is not empty
+                    return response;
+                }
+            }
+
+            return null;
+        }
+
         private void address_change(object sender, FrameLoadEndEventArgs e)
         {
             if (!url.Contains("://"))
                 url = "http://" + url;
             _chromeBrowser.Load(url);
             _chromeBrowser.FrameLoadEnd -= address_change;
+        }
+
+        public void SetAddress(Listener.AddressChangedEventArgs args)
+        {
+            
+        }
+
+        public void OnDocumentLoad(DocumentLoadEventArgs args)
+        {
+            //FrameLoadStart?.Invoke(this, args);
+        }
+
+        public void OnDocumentReady(DocumentReadyEventArgs args)
+        {
+            
         }
     }
 }

@@ -107,6 +107,16 @@ namespace w3bot.bot
         }
 
         /// <summary>
+        /// Execute some Javascript code in the context of this WebBrowser.
+        /// </summary>
+        /// <param name="script">The Javascript code that should be executed.</param>
+        /// <returns>Returns an Javascript object.</returns>
+        public static async Task<object> ExecuteJavascript(string script)
+        {
+            return await _browserAdapter.ExecuteJavascript(script);
+        }
+
+        /// <summary>
         /// Add configuration to Browser instance.
         /// </summary>
         /// <param name="bot">The bot instance.</param>

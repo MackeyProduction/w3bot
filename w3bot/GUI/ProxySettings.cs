@@ -7,22 +7,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using w3bot.database;
-using w3bot.database.interfaces;
-using w3bot.database.repository;
 
 namespace w3bot.GUI
 {
-    public partial class Account : Form
+    public partial class ProxySettings : Form
     {
-        public Account()
+        public ProxySettings()
         {
             InitializeComponent();
-        }
-
-        private void btnSave_Click(object sender, EventArgs e)
-        {
-            
         }
     }
 }

@@ -28,21 +28,6 @@ namespace w3bot.core
             _botStub = this;
             _script = script;
             _scriptStopped = scriptStoppedCallback;
-
-            // Process
-            try
-            {
-                ExecuteEvents();
-                _botStub.onStart();
-                _botStub.onUpdate();
-            }
-            catch (ThreadAbortException)
-            { }
-            catch (Exception e)
-            {
-                Status.Warning(e.ToString());
-                _botStub.onFinish();
-            }
         }
 
         internal void onFinish()
@@ -111,6 +96,24 @@ namespace w3bot.core
         {
             _scriptThread.Abort();
             _drawThread.Abort();
+        }
+
+        internal void ExecuteScript()
+        {
+            // Process
+            try
+            {
+                ExecuteEvents();
+                _botStub.onStart();
+                _botStub.onUpdate();
+            }
+            catch (ThreadAbortException)
+            { }
+            catch (Exception e)
+            {
+                Status.Warning(e.ToString());
+                _botStub.onFinish();
+            }
         }
 
         internal void ExecuteEvents()

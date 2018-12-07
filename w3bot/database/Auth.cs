@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using w3bot.database.factory;
@@ -21,7 +22,7 @@ namespace w3bot.database
             }
         }
 
-        internal async Task Login(string username, string password)
+        internal async Task<HttpResponseMessage> Login(string username, string password)
         {
             try
             {
@@ -37,8 +38,12 @@ namespace w3bot.database
 
                 // fetch token
                 Connection.TOKEN = (string)dictionary["token"];
+
+                return response;
             }
             catch (Exception) { }
+
+            return null;
         }
 
         internal async void Logout()

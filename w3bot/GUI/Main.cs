@@ -36,6 +36,16 @@ namespace w3bot.GUI
 
         private void Main_Load(object sender, EventArgs e)
         {
+            Login login = new Login();
+            login.ShowDialog();
+
+            if (!login.StatusOk)
+            {
+                this.Close();
+                Application.Exit();
+                return;
+            }
+
             Status.Log("Welcome to " + title);
             botMain = bot.CreateBrowserWindow("View", "google.com");
             bot.Initialize(botMain);
@@ -175,6 +185,8 @@ namespace w3bot.GUI
             runningScript = null;
         }
 
+        
+
         private void mousePositionToolStripMenuItem_Click(object sender, EventArgs e)
         {
             mousePositionToolStripMenuItem.Checked = core.Debug.toggle(core.Debug.MousePosition);
@@ -201,6 +213,7 @@ namespace w3bot.GUI
                     runningScript.onFinish();
                     runningScript.onResume(); //resume script to make sure it doest stuck in the sleep loop
                     nextKill = true;
+                    runningScriptList.Remove(bot.botTab.SelectedIndex);
                     stopToolStripMenuItem.Text = "Stopping...";
                     this.Text = title + " - Script stopping...";
                 }
@@ -256,6 +269,33 @@ namespace w3bot.GUI
             bot.botWindow._doubleBuffered = false;
             Bot.AddConfiguration(this);
             updatesToolStripMenuItem.Checked = core.Debug.toggle(core.Debug.NoDoubleBuffer);
+        }
+
+        private void tabControlMain_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            try
+            {
+                if (runningScriptList != null)
+                {
+                    if (bot.botTab.SelectedIndex < runningScriptList.GetItems().Count && bot.botTab.SelectedIndex != -1)
+                    {
+                        runningScriptList.Execute(bot.botTab.SelectedIndex);
+                        runningScript = runningScriptList.GetItems()[bot.botTab.SelectedIndex];
+                        bot.botTab.Focus();
+                        Script_started();
+                    }
+                    else
+                    {
+                        Script_stopped();
+                    }
+                }
+            }
+            catch (Exception) { }
+        }
+
+        private void settingsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            new Settings().ShowDialog();
         }
     }
 }
