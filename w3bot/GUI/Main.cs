@@ -36,6 +36,16 @@ namespace w3bot.GUI
 
         private void Main_Load(object sender, EventArgs e)
         {
+            Login login = new Login();
+            login.ShowDialog();
+
+            if (!login.StatusOk)
+            {
+                this.Close();
+                Application.Exit();
+                return;
+            }
+
             Status.Log("Welcome to " + title);
             botMain = bot.CreateBrowserWindow("View", "google.com");
             bot.Initialize(botMain);
@@ -175,6 +185,8 @@ namespace w3bot.GUI
             runningScript = null;
         }
 
+        
+
         private void mousePositionToolStripMenuItem_Click(object sender, EventArgs e)
         {
             mousePositionToolStripMenuItem.Checked = core.Debug.toggle(core.Debug.MousePosition);
@@ -279,6 +291,11 @@ namespace w3bot.GUI
                 }
             }
             catch (Exception) { }
+        }
+
+        private void settingsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            new Settings().ShowDialog();
         }
     }
 }

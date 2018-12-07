@@ -206,11 +206,23 @@
     <Compile Include="GUI\Loading.Designer.cs">
       <DependentUpon>Loading.cs</DependentUpon>
     </Compile>
+    <Compile Include="GUI\Login.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GUI\Login.Designer.cs">
+      <DependentUpon>Login.cs</DependentUpon>
+    </Compile>
     <Compile Include="GUI\Main.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="GUI\Main.Designer.cs">
       <DependentUpon>Main.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GUI\ProxySettings.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GUI\ProxySettings.Designer.cs">
+      <DependentUpon>ProxySettings.cs</DependentUpon>
     </Compile>
     <Compile Include="GUI\Register.cs">
       <SubType>Form</SubType>
@@ -224,6 +236,12 @@
     <Compile Include="GUI\Scriptmanager.Designer.cs">
       <DependentUpon>Scriptmanager.cs</DependentUpon>
     </Compile>
+    <Compile Include="GUI\Settings.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GUI\Settings.Designer.cs">
+      <DependentUpon>Settings.cs</DependentUpon>
+    </Compile>
     <Compile Include="GUI\SobelEdge.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -235,6 +253,12 @@
     </Compile>
     <Compile Include="GUI\Source.Designer.cs">
       <DependentUpon>Source.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GUI\UserAgentSettings.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GUI\UserAgentSettings.Designer.cs">
+      <DependentUpon>UserAgentSettings.cs</DependentUpon>
     </Compile>
     <Compile Include="Handler\BrowserHandler.cs" />
     <Compile Include="Handler\EventHandler.cs" />
@@ -254,7 +278,11 @@
     <Compile Include="Database\interfaces\ISoftware.cs" />
     <Compile Include="Database\interfaces\IUserAgent.cs" />
     <Compile Include="Interfaces\ITaskScheduler.cs" />
+    <Compile Include="Interfaces\IWebBrowserEvents.cs" />
+    <Compile Include="Listener\AddressChangedEventArgs.cs" />
     <Compile Include="Listener\ChromiumBrowserEventArgs.cs" />
+    <Compile Include="Listener\DocumentLoadEventArgs.cs" />
+    <Compile Include="Listener\DocumentReadyEventArgs.cs" />
     <Compile Include="Listener\IAddressChangedListener.cs" />
     <Compile Include="Listener\IDocumentLoadListener.cs" />
     <Compile Include="Listener\IDocumentReadyListener.cs" />
@@ -302,8 +330,14 @@
     <EmbeddedResource Include="GUI\Loading.resx">
       <DependentUpon>Loading.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="GUI\Login.resx">
+      <DependentUpon>Login.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="GUI\Main.resx">
       <DependentUpon>Main.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\ProxySettings.resx">
+      <DependentUpon>ProxySettings.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GUI\Register.resx">
       <DependentUpon>Register.cs</DependentUpon>
@@ -311,11 +345,17 @@
     <EmbeddedResource Include="GUI\Scriptmanager.resx">
       <DependentUpon>Scriptmanager.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="GUI\Settings.resx">
+      <DependentUpon>Settings.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="GUI\SobelEdge.resx">
       <DependentUpon>SobelEdge.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GUI\Source.resx">
       <DependentUpon>Source.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\UserAgentSettings.resx">
+      <DependentUpon>UserAgentSettings.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

@@ -61,5 +61,12 @@ namespace w3bot.interfaces
         /// Reset user agent.
         /// </summary>
         void ClearUserAgent();
+
+        /// <summary>
+        /// Executes Javascript.
+        /// </summary>
+        /// <param name="script"></param>
+        /// <returns></returns>
+        Task<object> ExecuteJavascript(string script);
     }
 }
