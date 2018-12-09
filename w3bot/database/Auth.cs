@@ -61,7 +61,8 @@ namespace w3bot.database
                     { "email", email }
                 };
 
-            await Connection.PostRequest("register", values);
+            var response = await Connection.PostRequest("register", values);
+            await _authResponse.GetResponse(response);
         }
 
         internal async void ForgotPassword(string username)
@@ -71,7 +72,8 @@ namespace w3bot.database
                     { "username", username }
                 };
 
-            await Connection.PostRequest("forgot", values);
+            var response = await Connection.PostRequest("forgot", values);
+            await _authResponse.GetResponse(response);
         }
 
         internal async void Refresh(string expiredToken)
@@ -81,7 +83,8 @@ namespace w3bot.database
                     { "expiredToken", expiredToken }
                 };
 
-            await Connection.PostRequest("refresh", values);
+            var response = await Connection.PostRequest("refresh", values);
+            await _authResponse.GetResponse(response);
         }
 
         internal Dictionary<string, string> GetBearerHeader()

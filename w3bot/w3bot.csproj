@@ -148,10 +148,13 @@
     <Compile Include="Database\interfaces\IUser.cs" />
     <Compile Include="Database\interfaces\IUUA.cs" />
     <Compile Include="Database\helper\RepositoryHelper.cs" />
-    <Compile Include="Database\repository\RepositoryManager.cs" />
+    <Compile Include="Database\Proxy.cs" />
     <Compile Include="Database\repository\ProxyRepository.cs" />
-    <Compile Include="Database\repository\UserRepository.cs" />
+    <Compile Include="Database\repository\RepositoryManager.cs" />
+    <Compile Include="Database\repository\UPRepository.cs" />
     <Compile Include="Database\repository\UserAgentRepository.cs" />
+    <Compile Include="Database\repository\UserRepository.cs" />
+    <Compile Include="Database\repository\UUARepository.cs" />
     <Compile Include="Database\response\AbstractResponse.cs" />
     <Compile Include="Database\response\AuthResponse.cs" />
     <Compile Include="Database\entity\Software.cs" />
@@ -160,6 +163,8 @@
     <Compile Include="Database\response\ProxyResponse.cs" />
     <Compile Include="Database\response\UserResponse.cs" />
     <Compile Include="Database\response\UserAgentResponse.cs" />
+    <Compile Include="Database\User.cs" />
+    <Compile Include="Database\UserAgent.cs" />
     <Compile Include="Enumeration\Keys.cs" />
     <Compile Include="Evt\Keyboard.cs" />
     <Compile Include="Evt\Mouse.cs" />

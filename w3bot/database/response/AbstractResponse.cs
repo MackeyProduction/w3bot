@@ -24,7 +24,7 @@ namespace w3bot.database.response
                     return onSuccess(result);
                 }
 
-                if (httpResponseMessage.StatusCode == System.Net.HttpStatusCode.Forbidden || httpResponseMessage.StatusCode == System.Net.HttpStatusCode.NotFound)
+                if (httpResponseMessage.StatusCode == System.Net.HttpStatusCode.Forbidden || httpResponseMessage.StatusCode == System.Net.HttpStatusCode.NotFound || httpResponseMessage.StatusCode == System.Net.HttpStatusCode.Conflict || httpResponseMessage.StatusCode == System.Net.HttpStatusCode.BadRequest)
                 {
                     MessageBox.Show((string)result.response);
                 }

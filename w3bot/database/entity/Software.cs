@@ -28,7 +28,7 @@ namespace w3bot.database.entity
             _extras = extras;
         }
 
-        public ISoftwareExtras Extas
+        public ISoftwareExtras Extras
         {
             get
             {

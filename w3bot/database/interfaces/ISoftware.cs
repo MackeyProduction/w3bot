@@ -39,6 +39,6 @@ namespace w3bot.database.interfaces
         /// <summary>
         /// The software extras from user agent.
         /// </summary>
-        ISoftwareExtras Extas { get; set; }
+        ISoftwareExtras Extras { get; set; }
     }
 }

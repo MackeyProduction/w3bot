@@ -8,20 +8,29 @@ using w3bot.database.response;
 
 namespace w3bot.database.repository
 {
-    internal abstract class RepositoryManager
+    internal abstract class RepositoryManager : EntityMappingHelper
     {
         private static Dictionary<string, IRepository> _factories;
+        private static EntityMappingHelper _entityHelper;
+
+        internal RepositoryManager()
+        {
+            _entityHelper = this;
+        }
 
         internal static async Task<Dictionary<string, IRepository>> GetFactory()
         {
-            var entityHelper = new EntityMappingHelper();
-
-            _factories = new Dictionary<string, IRepository>
+            if (_factories == null)
+            {
+                _factories = new Dictionary<string, IRepository>
                 {
-                    { "User", new RepositoryHelper(await entityHelper.GetEntities("User", "user", new UserResponse())) },
-                    { "UserAgent", new RepositoryHelper(await entityHelper.GetEntities("UserAgent", "user/agent", new UserAgentResponse())) },
-                    { "Proxy", new RepositoryHelper(await entityHelper.GetEntities("Proxy", "user/proxy", new ProxyResponse())) }
+                    { "User", new RepositoryHelper(await _entityHelper.GetEntities("User", "user", new UserResponse())) },
+                    { "UUA", new RepositoryHelper(await _entityHelper.GetEntities("UserAgent", "user/agent", new UserAgentResponse())) },
+                    { "UP", new RepositoryHelper(await _entityHelper.GetEntities("Proxy", "user/proxy", new ProxyResponse())) },
+                    { "UserAgent", new RepositoryHelper(await _entityHelper.GetEntities("UserAgent", "agent", new UserAgentResponse())) },
+                    { "Proxy", new RepositoryHelper(await _entityHelper.GetEntities("Proxy", "proxy", new ProxyResponse())) }
                 };
+            }
 
             return _factories;
         }

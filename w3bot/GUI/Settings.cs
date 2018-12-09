@@ -34,10 +34,10 @@ namespace w3bot.GUI
         {
             new Thread(new ThreadStart(delegate
             {
-                var userAgentRepository = new UserAgentRepository();
+                var userAgentRepository = new UUARepository();
                 var userAgentInformation = userAgentRepository.GetRepositoryManager().FetchAll();
 
-                var proxyRepository = new ProxyRepository();
+                var proxyRepository = new UPRepository();
                 var proxyInformation = proxyRepository.GetRepositoryManager().FetchAll();
 
                 core.Core.ExeThreadSafe(delegate

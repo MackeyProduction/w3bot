@@ -34,14 +34,14 @@
             this.cbOperatingSystemVersion = new System.Windows.Forms.ComboBox();
             this.gbOperatingSystem = new System.Windows.Forms.GroupBox();
             this.gbSoftware = new System.Windows.Forms.GroupBox();
-            this.lvlBrowser = new System.Windows.Forms.Label();
-            this.cbBrowserVersion = new System.Windows.Forms.ComboBox();
-            this.cbBrowser = new System.Windows.Forms.ComboBox();
-            this.lblBrowserVersion = new System.Windows.Forms.Label();
             this.lblLayoutEngine = new System.Windows.Forms.Label();
             this.cbLayoutEngineVersion = new System.Windows.Forms.ComboBox();
             this.cbLayoutEngine = new System.Windows.Forms.ComboBox();
             this.lblLayoutEngineVersion = new System.Windows.Forms.Label();
+            this.lvlBrowser = new System.Windows.Forms.Label();
+            this.cbBrowserVersion = new System.Windows.Forms.ComboBox();
+            this.cbBrowser = new System.Windows.Forms.ComboBox();
+            this.lblBrowserVersion = new System.Windows.Forms.Label();
             this.btnSave = new System.Windows.Forms.Button();
             this.lblUserAgent = new System.Windows.Forms.Label();
             this.gbOperatingSystem.SuspendLayout();
@@ -65,6 +65,7 @@
             this.cbOperatingSystem.Name = "cbOperatingSystem";
             this.cbOperatingSystem.Size = new System.Drawing.Size(236, 21);
             this.cbOperatingSystem.TabIndex = 1;
+            this.cbOperatingSystem.SelectedIndexChanged += new System.EventHandler(this.cbOperatingSystem_SelectedIndexChanged);
             // 
             // lblOperatingSystemVersion
             // 
@@ -83,6 +84,7 @@
             this.cbOperatingSystemVersion.Name = "cbOperatingSystemVersion";
             this.cbOperatingSystemVersion.Size = new System.Drawing.Size(111, 21);
             this.cbOperatingSystemVersion.TabIndex = 3;
+            this.cbOperatingSystemVersion.SelectedIndexChanged += new System.EventHandler(this.cbOperatingSystemVersion_SelectedIndexChanged);
             // 
             // gbOperatingSystem
             // 
@@ -114,42 +116,6 @@
             this.gbSoftware.TabStop = false;
             this.gbSoftware.Text = "Software";
             // 
-            // lvlBrowser
-            // 
-            this.lvlBrowser.AutoSize = true;
-            this.lvlBrowser.Location = new System.Drawing.Point(16, 26);
-            this.lvlBrowser.Name = "lvlBrowser";
-            this.lvlBrowser.Size = new System.Drawing.Size(48, 13);
-            this.lvlBrowser.TabIndex = 0;
-            this.lvlBrowser.Text = "Browser:";
-            // 
-            // cbBrowserVersion
-            // 
-            this.cbBrowserVersion.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cbBrowserVersion.FormattingEnabled = true;
-            this.cbBrowserVersion.Location = new System.Drawing.Point(144, 80);
-            this.cbBrowserVersion.Name = "cbBrowserVersion";
-            this.cbBrowserVersion.Size = new System.Drawing.Size(111, 21);
-            this.cbBrowserVersion.TabIndex = 3;
-            // 
-            // cbBrowser
-            // 
-            this.cbBrowser.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cbBrowser.FormattingEnabled = true;
-            this.cbBrowser.Location = new System.Drawing.Point(19, 42);
-            this.cbBrowser.Name = "cbBrowser";
-            this.cbBrowser.Size = new System.Drawing.Size(236, 21);
-            this.cbBrowser.TabIndex = 1;
-            // 
-            // lblBrowserVersion
-            // 
-            this.lblBrowserVersion.AutoSize = true;
-            this.lblBrowserVersion.Location = new System.Drawing.Point(16, 83);
-            this.lblBrowserVersion.Name = "lblBrowserVersion";
-            this.lblBrowserVersion.Size = new System.Drawing.Size(86, 13);
-            this.lblBrowserVersion.TabIndex = 2;
-            this.lblBrowserVersion.Text = "Browser Version:";
-            // 
             // lblLayoutEngine
             // 
             this.lblLayoutEngine.AutoSize = true;
@@ -167,6 +133,7 @@
             this.cbLayoutEngineVersion.Name = "cbLayoutEngineVersion";
             this.cbLayoutEngineVersion.Size = new System.Drawing.Size(111, 21);
             this.cbLayoutEngineVersion.TabIndex = 7;
+            this.cbLayoutEngineVersion.SelectedIndexChanged += new System.EventHandler(this.cbLayoutEngineVersion_SelectedIndexChanged);
             // 
             // cbLayoutEngine
             // 
@@ -176,6 +143,7 @@
             this.cbLayoutEngine.Name = "cbLayoutEngine";
             this.cbLayoutEngine.Size = new System.Drawing.Size(236, 21);
             this.cbLayoutEngine.TabIndex = 5;
+            this.cbLayoutEngine.SelectedIndexChanged += new System.EventHandler(this.cbLayoutEngine_SelectedIndexChanged);
             // 
             // lblLayoutEngineVersion
             // 
@@ -186,14 +154,54 @@
             this.lblLayoutEngineVersion.TabIndex = 6;
             this.lblLayoutEngineVersion.Text = "Layout Engine Version:";
             // 
+            // lvlBrowser
+            // 
+            this.lvlBrowser.AutoSize = true;
+            this.lvlBrowser.Location = new System.Drawing.Point(16, 26);
+            this.lvlBrowser.Name = "lvlBrowser";
+            this.lvlBrowser.Size = new System.Drawing.Size(48, 13);
+            this.lvlBrowser.TabIndex = 0;
+            this.lvlBrowser.Text = "Browser:";
+            // 
+            // cbBrowserVersion
+            // 
+            this.cbBrowserVersion.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbBrowserVersion.FormattingEnabled = true;
+            this.cbBrowserVersion.Location = new System.Drawing.Point(144, 80);
+            this.cbBrowserVersion.Name = "cbBrowserVersion";
+            this.cbBrowserVersion.Size = new System.Drawing.Size(111, 21);
+            this.cbBrowserVersion.TabIndex = 3;
+            this.cbBrowserVersion.SelectedIndexChanged += new System.EventHandler(this.cbBrowserVersion_SelectedIndexChanged);
+            // 
+            // cbBrowser
+            // 
+            this.cbBrowser.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbBrowser.FormattingEnabled = true;
+            this.cbBrowser.Location = new System.Drawing.Point(19, 42);
+            this.cbBrowser.Name = "cbBrowser";
+            this.cbBrowser.Size = new System.Drawing.Size(236, 21);
+            this.cbBrowser.TabIndex = 1;
+            this.cbBrowser.SelectedIndexChanged += new System.EventHandler(this.cbBrowser_SelectedIndexChanged);
+            // 
+            // lblBrowserVersion
+            // 
+            this.lblBrowserVersion.AutoSize = true;
+            this.lblBrowserVersion.Location = new System.Drawing.Point(16, 83);
+            this.lblBrowserVersion.Name = "lblBrowserVersion";
+            this.lblBrowserVersion.Size = new System.Drawing.Size(86, 13);
+            this.lblBrowserVersion.TabIndex = 2;
+            this.lblBrowserVersion.Text = "Browser Version:";
+            // 
             // btnSave
             // 
+            this.btnSave.Enabled = false;
             this.btnSave.Location = new System.Drawing.Point(12, 402);
             this.btnSave.Name = "btnSave";
             this.btnSave.Size = new System.Drawing.Size(275, 23);
             this.btnSave.TabIndex = 6;
             this.btnSave.Text = "Save";
             this.btnSave.UseVisualStyleBackColor = true;
+            this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
             // 
             // lblUserAgent
             // 
