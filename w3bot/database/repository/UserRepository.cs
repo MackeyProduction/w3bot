@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using w3bot.database.response;
+using w3bot.Database.Response;
 
-namespace w3bot.database.repository
+namespace w3bot.Database.Repository
 {
     internal class UserRepository : RepositoryManager
     {

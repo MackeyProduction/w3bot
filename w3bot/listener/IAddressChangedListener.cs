@@ -5,10 +5,10 @@ using System.Text;
 using System.Threading.Tasks;
 using CefSharp;
 
-namespace w3bot.listener
+namespace w3bot.Listener
 {
     public interface IAddressChangedListener
     {
-        void AddressChanged(object sender, AddressChangedEventArgs e);
+        void AddressChanged(object sender, CefSharp.AddressChangedEventArgs e);
     }
 }

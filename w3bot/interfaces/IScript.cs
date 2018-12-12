@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using w3bot.listener;
+using w3bot.Listener;
 
-namespace w3bot.interfaces
+namespace w3bot.Interfaces
 {
     /// <summary>
     /// w3bot interface for scripts.

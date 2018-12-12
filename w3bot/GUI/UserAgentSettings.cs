@@ -8,12 +8,12 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using w3bot.database;
-using w3bot.database.interfaces;
-using w3bot.database.repository;
-using w3bot.database.response;
 using w3bot.Database;
-using w3bot.Database.repository;
+using w3bot.Database.Interfaces;
+using w3bot.Database.Repository;
+using w3bot.Database.Response;
+using w3bot.Database;
+using w3bot.Database.Repository;
 
 namespace w3bot.GUI
 {
@@ -37,7 +37,7 @@ namespace w3bot.GUI
                 var userAgentInformation = _userAgentRepository.FetchAllByOperatingSystemName().Result;
                 var operatingSystemVersions = new List<Dictionary<string, object>>();
 
-                core.Core.ExeThreadSafe(delegate
+                Core.Core.ExeThreadSafe(delegate
                 {
                     try
                     {
@@ -66,7 +66,7 @@ namespace w3bot.GUI
                 {
                     var operatingSystemItems = _userAgentRepository.FetchAllByOperatingSystemName(operatingSystem.ToString()).Result;
 
-                    core.Core.ExeThreadSafe(delegate
+                    Core.Core.ExeThreadSafe(delegate
                     {
                         try
                         {
@@ -97,7 +97,7 @@ namespace w3bot.GUI
                 {
                     operatingSystemVersionItems = _userAgentRepository.FetchAllByOperatingSystemNameAndVersion(operatingSystemName.ToString(), operatingSystemVersion.ToString()).Result;
 
-                    core.Core.ExeThreadSafe(delegate
+                    Core.Core.ExeThreadSafe(delegate
                     {
                         try
                         {

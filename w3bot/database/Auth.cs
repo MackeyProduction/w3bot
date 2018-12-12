@@ -5,10 +5,10 @@ using System.Linq;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
-using w3bot.database.factory;
-using w3bot.database.response;
+using w3bot.Database.Factory;
+using w3bot.Database.Response;
 
-namespace w3bot.database
+namespace w3bot.Database
 {
     internal class Auth
     {

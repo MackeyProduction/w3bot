@@ -8,16 +8,16 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using w3bot.bot;
-using w3bot.core;
-using w3bot.interfaces;
-using w3bot.listener;
+using w3bot.Bot;
+using w3bot.Core;
+using w3bot.Interfaces;
+using w3bot.Listener;
 
 namespace w3bot.GUI
 {
     public partial class Scriptmanager : Form
     {
-        private Bot _bot;
+        private Bot.Bot _bot;
         private Action _start, _stop;
 
         public Scriptmanager()
@@ -25,7 +25,7 @@ namespace w3bot.GUI
             InitializeComponent();
         }
 
-        public Scriptmanager(Bot bot, Action start, Action stop)
+        public Scriptmanager(Bot.Bot bot, Action start, Action stop)
         {
             InitializeComponent();
             _start = start;
@@ -37,8 +37,8 @@ namespace w3bot.GUI
         {
             if (listViewScripts.SelectedItems.Count == 1)
             {
-                handler.TaskScheduler.Create = new handler.TaskScheduler(_bot);
-                var taskScheduler = handler.TaskScheduler.Create; 
+                Handler.TaskScheduler.Create = new Handler.TaskScheduler(_bot);
+                var taskScheduler = Handler.TaskScheduler.Create; 
                 taskScheduler.Bind(new BotStub(_bot, ((ScriptItem)listViewScripts.SelectedItems[0]).script, _stop));
                 taskScheduler.Execute(_bot.botTab.SelectedIndex);
                 _start();
@@ -59,7 +59,7 @@ namespace w3bot.GUI
                 {
                     foreach (var script in scripts)
                     {
-                        Core.ExeThreadSafe(delegate
+                        Core.Core.ExeThreadSafe(delegate
                         {
                             script.Text = script.manifest.name;
                             script.SubItems.Add(script.manifest.targetApp);
@@ -69,7 +69,7 @@ namespace w3bot.GUI
                             listViewScripts.Items.Add(script);
                         });
                     }
-                    Core.ExeThreadSafe(delegate { progressBarLoad.Visible = false; });
+                    Core.Core.ExeThreadSafe(delegate { progressBarLoad.Visible = false; });
                 }
                 else
                 {

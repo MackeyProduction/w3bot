@@ -5,12 +5,12 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using w3bot.bot;
-using w3bot.evt;
-using w3bot.handler;
-using w3bot.interfaces;
+using w3bot.Bot;
+using w3bot.Evt;
+using w3bot.Handler;
+using w3bot.Interfaces;
 
-namespace w3bot.core
+namespace w3bot.Core
 {
     internal class BotStub
     {
@@ -19,10 +19,10 @@ namespace w3bot.core
         internal IScript _script;
         internal Thread _scriptThread, _drawThread;
         internal bool _running, _pausing;
-        private Bot _bot;
-        private handler.EventHandler eventHandler;
+        private Bot.Bot _bot;
+        private Handler.EventHandler eventHandler;
 
-        internal BotStub(Bot bot, IScript script, Action scriptStoppedCallback)
+        internal BotStub(Bot.Bot bot, IScript script, Action scriptStoppedCallback)
         {
             _bot = bot;
             _botStub = this;
@@ -118,7 +118,7 @@ namespace w3bot.core
 
         internal void ExecuteEvents()
         {
-            eventHandler = new handler.EventHandler();
+            eventHandler = new Handler.EventHandler();
             eventHandler.Bind(new BrowserHandler(_bot, _script));
             eventHandler.Bind(new InputHandler(_bot, _script));
             eventHandler.Bind(new PaintHandler(_bot, _script));

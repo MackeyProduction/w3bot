@@ -5,7 +5,7 @@ using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace w3bot.database
+namespace w3bot.Database
 {
     internal static class Connection
     {

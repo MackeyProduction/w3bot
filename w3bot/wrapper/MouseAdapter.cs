@@ -7,17 +7,17 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using w3bot.bot;
-using w3bot.core;
-using w3bot.enumeration;
-using w3bot.evt;
-using w3bot.interfaces;
+using w3bot.Bot;
+using w3bot.Core;
+using w3bot.Enumeration;
+using w3bot.Evt;
+using w3bot.Interfaces;
 
-namespace w3bot.wrapper
+namespace w3bot.Wrapper
 {
     internal class MouseAdapter : IMouseInput
     {
-        internal Bot _bot;
+        internal Bot.Bot _bot;
         internal BotWindow _botWindow;
         internal ChromiumWebBrowser _chromiumBrowser;
         internal MouseEvent _mouseEvent;
@@ -26,7 +26,7 @@ namespace w3bot.wrapper
         /// w3bot instance for MouseAdapter.
         /// </summary>
         /// <param name="bot">The current bot instance.</param>
-        internal MouseAdapter(Bot bot)
+        internal MouseAdapter(Bot.Bot bot)
         {
             _bot = bot;
             if (_bot.botWindow == null) throw new InvalidOperationException("The Botwindow isn't initialized. Please initialize the botwindow with the Initialize() method.");
@@ -41,7 +41,7 @@ namespace w3bot.wrapper
         /// <param name="evt">The key event.</param>
         public void Click(Keys.Button button, Keys.Event evt)
         {
-            Core.ExeThreadSafe(delegate
+            Core.Core.ExeThreadSafe(delegate
             {
                 if (_chromiumBrowser.GetMainFrame().IsMain)
                 {
@@ -82,7 +82,7 @@ namespace w3bot.wrapper
                         default:
                             break;
                     }
-                    
+
                     // Executes mouse click
                     _chromiumBrowser.GetBrowserHost().SendMouseClickEvent(_mouseEvent, mouseButtonType, up, 1);
                     Thread.Sleep(100);
@@ -98,7 +98,7 @@ namespace w3bot.wrapper
         /// <param name="y">Y coordinate where to move.</param>
         public void Move(int x, int y)
         {
-            Core.ExeThreadSafe(delegate
+            Core.Core.ExeThreadSafe(delegate
             {
                 if (_chromiumBrowser.GetMainFrame().IsMain)
                 {
@@ -115,7 +115,7 @@ namespace w3bot.wrapper
         /// <param name="amount">The amount of wheeling.</param>
         public void Wheel(Keys.Wheel wheel, int amount)
         {
-            Core.ExeThreadSafe(delegate
+            Core.Core.ExeThreadSafe(delegate
             {
                 if (_chromiumBrowser.GetMainFrame().IsMain)
                 {

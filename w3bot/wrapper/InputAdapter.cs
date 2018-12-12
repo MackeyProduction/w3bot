@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace w3bot.wrapper
+namespace w3bot.Wrapper
 {
     internal struct InputAdapter
     {

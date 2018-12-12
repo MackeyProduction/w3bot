@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace w3bot.database.repository
+namespace w3bot.Database.Repository
 {
     internal class UPRepository : RepositoryManager
     {

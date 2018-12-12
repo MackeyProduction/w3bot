@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using w3bot.database;
+using w3bot.Database;
 
 namespace w3bot.GUI
 {

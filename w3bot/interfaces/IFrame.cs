@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace w3bot.interfaces
+namespace w3bot.Interfaces
 {
     public interface IFrame
     {

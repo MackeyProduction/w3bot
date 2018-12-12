@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using w3bot.core;
-using w3bot.interfaces;
-using w3bot.wrapper;
+using w3bot.Core;
+using w3bot.Interfaces;
+using w3bot.Wrapper;
 
-namespace w3bot.bot
+namespace w3bot.Bot
 {
     public static class Browser
     {

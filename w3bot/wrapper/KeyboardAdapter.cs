@@ -4,19 +4,19 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using w3bot.bot;
-using w3bot.core;
-using w3bot.interfaces;
+using w3bot.Bot;
+using w3bot.Core;
+using w3bot.Interfaces;
 
-namespace w3bot.wrapper
+namespace w3bot.Wrapper
 {
     internal class KeyboardAdapter : IKeyboardInput
     {
-        internal Bot _bot;
+        internal Bot.Bot _bot;
         internal BotWindow _botWindow;
         internal ChromiumWebBrowser _chromiumBrowser;
 
-        internal KeyboardAdapter(Bot bot)
+        internal KeyboardAdapter(Bot.Bot bot)
         {
             _bot = bot;
             if (_bot.botWindow == null) throw new InvalidOperationException("The Botwindow isn't initialized. Please initialize the botwindow with the Initialize() method.");
@@ -26,7 +26,7 @@ namespace w3bot.wrapper
 
         public void KeyEvent(char c)
         {
-            Core.ExeThreadSafe(delegate
+            Core.Core.ExeThreadSafe(delegate
             {
                 _chromiumBrowser.FrameLoadEnd += (sender, args) =>
                 {

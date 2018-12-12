@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using w3bot.database.entity;
-using w3bot.database.interfaces;
+using w3bot.Database.Entity;
+using w3bot.Database.Interfaces;
 
-namespace w3bot.database.factory
+namespace w3bot.Database.Factory
 {
     internal class UserAgentFactory : AbstractResponseModel
     {
@@ -19,7 +19,7 @@ namespace w3bot.database.factory
         {
             return new Dictionary<string, object>
             {
-                { "entity", new UserAgent((int)data.id, new entity.OperatingSystem((int)data.operatingSystem.id, (string)data.operatingSystem.operatingSystemName.name, (string)data.operatingSystem.version), new Software((int)data.software.id, (string)data.software.softwareName.name, (string)data.software.version, (string)data.software.layoutEngine.name, (string)data.software.leVersion, null), (string)data.agent) }
+                { "entity", new Entity.UserAgent((int)data.id, new Entity.OperatingSystem((int)data.operatingSystem.id, (string)data.operatingSystem.operatingSystemName.name, (string)data.operatingSystem.version), new Software((int)data.software.id, (string)data.software.softwareName.name, (string)data.software.version, (string)data.software.layoutEngine.name, (string)data.software.leVersion, null), (string)data.agent) }
             };
         }
     }

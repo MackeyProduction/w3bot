@@ -9,14 +9,14 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using w3bot.bot;
-using w3bot.core;
-using w3bot.evt;
-using w3bot.interfaces;
-using w3bot.listener;
-using w3bot.wrapper;
+using w3bot.Bot;
+using w3bot.Core;
+using w3bot.Evt;
+using w3bot.Interfaces;
+using w3bot.Listener;
+using w3bot.Wrapper;
 
-namespace w3bot.bot
+namespace w3bot.Bot
 {
     public class Bot : ChromiumBrowserEventArgs, IBot
     {
@@ -36,10 +36,10 @@ namespace w3bot.bot
         internal BotWindow botWindow { get { return _botWindow; } set { _botWindow = value; } }
         private BotSettings _botSettings;
         internal BotSettings botSettings { get { return _botSettings; } set { _botSettings = value; } }
-        private static Core _core;
-        internal Core core { get { return _core; } set { _core = value; } }
+        private static Core.Core _core;
+        internal Core.Core core { get { return _core; } set { _core = value; } }
 
-        internal static void AddConfiguration(Core core)
+        internal static void AddConfiguration(Core.Core core)
         {
             _core = core;
         }

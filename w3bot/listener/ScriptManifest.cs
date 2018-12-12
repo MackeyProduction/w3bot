@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace w3bot.listener
+namespace w3bot.Listener
 {
     public class ScriptManifest : Attribute
     {

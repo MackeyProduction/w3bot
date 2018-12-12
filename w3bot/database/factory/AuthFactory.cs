@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace w3bot.database.factory
+namespace w3bot.Database.Factory
 {
     internal class AuthFactory : AbstractResponseModel
     {

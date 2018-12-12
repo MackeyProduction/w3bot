@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace w3bot.database.interfaces
+namespace w3bot.Database.Interfaces
 {
     /// <summary>
     /// w3bot interface for proxy.

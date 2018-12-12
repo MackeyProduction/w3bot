@@ -9,17 +9,17 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using CefSharp;
 using CefSharp.WinForms;
-using w3bot.core;
+using w3bot.Core;
 using System.Globalization;
-using w3bot.evt;
-using w3bot.test;
+using w3bot.Evt;
+using w3bot.Test;
 using System.Threading;
 using System.Diagnostics;
-using w3bot.bot;
+using w3bot.Bot;
 
 namespace w3bot.GUI
 {
-    internal partial class Main : Core
+    internal partial class Main : Core.Core
     {
         string title = "w3bot.org " + CoreInformation.programVersion.ToString("0.0", CultureInfo.InvariantCulture);
         private bool nextKill = false;  // flag to tell the next time the script will be killed without question
@@ -30,7 +30,7 @@ namespace w3bot.GUI
             InitializeComponent();
 
             this.Text = title + " - Idle...";
-            Initialize(this, new Bot(), new FormControl(this, textBoxLog, tabControlMain));
+            Initialize(this, new Bot.Bot(), new FormControl(this, textBoxLog, tabControlMain));
             BotDirectories.CreateDirs();
         }
 
@@ -51,7 +51,7 @@ namespace w3bot.GUI
             bot.Initialize(botMain);
             botMain.Open();
 
-            Bot.AddConfiguration(this);
+            Bot.Bot.AddConfiguration(this);
             blockToolStripMenuItem.PerformClick();
         }
 
@@ -104,7 +104,7 @@ namespace w3bot.GUI
         {
             new Thread(new ThreadStart(delegate
             {
-                test.TestScript testScript = new test.TestScript();
+                Test.TestScript testScript = new Test.TestScript();
                 BotStub botStub = new BotStub(bot, testScript, Script_stopped);
                 botStub.onStart();
             })).Start();
@@ -189,7 +189,7 @@ namespace w3bot.GUI
 
         private void mousePositionToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            mousePositionToolStripMenuItem.Checked = core.Debug.toggle(core.Debug.MousePosition);
+            mousePositionToolStripMenuItem.Checked = Core.Debug.toggle(Core.Debug.MousePosition);
         }
 
         private void addToolStripMenuItem_Click(object sender, EventArgs e)
@@ -213,7 +213,7 @@ namespace w3bot.GUI
                     runningScript.onFinish();
                     runningScript.onResume(); //resume script to make sure it doest stuck in the sleep loop
                     nextKill = true;
-                    runningScriptList.Remove(bot.botTab.SelectedIndex);
+                    runningScriptList.Remove((int)bot.botTab.SelectedIndex);
                     stopToolStripMenuItem.Text = "Stopping...";
                     this.Text = title + " - Script stopping...";
                 }
@@ -227,12 +227,12 @@ namespace w3bot.GUI
 
         private void pixelColorToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            pixelColorToolStripMenuItem.Checked = core.Debug.toggle(core.Debug.PixelColor);
+            pixelColorToolStripMenuItem.Checked = Core.Debug.toggle(Core.Debug.PixelColor);
         }
 
         private void mouseToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            mouseToolStripMenuItem.Checked = core.Debug.toggle(core.Debug.Mouse);
+            mouseToolStripMenuItem.Checked = Core.Debug.toggle(Core.Debug.Mouse);
         }
 
         private void edgesToolStripMenuItem_Click(object sender, EventArgs e)
@@ -241,17 +241,17 @@ namespace w3bot.GUI
 
         private void cannyToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            cannyToolStripMenuItem.Checked = core.Debug.toggle(core.Debug.CannyEdges);
+            cannyToolStripMenuItem.Checked = Core.Debug.toggle(Core.Debug.CannyEdges);
         }
 
         private void sobelToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            sobelToolStripMenuItem.Checked = core.Debug.toggle(core.Debug.SobelEdges);
+            sobelToolStripMenuItem.Checked = Core.Debug.toggle(Core.Debug.SobelEdges);
         }
 
         private void laplacianToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            laplacianToolStripMenuItem.Checked = core.Debug.toggle(core.Debug.LaplacianEdges);
+            laplacianToolStripMenuItem.Checked = Core.Debug.toggle(Core.Debug.LaplacianEdges);
         }
 
         private void devToolsToolStripMenuItem_Click(object sender, EventArgs e)
@@ -261,14 +261,14 @@ namespace w3bot.GUI
 
         private void magnifierToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            magnifierToolStripMenuItem.Checked = core.Debug.toggle(core.Debug.Magnifier);
+            magnifierToolStripMenuItem.Checked = Core.Debug.toggle(Core.Debug.Magnifier);
         }
 
         private void updatesToolStripMenuItem_Click(object sender, EventArgs e)
         {
             bot.botWindow._doubleBuffered = false;
-            Bot.AddConfiguration(this);
-            updatesToolStripMenuItem.Checked = core.Debug.toggle(core.Debug.NoDoubleBuffer);
+            Bot.Bot.AddConfiguration(this);
+            updatesToolStripMenuItem.Checked = Core.Debug.toggle(Core.Debug.NoDoubleBuffer);
         }
 
         private void tabControlMain_SelectedIndexChanged(object sender, EventArgs e)
@@ -279,7 +279,7 @@ namespace w3bot.GUI
                 {
                     if (bot.botTab.SelectedIndex < runningScriptList.GetItems().Count && bot.botTab.SelectedIndex != -1)
                     {
-                        runningScriptList.Execute(bot.botTab.SelectedIndex);
+                        runningScriptList.Execute((int)bot.botTab.SelectedIndex);
                         runningScript = runningScriptList.GetItems()[bot.botTab.SelectedIndex];
                         bot.botTab.Focus();
                         Script_started();

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using w3bot.interfaces;
+using w3bot.Interfaces;
 
 namespace w3bot.Listener
 {

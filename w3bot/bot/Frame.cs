@@ -11,11 +11,11 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using w3bot.core;
-using w3bot.evt;
-using w3bot.util;
+using w3bot.Core;
+using w3bot.Evt;
+using w3bot.Util;
 
-namespace w3bot.bot
+namespace w3bot.Bot
 {
     public class Frame
     {
@@ -35,7 +35,7 @@ namespace w3bot.bot
         {
             List<Point> pointList = new List<Point>();
 
-            Core.ExeThreadSafe(delegate
+            Core.Core.ExeThreadSafe(delegate
             {
                 try
                 {
@@ -127,7 +127,7 @@ namespace w3bot.bot
         {
             Rectangle rectangle = new Rectangle();
 
-            Core.ExeThreadSafe(delegate
+            Core.Core.ExeThreadSafe(delegate
             {
                 browserBitmap = _bot.botWindow._processor.Frame;
                 Image<Bgr, byte> bImage = new Image<Bgr, byte>(browserBitmap);

@@ -4,10 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using w3bot.interfaces;
-using w3bot.listener;
+using w3bot.Interfaces;
+using w3bot.Listener;
 
-namespace w3bot.core
+namespace w3bot.Core
 {
     public class ScriptItem : ListViewItem
     {

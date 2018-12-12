@@ -7,7 +7,7 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace w3bot.core
+namespace w3bot.Core
 {
     internal class CoreInformation
     {

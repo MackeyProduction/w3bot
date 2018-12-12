@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace w3bot.listener
+namespace w3bot.Listener
 {
     public interface IMouseEventListener
     {

@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using w3bot.database.repository;
-using w3bot.database.response;
+using w3bot.Database.Repository;
+using w3bot.Database.Response;
 
-namespace w3bot.Database.repository
+namespace w3bot.Database.Repository
 {
     internal class UserAgentRepository : RepositoryManager
     {
