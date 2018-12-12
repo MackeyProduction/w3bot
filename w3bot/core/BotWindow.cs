@@ -8,18 +8,18 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using w3bot.bot;
-using w3bot.evt;
-using w3bot.interfaces;
-using w3bot.wrapper;
+using w3bot.Bot;
+using w3bot.Evt;
+using w3bot.Interfaces;
+using w3bot.Wrapper;
 
-namespace w3bot.core
+namespace w3bot.Core
 {
     public class BotWindow : TabPage, IBotWindow
     {
         internal ChromiumWebBrowser _chromiumBrowser;
         internal AbstractBotProcessor _processor;
-        internal Bot _bot;
+        internal Bot.Bot _bot;
         internal String _name, _url;
         internal String _sourceCode { get; set; }
         internal bool doubleBuffered = true;
@@ -32,7 +32,7 @@ namespace w3bot.core
         /// <param name="bot">The current bot instance.</param>
         /// <param name="name">The name of the bot window.</param>
         /// <param name="processor">The current processor instance.</param>
-        internal BotWindow(Bot bot, string name, string url, AbstractBotProcessor processor)
+        internal BotWindow(Bot.Bot bot, string name, string url, AbstractBotProcessor processor)
         {
             DoubleBuffered = _doubleBuffered;
             _bot = bot;

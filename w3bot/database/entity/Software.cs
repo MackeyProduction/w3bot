@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using w3bot.database.interfaces;
+using w3bot.Database.Interfaces;
 
-namespace w3bot.database.entity
+namespace w3bot.Database.Entity
 {
     internal class Software : ISoftware
     {
@@ -28,7 +28,7 @@ namespace w3bot.database.entity
             _extras = extras;
         }
 
-        public ISoftwareExtras Extas
+        public ISoftwareExtras Extras
         {
             get
             {

@@ -3,18 +3,18 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using w3bot.bot;
-using w3bot.interfaces;
-using w3bot.listener;
+using w3bot.Bot;
+using w3bot.Interfaces;
+using w3bot.Listener;
 
-namespace w3bot.handler
+namespace w3bot.Handler
 {
     public class PaintHandler : IEventHandler
     {
-        private Bot _bot;
+        private Bot.Bot _bot;
         private IScript _script;
 
-        public PaintHandler(Bot bot, IScript script)
+        public PaintHandler(Bot.Bot bot, IScript script)
         {
             _bot = bot;
             _script = script;
@@ -24,7 +24,7 @@ namespace w3bot.handler
         {
             if (_script is IPaintListener)
             {
-                Bot.paintings += ((IPaintListener)_script).OnPaint;
+                Bot.Bot.paintings += ((IPaintListener)_script).OnPaint;
             }
         }
 
@@ -32,7 +32,7 @@ namespace w3bot.handler
         {
             if (_script is IPaintListener)
             {
-                Bot.paintings -= ((IPaintListener)_script).OnPaint;
+                Bot.Bot.paintings -= ((IPaintListener)_script).OnPaint;
             }
         }
     }

@@ -7,20 +7,20 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using w3bot.bot;
-using w3bot.enumeration;
-using w3bot.interfaces;
-using w3bot.wrapper;
+using w3bot.Bot;
+using w3bot.Enumeration;
+using w3bot.Interfaces;
+using w3bot.Wrapper;
 using System.Drawing;
-using w3bot.evt;
-using w3bot.listener;
+using w3bot.Evt;
+using w3bot.Listener;
 
-namespace w3bot.core
+namespace w3bot.Core
 {
     class BotProcessor : AbstractBotProcessor
     {
         private ChromiumWebBrowser chromiumBrowser { get; set; }
-        internal Bot _bot;
+        internal Bot.Bot _bot;
         internal String _userAgent { get; set; }
         internal String _proxy { get; set; }
         internal BotProcessor botProcessor { get; set; }
@@ -37,7 +37,7 @@ namespace w3bot.core
         /// </summary>
         /// <param name="bot">Bot instance.</param>
         /// <param name="proxyOptions">Proxy settings.</param>
-        public BotProcessor(Bot bot, ProxyOptions proxyOptions = null)
+        public BotProcessor(Bot.Bot bot, ProxyOptions proxyOptions = null)
         {
             _bot = bot;
             Size = new Size(1024, 600);
@@ -92,7 +92,7 @@ namespace w3bot.core
             _bot.ExecuteDocumentLoadEvent(sender, e);
         }
 
-        private void _chromiumBrowser_AddressChanged(object sender, AddressChangedEventArgs e)
+        private void _chromiumBrowser_AddressChanged(object sender, CefSharp.AddressChangedEventArgs e)
         {
             _bot.ExecuteAddressChangedEvent(sender, e);
         }

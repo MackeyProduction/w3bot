@@ -7,9 +7,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using w3bot.database;
-using w3bot.database.interfaces;
-using w3bot.database.repository;
+using w3bot.Database;
+using w3bot.Database.Interfaces;
+using w3bot.Database.Repository;
 
 namespace w3bot.GUI
 {

@@ -5,16 +5,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using w3bot.bot;
-using w3bot.core;
-using w3bot.evt;
-using w3bot.interfaces;
+using w3bot.Bot;
+using w3bot.Core;
+using w3bot.Evt;
+using w3bot.Interfaces;
 using w3bot.Interfaces;
 using w3bot.Listener;
 
-namespace w3bot.wrapper
+namespace w3bot.Wrapper
 {
-    class BrowserAdapter : BotProcessor, w3bot.interfaces.IBrowser, IWebBrowserEvents
+    class BrowserAdapter : BotProcessor, w3bot.Interfaces.IBrowser, IWebBrowserEvents
     {
         internal ChromiumWebBrowser _chromeBrowser = null;
         internal BotWindow _botWindow;
@@ -23,7 +23,7 @@ namespace w3bot.wrapper
         public event EventHandler<FrameLoadStartEventArgs> FrameLoadStart;
         public event EventHandler<FrameLoadEndEventArgs> FrameLoadEnd;
 
-        public BrowserAdapter(Bot bot) : base(bot)
+        public BrowserAdapter(Bot.Bot bot) : base(bot)
         {
             _bot = bot;
             if (_bot.botWindow == null) throw new InvalidOperationException("The Botwindow isn't initialized. Please initialize the botwindow with the Initialize() method.");

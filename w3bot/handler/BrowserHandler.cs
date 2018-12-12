@@ -4,19 +4,19 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using w3bot.bot;
-using w3bot.evt;
-using w3bot.interfaces;
-using w3bot.listener;
+using w3bot.Bot;
+using w3bot.Evt;
+using w3bot.Interfaces;
+using w3bot.Listener;
 
-namespace w3bot.handler
+namespace w3bot.Handler
 {
     public class BrowserHandler : IEventHandler
     {
-        private Bot _bot;
+        private Bot.Bot _bot;
         private IScript _script;
 
-        public BrowserHandler(Bot bot, IScript script)
+        public BrowserHandler(Bot.Bot bot, IScript script)
         {
             _bot = bot;
             _script = script;
@@ -26,17 +26,17 @@ namespace w3bot.handler
         {
             if (_script is IAddressChangedListener)
             {
-                Bot.DocumentAddressChangedEvent += ((IAddressChangedListener)_script).AddressChanged;
+                Bot.Bot.DocumentAddressChangedEvent += ((IAddressChangedListener)_script).AddressChanged;
             }
 
             if (_script is IDocumentLoadListener)
             {
-                Bot.DocumentLoadEvent += ((IDocumentLoadListener)_script).DocumentLoad;
+                Bot.Bot.DocumentLoadEvent += ((IDocumentLoadListener)_script).DocumentLoad;
             }
 
             if (_script is IDocumentReadyListener)
             {
-                Bot.DocumentReadyEvent += ((IDocumentReadyListener)_script).DocumentReady;
+                Bot.Bot.DocumentReadyEvent += ((IDocumentReadyListener)_script).DocumentReady;
             }
         }
 
@@ -44,17 +44,17 @@ namespace w3bot.handler
         {
             if (_script is IAddressChangedListener)
             {
-                Bot.DocumentAddressChangedEvent -= ((IAddressChangedListener)_script).AddressChanged;
+                Bot.Bot.DocumentAddressChangedEvent -= ((IAddressChangedListener)_script).AddressChanged;
             }
 
             if (_script is IDocumentLoadListener)
             {
-                Bot.DocumentLoadEvent -= ((IDocumentLoadListener)_script).DocumentLoad;
+                Bot.Bot.DocumentLoadEvent -= ((IDocumentLoadListener)_script).DocumentLoad;
             }
 
             if (_script is IDocumentReadyListener)
             {
-                Bot.DocumentReadyEvent -= ((IDocumentReadyListener)_script).DocumentReady;
+                Bot.Bot.DocumentReadyEvent -= ((IDocumentReadyListener)_script).DocumentReady;
             }
         }
     }

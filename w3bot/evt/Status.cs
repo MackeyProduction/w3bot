@@ -4,30 +4,30 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using w3bot.core;
+using w3bot.Core;
 
-namespace w3bot.evt
+namespace w3bot.Evt
 {
     public static class Status
     {
         public static string Log(string text)
         {
-            return Core.AppendTextToLog(text, Color.Black);
+            return Core.Core.AppendTextToLog(text, Color.Black);
         }
 
         public static string Log(Object obj)
         {
-            return Core.AppendTextToLog(obj == null ? "null" : obj.ToString(), Color.Black);
+            return Core.Core.AppendTextToLog(obj == null ? "null" : obj.ToString(), Color.Black);
         }
 
         public static string Warning(string text)
         {
-            return Core.AppendTextToLog(text, Color.Red);
+            return Core.Core.AppendTextToLog(text, Color.Red);
         }
 
         public static string Warning(Object obj)
         {
-            return Core.AppendTextToLog(obj == null ? "null" : obj.ToString(), Color.Red);
+            return Core.Core.AppendTextToLog(obj == null ? "null" : obj.ToString(), Color.Red);
         }
 
         public static string HandleException(Action codeToHandle)

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace w3bot.enumeration
+namespace w3bot.Enumeration
 {
     public class Keys
     {

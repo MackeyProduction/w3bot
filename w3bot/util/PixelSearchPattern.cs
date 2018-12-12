@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace w3bot.util
+namespace w3bot.Util
 {
     public struct PixelSearchPattern
     {

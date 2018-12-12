@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace w3bot.database.interfaces
+namespace w3bot.Database.Interfaces
 {
     /// <summary>
     /// w3bot interface for software from user agent.
@@ -39,6 +39,6 @@ namespace w3bot.database.interfaces
         /// <summary>
         /// The software extras from user agent.
         /// </summary>
-        ISoftwareExtras Extas { get; set; }
+        ISoftwareExtras Extras { get; set; }
     }
 }

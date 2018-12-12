@@ -3,15 +3,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using w3bot.Database.Repository;
+using w3bot.Database.Interfaces;
 
 namespace w3bot.Database.Repository
 {
-    internal class ProxyRepository : RepositoryManager
+    internal class UUARepository : RepositoryManager
     {
         protected override string FetchRepository()
         {
-            return "Proxy";
+            return "UUA";
         }
     }
 }

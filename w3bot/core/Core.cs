@@ -6,37 +6,37 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.ComponentModel;
-using w3bot.wrapper;
+using w3bot.Wrapper;
 using System.Threading;
-using w3bot.bot;
+using w3bot.Bot;
 
-namespace w3bot.core
+namespace w3bot.Core
 {
     internal class Core : Form
     {
         internal Form mainWindow { get; set; }
         internal static CoreInformation coreInformation { get { return new CoreInformation(); } }
-        private static Bot _bot;
-        internal static Bot bot { get { return _bot; } set { _bot = value; } }
+        private static Bot.Bot _bot;
+        internal static Bot.Bot bot { get { return _bot; } set { _bot = value; } }
         internal RichTextBox logbox { get; set; }
         internal TabControl tabs { get; set; }
         internal static Core _core { get; set; }
         internal BotStub runningScript { get; set; }
-        internal handler.TaskScheduler runningScriptList { get; set; }
+        internal Handler.TaskScheduler runningScriptList { get; set; }
 
         /// <summary>
         /// Initializes the core.
         /// </summary>
         /// <param name="core">The core instance.</param>
         /// <param name="formControl">Form controls like window, logbox and tabs.</param>
-        internal static void Initialize(Core core, Bot bot, FormControl formControl)
+        internal static void Initialize(Core core, Bot.Bot bot, FormControl formControl)
         {
             _bot = bot;
             _core = core;
             _core.mainWindow = formControl.mainWindow;
             _core.logbox = formControl.logbox;
             _core.tabs = formControl.tabs;
-            Bot.AddConfiguration(core);
+            Bot.Bot.AddConfiguration(core);
         }
 
         /// <summary>

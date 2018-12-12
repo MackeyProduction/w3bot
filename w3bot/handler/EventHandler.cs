@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using w3bot.evt;
-using w3bot.interfaces;
+using w3bot.Evt;
+using w3bot.Interfaces;
 
-namespace w3bot.handler
+namespace w3bot.Handler
 {
     public class EventHandler : IEventHandler
     {

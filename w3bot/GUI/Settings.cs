@@ -8,8 +8,8 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using w3bot.database.interfaces;
-using w3bot.database.repository;
+using w3bot.Database.Interfaces;
+using w3bot.Database.Repository;
 
 namespace w3bot.GUI
 {
@@ -34,13 +34,13 @@ namespace w3bot.GUI
         {
             new Thread(new ThreadStart(delegate
             {
-                var userAgentRepository = new UserAgentRepository();
+                var userAgentRepository = new UUARepository();
                 var userAgentInformation = userAgentRepository.GetRepositoryManager().FetchAll();
 
-                var proxyRepository = new ProxyRepository();
+                var proxyRepository = new UPRepository();
                 var proxyInformation = proxyRepository.GetRepositoryManager().FetchAll();
 
-                core.Core.ExeThreadSafe(delegate
+                Core.Core.ExeThreadSafe(delegate
                 {
                     try
                     {

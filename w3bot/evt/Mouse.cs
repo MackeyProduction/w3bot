@@ -4,12 +4,12 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using w3bot.bot;
-using w3bot.enumeration;
-using w3bot.interfaces;
-using w3bot.wrapper;
+using w3bot.Bot;
+using w3bot.Enumeration;
+using w3bot.Interfaces;
+using w3bot.Wrapper;
 
-namespace w3bot.evt
+namespace w3bot.Evt
 {
     public static class Mouse
     {
@@ -142,7 +142,7 @@ namespace w3bot.evt
             _mouseAdapter.Wheel(direction, amount);
         }
 
-        internal static void AddConfiguration(Bot bot)
+        internal static void AddConfiguration(Bot.Bot bot)
         {
             _mouseAdapter = bot.botSettings.inputAdapter.mouseAdapter;
         }

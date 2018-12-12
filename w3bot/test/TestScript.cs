@@ -4,15 +4,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using CefSharp;
-using w3bot.bot;
-using w3bot.evt;
-using w3bot.interfaces;
-using w3bot.listener;
+using w3bot.Bot;
+using w3bot.Evt;
+using w3bot.Interfaces;
+using w3bot.Listener;
 
-namespace w3bot.test
+namespace w3bot.Test
 {
     [ScriptManifest("TestScript", "YouTube", "Test the bot functionality.", "NoChoice", 1.0)]
-    public class TestScript : Bot, IScript, IDocumentReadyListener, IAddressChangedListener
+    public class TestScript : Bot.Bot, IScript, IDocumentReadyListener, IAddressChangedListener
     {
         public void onFinish()
         {
@@ -42,7 +42,7 @@ namespace w3bot.test
             Status.Log("Document is ready.");
         }
 
-        public void AddressChanged(object sender, AddressChangedEventArgs e)
+        public void AddressChanged(object sender, CefSharp.AddressChangedEventArgs e)
         {
             Status.Log("Meh.");
         }

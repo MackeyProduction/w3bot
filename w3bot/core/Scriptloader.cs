@@ -8,11 +8,11 @@ using System.Net;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
-using w3bot.evt;
-using w3bot.interfaces;
-using w3bot.listener;
+using w3bot.Evt;
+using w3bot.Interfaces;
+using w3bot.Listener;
 
-namespace w3bot.core
+namespace w3bot.Core
 {
     internal class Scriptloader
     {

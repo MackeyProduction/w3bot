@@ -3,15 +3,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using w3bot.bot;
-using w3bot.evt;
-using w3bot.interfaces;
-using w3bot.listener;
+using w3bot.Bot;
+using w3bot.Evt;
+using w3bot.Interfaces;
+using w3bot.Listener;
 using System.Windows.Forms;
 using CefSharp;
 using CefSharp.OffScreen;
 using System.Drawing;
-using w3bot.util;
+using w3bot.Util;
 
 namespace TestScript
 {

@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using w3bot.wrapper;
+using w3bot.Wrapper;
 
-namespace w3bot.interfaces
+namespace w3bot.Interfaces
 {
     /// <summary>
     /// w3bot interface for BotWindow.

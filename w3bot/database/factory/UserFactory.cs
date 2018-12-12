@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using w3bot.database.entity;
+using w3bot.Database.Entity;
 
-namespace w3bot.database.factory
+namespace w3bot.Database.Factory
 {
     internal class UserFactory : AbstractResponseModel
     {
@@ -18,7 +18,7 @@ namespace w3bot.database.factory
         {
             return new Dictionary<string, object>
             {
-                { "entity", new User((int)data.id, (string)data.username, (string)data.email, DateTime.ParseExact(((string)data.registerDate.date).Split(' ')[0], "yyyy-MM-dd", System.Globalization.CultureInfo.InvariantCulture), null) }
+                { "entity", new Entity.User((int)data.id, (string)data.username, (string)data.email, DateTime.ParseExact(((string)data.registerDate.date).Split(' ')[0], "yyyy-MM-dd", System.Globalization.CultureInfo.InvariantCulture), null) }
             };
         }
     }

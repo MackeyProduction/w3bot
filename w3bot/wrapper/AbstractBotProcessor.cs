@@ -7,12 +7,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using w3bot.bot;
-using w3bot.core;
-using w3bot.enumeration;
-using w3bot.interfaces;
+using w3bot.Bot;
+using w3bot.Core;
+using w3bot.Enumeration;
+using w3bot.Interfaces;
 
-namespace w3bot.wrapper
+namespace w3bot.Wrapper
 {
     abstract class AbstractBotProcessor : Panel
     {

@@ -6,9 +6,9 @@ using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using w3bot.database.factory;
+using w3bot.Database.Factory;
 
-namespace w3bot.database.response
+namespace w3bot.Database.Response
 {
     internal abstract class AbstractResponse
     {
@@ -24,7 +24,7 @@ namespace w3bot.database.response
                     return onSuccess(result);
                 }
 
-                if (httpResponseMessage.StatusCode == System.Net.HttpStatusCode.Forbidden || httpResponseMessage.StatusCode == System.Net.HttpStatusCode.NotFound)
+                if (httpResponseMessage.StatusCode == System.Net.HttpStatusCode.Forbidden || httpResponseMessage.StatusCode == System.Net.HttpStatusCode.NotFound || httpResponseMessage.StatusCode == System.Net.HttpStatusCode.Conflict || httpResponseMessage.StatusCode == System.Net.HttpStatusCode.BadRequest)
                 {
                     MessageBox.Show((string)result.response);
                 }

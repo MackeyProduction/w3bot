@@ -4,21 +4,21 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using w3bot.bot;
-using w3bot.core;
-using w3bot.interfaces;
+using w3bot.Bot;
+using w3bot.Core;
+using w3bot.Interfaces;
 
-namespace w3bot.handler
+namespace w3bot.Handler
 {
     internal class TaskScheduler : ITaskScheduler
     {
-        private Bot _bot;
+        private Bot.Bot _bot;
         private List<BotStub> _botStubList;
         private List<Thread> _threads;
         private static TaskScheduler _instance;
         private static readonly object padlock = new object();
 
-        internal TaskScheduler(Bot bot)
+        internal TaskScheduler(Bot.Bot bot)
         {
             _bot = bot;
 
@@ -56,7 +56,7 @@ namespace w3bot.handler
         {
             _botStubList.Add(botStub);
             _bot.core.runningScriptList = this;
-            Bot.AddConfiguration(_bot.core);
+            Bot.Bot.AddConfiguration(_bot.core);
         }
 
         public void Remove(int tabId)
@@ -64,7 +64,7 @@ namespace w3bot.handler
             _botStubList.RemoveAt(tabId);
             _bot.core.runningScriptList = this;
             _threads[tabId].Abort();
-            Bot.AddConfiguration(_bot.core);
+            Bot.Bot.AddConfiguration(_bot.core);
         }
 
         public void Execute(int tabId)
@@ -80,7 +80,7 @@ namespace w3bot.handler
                         currentBotStub.ExecuteScript();
 
                         _bot.core.runningScript = currentBotStub;
-                        Bot.AddConfiguration(_bot.core);
+                        Bot.Bot.AddConfiguration(_bot.core);
                     }));
                     _threads.Add(thread);
 
