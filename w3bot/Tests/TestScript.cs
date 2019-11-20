@@ -9,7 +9,7 @@ using w3bot.Evt;
 using w3bot.Interfaces;
 using w3bot.Listener;
 
-namespace w3bot.Test
+namespace w3bot.Tests
 {
     [ScriptManifest("TestScript", "YouTube", "Test the bot functionality.", "NoChoice", 1.0)]
     public class TestScript : Bot.Bot, IScript, IDocumentReadyListener, IAddressChangedListener

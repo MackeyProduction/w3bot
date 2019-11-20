@@ -62,5 +62,10 @@ namespace TestScript
         {
             g.DrawString("Hello World", new Font("Arial", 12, FontStyle.Regular), Brushes.Green, 100, 100);
         }
+
+        public void DocumentReady(object sender, FrameLoadEndEventArgs e)
+        {
+            Status.Log("Document is ready.");
+        }
     }
 }

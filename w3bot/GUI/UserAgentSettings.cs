@@ -8,12 +8,9 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using w3bot.Database;
-using w3bot.Database.Interfaces;
+using w3bot.Database.Entity;
 using w3bot.Database.Repository;
 using w3bot.Database.Response;
-using w3bot.Database;
-using w3bot.Database.Repository;
 
 namespace w3bot.GUI
 {
@@ -21,7 +18,7 @@ namespace w3bot.GUI
     {
         private static UserAgentRepository _userAgentRepository;
         private static List<Dictionary<string, object>> operatingSystemVersionItems = new List<Dictionary<string, object>>();
-        private static IUserAgent _userAgent;
+        private static UserAgent _userAgent;
 
         public UserAgentSettings()
         {
@@ -47,7 +44,7 @@ namespace w3bot.GUI
                         foreach (var os in userAgentInformation)
                         {
                             os.TryGetValue("entity", out value);
-                            cbOperatingSystem.Items.Add(((IUserAgent)value).OperatingSystem.Name);
+                            cbOperatingSystem.Items.Add(((UserAgent)value).OperatingSystem.Name);
                         }
                     }
                     catch (Exception)
@@ -76,7 +73,7 @@ namespace w3bot.GUI
                             foreach (var userAgent in operatingSystemItems)
                             {
                                 userAgent.TryGetValue("entity", out value);
-                                cbOperatingSystemVersion.Items.Add(((IUserAgent)value).OperatingSystem.Version);
+                                cbOperatingSystemVersion.Items.Add(((UserAgent)value).OperatingSystem.Version);
                             }
                         }
                         catch (Exception)
@@ -107,7 +104,7 @@ namespace w3bot.GUI
                             foreach (var userAgent in operatingSystemVersionItems)
                             {
                                 userAgent.TryGetValue("entity", out value);
-                                cbBrowser.Items.Add(((IUserAgent)value).Software.Name);
+                                cbBrowser.Items.Add(((UserAgent)value).Software.Name);
                             }
                         }
                         catch (Exception)
@@ -124,7 +121,7 @@ namespace w3bot.GUI
                 var dictionary = FetchItems(operatingSystemVersionItems);
                 foreach (var os in dictionary)
                 {
-                    cbBrowserVersion.Items.Add(((IUserAgent)os.Value).Software.Version);
+                    cbBrowserVersion.Items.Add(((UserAgent)os.Value).Software.Version);
                 }
             }
         }
@@ -136,7 +133,7 @@ namespace w3bot.GUI
                 var dictionary = FetchItems(operatingSystemVersionItems);
                 foreach (var os in dictionary)
                 {
-                    cbLayoutEngine.Items.Add(((IUserAgent)os.Value).Software.LEName);
+                    cbLayoutEngine.Items.Add(((UserAgent)os.Value).Software.LEName);
                 }
             }
         }
@@ -148,7 +145,7 @@ namespace w3bot.GUI
                 var dictionary = FetchItems(operatingSystemVersionItems);
                 foreach (var os in dictionary)
                 {
-                    cbLayoutEngineVersion.Items.Add(((IUserAgent)os.Value).Software.LEVersion);
+                    cbLayoutEngineVersion.Items.Add(((UserAgent)os.Value).Software.LEVersion);
                 }
             }
         }
@@ -158,7 +155,7 @@ namespace w3bot.GUI
             if (cbLayoutEngineVersion.SelectedIndex != -1)
             {
                 btnSave.Enabled = true;
-                _userAgent = ((IUserAgent)operatingSystemVersionItems[cbBrowser.SelectedIndex].Where(item => ((IUserAgent)item.Value).OperatingSystem.Name == cbOperatingSystem.Text && ((IUserAgent)item.Value).Software.Name == cbBrowser.Text && ((IUserAgent)item.Value).Software.LEName == cbLayoutEngine.Text).SingleOrDefault().Value);
+                _userAgent = ((UserAgent)operatingSystemVersionItems[cbBrowser.SelectedIndex].Where(item => ((UserAgent)item.Value).OperatingSystem.Name == cbOperatingSystem.Text && ((UserAgent)item.Value).Software.Name == cbBrowser.Text && ((UserAgent)item.Value).Software.LEName == cbLayoutEngine.Text).SingleOrDefault().Value);
                 lblUserAgent.Text += _userAgent.Agent;
             }
         }

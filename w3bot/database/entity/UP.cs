@@ -3,22 +3,21 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using w3bot.Database.Interfaces;
 
 namespace w3bot.Database.Entity
 {
-    internal class UP : IUP
+    internal class UP
     {
         private int _id;
-        private IProxy _proxy;
-        private IUser _user;
+        private Proxy _proxy;
+        private User _user;
 
         internal UP()
         {
             _id = 0;
         }
 
-        internal UP(int id, IProxy proxy, IUser user)
+        internal UP(int id, Proxy proxy, User user)
         {
             _id = id;
             _proxy = proxy;
@@ -33,7 +32,7 @@ namespace w3bot.Database.Entity
             }
         }
 
-        public IProxy Proxy
+        public Proxy Proxy
         {
             get
             {
@@ -46,7 +45,7 @@ namespace w3bot.Database.Entity
             }
         }
 
-        public IUser User
+        public User User
         {
             get
             {

@@ -12,7 +12,7 @@ using CefSharp.WinForms;
 using w3bot.Core;
 using System.Globalization;
 using w3bot.Evt;
-using w3bot.Test;
+using w3bot.Tests;
 using System.Threading;
 using System.Diagnostics;
 using w3bot.Bot;
@@ -28,7 +28,7 @@ namespace w3bot.GUI
         public Main()
         {
             InitializeComponent();
-
+            
             this.Text = title + " - Idle...";
             Initialize(this, new Bot.Bot(), new FormControl(this, textBoxLog, tabControlMain));
             BotDirectories.CreateDirs();
@@ -104,7 +104,7 @@ namespace w3bot.GUI
         {
             new Thread(new ThreadStart(delegate
             {
-                Test.TestScript testScript = new Test.TestScript();
+                Tests.TestScript testScript = new Tests.TestScript();
                 BotStub botStub = new BotStub(bot, testScript, Script_stopped);
                 botStub.onStart();
             })).Start();

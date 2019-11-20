@@ -3,22 +3,21 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using w3bot.Database.Interfaces;
 
 namespace w3bot.Database.Entity
 {
-    internal class UUA : IUUA
+    internal class UUA
     {
         private int _id;
-        private IUser _user;
-        private IUserAgent _userAgent;
+        private User _user;
+        private UserAgent _userAgent;
 
         internal UUA()
         {
             _id = 0;
         }
 
-        internal UUA(int id, IUser user, IUserAgent userAgent)
+        internal UUA(int id, User user, UserAgent userAgent)
         {
             _id = id;
             _user = user;
@@ -33,7 +32,7 @@ namespace w3bot.Database.Entity
             }
         }
 
-        public IUser User
+        public User User
         {
             get
             {
@@ -46,7 +45,7 @@ namespace w3bot.Database.Entity
             }
         }
 
-        public IUserAgent UserAgent
+        public UserAgent UserAgent
         {
             get
             {

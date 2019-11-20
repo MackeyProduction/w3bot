@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace w3bot.Database.Interfaces
+namespace w3bot.Database.Repository
 {
     /// <summary>
     /// w3bot interface for repositories.

@@ -3,24 +3,23 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using w3bot.Database.Interfaces;
 using w3bot.Interfaces;
 
 namespace w3bot.Database.Entity
 {
-    internal class User : IUser
+    internal class User
     {
         private int _id;
         private string _username, _password, _email;
         private DateTime _registerDate;
-        private IGroup _group;
+        private Group _group;
 
         internal User()
         {
             _id = 0;
         }
 
-        internal User(int id, string username, string email, DateTime registerDate, IGroup group)
+        internal User(int id, string username, string email, DateTime registerDate, Group group)
         {
             _id = id;
             _username = username;
@@ -42,7 +41,7 @@ namespace w3bot.Database.Entity
             }
         }
 
-        public IGroup Group
+        public Group Group
         {
             get
             {
