@@ -3,11 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using w3bot.Database.Interfaces;
 
 namespace w3bot.Database.Entity
 {
-    internal class Group : IGroup
+    internal class Group
     {
         private int _id;
         private string _name;

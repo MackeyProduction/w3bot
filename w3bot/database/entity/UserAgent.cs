@@ -3,15 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using w3bot.Database.Interfaces;
 
 namespace w3bot.Database.Entity
 {
-    internal class UserAgent : IUserAgent
+    internal class UserAgent
     {
         private int _id;
-        private IOperatingSystem _operatingSystem;
-        private ISoftware _software;
+        private OperatingSystem _operatingSystem;
+        private Software _software;
         private string _agent;
 
         internal UserAgent()
@@ -19,7 +18,7 @@ namespace w3bot.Database.Entity
             _id = 0;
         }
 
-        internal UserAgent(int id, IOperatingSystem operatingSystem, ISoftware software, string agent)
+        internal UserAgent(int id, OperatingSystem operatingSystem, Software software, string agent)
         {
             _id = id;
             _operatingSystem = operatingSystem;
@@ -35,7 +34,7 @@ namespace w3bot.Database.Entity
             }
         }
 
-        public IOperatingSystem OperatingSystem
+        public OperatingSystem OperatingSystem
         {
             get
             {
@@ -48,7 +47,7 @@ namespace w3bot.Database.Entity
             }
         }
 
-        public ISoftware Software
+        public Software Software
         {
             get
             {

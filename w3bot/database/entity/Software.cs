@@ -3,22 +3,21 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using w3bot.Database.Interfaces;
 
 namespace w3bot.Database.Entity
 {
-    internal class Software : ISoftware
+    internal class Software
     {
         private int _id;
         private string _name, _version, _LEName, _LEVersion;
-        private ISoftwareExtras _extras;
+        private SoftwareExtras _extras;
 
         internal Software()
         {
             _id = 0;
         }
 
-        internal Software(int id, string name, string version, string LEName, string LEVersion, ISoftwareExtras extras)
+        internal Software(int id, string name, string version, string LEName, string LEVersion, SoftwareExtras extras)
         {
             _id = id;
             _name = name;
@@ -28,7 +27,7 @@ namespace w3bot.Database.Entity
             _extras = extras;
         }
 
-        public ISoftwareExtras Extras
+        public SoftwareExtras Extras
         {
             get
             {

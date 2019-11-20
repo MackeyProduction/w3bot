@@ -4,7 +4,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using w3bot.Database;
-using w3bot.Database.Interfaces;
 using w3bot.Database.Response;
 
 namespace w3bot.Database
@@ -21,7 +20,7 @@ namespace w3bot.Database
             }
         }
 
-        internal async void AddUserAgent(IUserAgent userAgent)
+        internal async void AddUserAgent(Entity.UserAgent userAgent)
         {
             var values = new Dictionary<string, string>
                 {

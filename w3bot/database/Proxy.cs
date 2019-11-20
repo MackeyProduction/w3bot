@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using w3bot.Database;
-using w3bot.Database.Interfaces;
+using w3bot.Database.Repository;
 using w3bot.Database.Response;
 
 namespace w3bot.Database
@@ -21,7 +21,7 @@ namespace w3bot.Database
             }
         }
 
-        internal async void AddProxy(IProxy proxy)
+        internal async void AddProxy(Entity.Proxy proxy)
         {
             var values = new Dictionary<string, string>
                 {

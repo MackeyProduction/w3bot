@@ -4,7 +4,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using w3bot.Database.Entity;
-using w3bot.Database.Interfaces;
 
 namespace w3bot.Database.Factory
 {

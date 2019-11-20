@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using w3bot.Database.Helper;
-using w3bot.Database.Interfaces;
+using w3bot.Database.Repository;
 using w3bot.Database.Response;
 
 namespace w3bot.Database.Repository

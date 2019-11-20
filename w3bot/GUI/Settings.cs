@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using w3bot.Database.Interfaces;
+using w3bot.Database.Entity;
 using w3bot.Database.Repository;
 
 namespace w3bot.GUI
@@ -50,14 +50,14 @@ namespace w3bot.GUI
                         foreach (var proxy in proxyInformation)
                         {
                             proxy.TryGetValue("entity", out value);
-                            cbProxy.Items.Add(((IProxy)value).ProxyName);
+                            cbProxy.Items.Add(((Proxy)value).ProxyName);
                         }
 
                         // fetch user agents
                         foreach (var userAgent in userAgentInformation)
                         {
                             userAgent.TryGetValue("entity", out value);
-                            cbUserAgent.Items.Add(((IUserAgent)value).Agent);
+                            cbUserAgent.Items.Add(((UserAgent)value).Agent);
                         }
                     }
                     catch (Exception)

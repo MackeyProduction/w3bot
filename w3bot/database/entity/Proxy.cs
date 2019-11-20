@@ -3,11 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using w3bot.Database.Interfaces;
 
 namespace w3bot.Database.Entity
 {
-    internal class Proxy : IProxy
+    internal class Proxy
     {
         private int _id;
         private string _name, _ip, _username, _password;
