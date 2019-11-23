@@ -5,44 +5,43 @@ using System.Text;
 using System.Threading.Tasks;
 using w3bot.Database;
 using w3bot.Database.Repository;
-using w3bot.Database.Response;
 
 namespace w3bot.Database
 {
     internal class User
     {
-        private UserResponse _userResponse;
+        //private UserResponse _userResponse;
 
-        internal User()
-        {
-            if (_userResponse == null)
-            {
-                _userResponse = new UserResponse();
-            }
-        }
+        //internal User()
+        //{
+        //    if (_userResponse == null)
+        //    {
+        //        _userResponse = new UserResponse();
+        //    }
+        //}
 
-        internal async void AddUserAgent(int userId, int userAgentId)
-        {
-            var values = new Dictionary<string, string>
-                {
-                    { "userId", userId.ToString() },
-                    { "userAgentId", userAgentId.ToString() }
-                };
+        //internal async void AddUserAgent(int userId, int userAgentId)
+        //{
+        //    var values = new Dictionary<string, string>
+        //        {
+        //            { "userId", userId.ToString() },
+        //            { "userAgentId", userAgentId.ToString() }
+        //        };
 
-            var response = await Connection.PostRequest("user/agent", values);
-            await _userResponse.GetResponse(response);
-        }
+        //    var response = await Connection.PostRequest("user/agent", values);
+        //    await _userResponse.GetResponse(response);
+        //}
 
-        internal async void AddProxy(int userId, int proxyId)
-        {
-            var values = new Dictionary<string, string>
-                {
-                    { "userId", userId.ToString() },
-                    { "userAgentId", proxyId.ToString() }
-                };
+        //internal async void AddProxy(int userId, int proxyId)
+        //{
+        //    var values = new Dictionary<string, string>
+        //        {
+        //            { "userId", userId.ToString() },
+        //            { "userAgentId", proxyId.ToString() }
+        //        };
 
-            var response = await Connection.PostRequest("user/proxy", values);
-            await _userResponse.GetResponse(response);
-        }
+        //    var response = await Connection.PostRequest("user/proxy", values);
+        //    await _userResponse.GetResponse(response);
+        //}
     }
 }

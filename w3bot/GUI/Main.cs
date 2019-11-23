@@ -31,6 +31,8 @@ namespace w3bot.GUI
             
             this.Text = title + " - Idle...";
             Initialize(this, new Bot.Bot(), new FormControl(this, textBoxLog, tabControlMain));
+
+            Initialize(this);
             BotDirectories.CreateDirs();
         }
 

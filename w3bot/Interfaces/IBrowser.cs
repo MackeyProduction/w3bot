@@ -17,16 +17,6 @@ namespace w3bot.Interfaces
         string SouceCode { get; }
 
         /// <summary>
-        /// Open new proxy connection.
-        /// </summary>
-        string Proxy { get; set; }
-
-        /// <summary>
-        /// Show user agent.
-        /// </summary>
-        string UserAgent { get; }
-
-        /// <summary>
         /// Returns true if the website is finished loading. 
         /// </summary>
         bool IsReady { get; }
@@ -51,16 +41,6 @@ namespace w3bot.Interfaces
         /// Refresh website.
         /// </summary>
         void Refresh();
-
-        /// <summary>
-        /// Reset proxy connection.
-        /// </summary>
-        void ClearProxy();
-
-        /// <summary>
-        /// Reset user agent.
-        /// </summary>
-        void ClearUserAgent();
 
         /// <summary>
         /// Executes Javascript.

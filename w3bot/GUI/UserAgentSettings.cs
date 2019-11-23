@@ -10,25 +10,27 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using w3bot.Database.Entity;
 using w3bot.Database.Repository;
-using w3bot.Database.Response;
 
 namespace w3bot.GUI
 {
     public partial class UserAgentSettings : Form
     {
+        /*
         private static UserAgentRepository _userAgentRepository;
         private static List<Dictionary<string, object>> operatingSystemVersionItems = new List<Dictionary<string, object>>();
         private static UserAgent _userAgent;
-
+        */
+        
         public UserAgentSettings()
         {
             InitializeComponent();
 
-            _userAgentRepository = new UserAgentRepository();
+            //_userAgentRepository = new UserAgentRepository();
         }
 
         private void UserAgentSettings_Load(object sender, EventArgs e)
         {
+            /*
             new Thread(new ThreadStart(delegate
             {
                 var userAgentInformation = _userAgentRepository.FetchAllByOperatingSystemName().Result;
@@ -51,10 +53,12 @@ namespace w3bot.GUI
                     { }
                 });
             })).Start();
+            */
         }
 
         private void cbOperatingSystem_SelectedIndexChanged(object sender, EventArgs e)
         {
+            /*
             if (cbOperatingSystem.SelectedIndex != -1)
             {
                 var operatingSystem = cbOperatingSystem.Items[cbOperatingSystem.SelectedIndex];
@@ -81,10 +85,12 @@ namespace w3bot.GUI
                     });
                 })).Start();
             }
+            */
         }
 
         private void cbOperatingSystemVersion_SelectedIndexChanged(object sender, EventArgs e)
         {
+            /*
             if (cbOperatingSystemVersion.SelectedIndex != -1)
             {
                 var operatingSystemName = cbOperatingSystem.Items[cbOperatingSystem.SelectedIndex];
@@ -112,10 +118,12 @@ namespace w3bot.GUI
                     });
                 })).Start();
             }
+            */
         }
 
         private void cbBrowser_SelectedIndexChanged(object sender, EventArgs e)
         {
+            /*
             if (cbBrowser.SelectedIndex != -1)
             {
                 var dictionary = FetchItems(operatingSystemVersionItems);
@@ -123,11 +131,12 @@ namespace w3bot.GUI
                 {
                     cbBrowserVersion.Items.Add(((UserAgent)os.Value).Software.Version);
                 }
-            }
+            }*/
         }
 
         private void cbBrowserVersion_SelectedIndexChanged(object sender, EventArgs e)
         {
+            /*
             if (cbBrowserVersion.SelectedIndex != -1)
             {
                 var dictionary = FetchItems(operatingSystemVersionItems);
@@ -135,11 +144,12 @@ namespace w3bot.GUI
                 {
                     cbLayoutEngine.Items.Add(((UserAgent)os.Value).Software.LEName);
                 }
-            }
+            }*/
         }
 
         private void cbLayoutEngine_SelectedIndexChanged(object sender, EventArgs e)
         {
+            /*
             if (cbLayoutEngine.SelectedIndex != -1)
             {
                 var dictionary = FetchItems(operatingSystemVersionItems);
@@ -147,17 +157,18 @@ namespace w3bot.GUI
                 {
                     cbLayoutEngineVersion.Items.Add(((UserAgent)os.Value).Software.LEVersion);
                 }
-            }
+            }*/
         }
 
         private void cbLayoutEngineVersion_SelectedIndexChanged(object sender, EventArgs e)
         {
+            /*
             if (cbLayoutEngineVersion.SelectedIndex != -1)
             {
                 btnSave.Enabled = true;
                 _userAgent = ((UserAgent)operatingSystemVersionItems[cbBrowser.SelectedIndex].Where(item => ((UserAgent)item.Value).OperatingSystem.Name == cbOperatingSystem.Text && ((UserAgent)item.Value).Software.Name == cbBrowser.Text && ((UserAgent)item.Value).Software.LEName == cbLayoutEngine.Text).SingleOrDefault().Value);
                 lblUserAgent.Text += _userAgent.Agent;
-            }
+            }*/
         }
 
         private void btnSave_Click(object sender, EventArgs e)
@@ -185,5 +196,6 @@ namespace w3bot.GUI
 
             return dictionary;
         }
+        
     }
 }

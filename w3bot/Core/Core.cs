@@ -21,6 +21,7 @@ namespace w3bot.Core
         internal RichTextBox logbox { get; set; }
         internal TabControl tabs { get; set; }
         internal static Core _core { get; set; }
+        internal static Form currentWindow { get; set; }
         internal BotStub runningScript { get; set; }
         internal Handler.TaskScheduler runningScriptList { get; set; }
 
@@ -29,6 +30,7 @@ namespace w3bot.Core
         /// </summary>
         /// <param name="core">The core instance.</param>
         /// <param name="formControl">Form controls like window, logbox and tabs.</param>
+        [Obsolete("This method is deprecated. Use Initialize with form attribute instead.")]
         internal static void Initialize(Core core, Bot.Bot bot, FormControl formControl)
         {
             _bot = bot;
@@ -37,6 +39,16 @@ namespace w3bot.Core
             _core.logbox = formControl.logbox;
             _core.tabs = formControl.tabs;
             Bot.Bot.AddConfiguration(core);
+        }
+
+        internal static void Initialize(Form form)
+        {
+            currentWindow = form;
+        }
+
+        internal IBotBrowser GetBrowser(string browserType, object settings)
+        {
+            return new BotBrowserService(null).GetBotBrowser();
         }
 
         /// <summary>
