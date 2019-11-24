@@ -136,6 +136,10 @@
     <Compile Include="Database\Entity\UUA.cs" />
     <Compile Include="Database\Entity\OperatingSystem.cs" />
     <Compile Include="Database\Entity\Proxy.cs" />
+    <Compile Include="Database\Hydrator\IHydrator.cs" />
+    <Compile Include="Database\Hydrator\ProxyHydrator.cs" />
+    <Compile Include="Database\Hydrator\UserAgentHydrator.cs" />
+    <Compile Include="Database\Hydrator\UserHydrator.cs" />
     <Compile Include="Database\Repository\AbstractHttpRepository.cs" />
     <Compile Include="Database\Repository\IRepository.cs" />
     <Compile Include="Database\Repository\ProxyRepository.cs" />
