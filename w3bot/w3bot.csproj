@@ -129,7 +129,6 @@
     <Compile Include="Core\ScriptItem.cs" />
     <Compile Include="Core\Scriptloader.cs" />
     <Compile Include="Database\Connection.cs" />
-    <Compile Include="Database\Auth.cs" />
     <Compile Include="Database\Entity\Group.cs" />
     <Compile Include="Database\Entity\SoftwareExtras.cs" />
     <Compile Include="Database\Entity\UP.cs" />
@@ -138,7 +137,6 @@
     <Compile Include="Database\Entity\Proxy.cs" />
     <Compile Include="Database\Repository\AbstractHttpRepository.cs" />
     <Compile Include="Database\Repository\IRepository.cs" />
-    <Compile Include="Database\Proxy.cs" />
     <Compile Include="Database\Repository\ProxyRepository.cs" />
     <Compile Include="Database\Repository\RepositoryFactory.cs" />
     <Compile Include="Database\Repository\UPRepository.cs" />
@@ -148,8 +146,6 @@
     <Compile Include="Database\Entity\Software.cs" />
     <Compile Include="Database\Entity\User.cs" />
     <Compile Include="Database\Entity\UserAgent.cs" />
-    <Compile Include="Database\User.cs" />
-    <Compile Include="Database\UserAgent.cs" />
     <Compile Include="Enumeration\Keys.cs" />
     <Compile Include="Evt\Keyboard.cs" />
     <Compile Include="Evt\Mouse.cs" />

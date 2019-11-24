@@ -80,6 +80,24 @@ namespace w3bot.Database.Repository
             throw new HttpRequestException("Could not receive all user agent data.");
         }
 
+        //internal async void AddUserAgent(Entity.UserAgent userAgent)
+        //{
+        //    var values = new Dictionary<string, string>
+        //        {
+        //            { "agent", userAgent.Agent },
+        //            { "softwareName", userAgent.Software.Name },
+        //            { "softwareVersion", userAgent.Software.Version },
+        //            { "softwareExtras", userAgent.Software.Extras.Info },
+        //            { "layoutEngine", userAgent.Software.LEName },
+        //            { "layoutEngineVersion", userAgent.Software.LEVersion },
+        //            { "osName", userAgent.OperatingSystem.Name },
+        //            { "osVersion", userAgent.OperatingSystem.Version }
+        //        };
+
+        //    var response = await Connection.PostRequest("agent", values);
+        //    await _userAgentResponse.GetResponse(response);
+        //}
+
         private Entity.UserAgent Hydrate(dynamic userAgentResult)
         {
             var userAgent = new Entity.UserAgent

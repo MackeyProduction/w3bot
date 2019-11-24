@@ -61,6 +61,21 @@ namespace w3bot.Database.Repository
             throw new HttpRequestException(String.Format("The proxy with the id {0} could not be fetched by the database.", id));
         }
 
+        internal async void AddProxy(Entity.Proxy proxy)
+        {
+            //var values = new Dictionary<string, string>
+            //    {
+            //        { "name", proxy.ProxyName },
+            //        { "ip", proxy.IP },
+            //        { "port", proxy.Port.ToString() },
+            //        { "username", proxy.Username },
+            //        { "password", proxy.Password }
+            //    };
+
+            //var response = await Connection.PostRequest("proxy", values);
+            //await _proxyResponse.GetResponse(response);
+        }
+
         private Entity.Proxy Hydrate(dynamic proxyResult)
         {
             var proxy = new Entity.Proxy
