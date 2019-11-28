@@ -32,6 +32,7 @@ namespace w3bot.GUI
 
         private void Settings_Load(object sender, EventArgs e)
         {
+            /*
             new Thread(new ThreadStart(delegate
             {
                 var userAgentRepository = new UUARepository();
@@ -64,6 +65,7 @@ namespace w3bot.GUI
                     { }
                 });
             })).Start();
+            */
         }
     }
 }

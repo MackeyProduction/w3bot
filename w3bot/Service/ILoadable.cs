@@ -4,11 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace w3bot.Database.Entity
+namespace w3bot.Service
 {
-    internal class Group
+    public interface ILoadable
     {
-        public int Id { get; set; }
-        public string Name { get; set; }
+        object Load();
     }
 }

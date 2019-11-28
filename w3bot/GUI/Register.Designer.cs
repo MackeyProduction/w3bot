@@ -37,6 +37,7 @@
             this.btnRegister = new System.Windows.Forms.Button();
             this.lblRepeatPassword = new System.Windows.Forms.Label();
             this.tbRepeatPassword = new System.Windows.Forms.TextBox();
+            this.registerWorker = new System.ComponentModel.BackgroundWorker();
             this.SuspendLayout();
             // 
             // tbUsername
@@ -147,5 +148,6 @@
         private System.Windows.Forms.Button btnRegister;
         private System.Windows.Forms.Label lblRepeatPassword;
         private System.Windows.Forms.TextBox tbRepeatPassword;
+        private System.ComponentModel.BackgroundWorker registerWorker;
     }
 }

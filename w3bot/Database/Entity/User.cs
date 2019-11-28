@@ -9,96 +9,11 @@ namespace w3bot.Database.Entity
 {
     internal class User
     {
-        private int _id;
-        private string _username, _password, _email;
-        private DateTime _registerDate;
-        private Group _group;
-
-        internal User()
-        {
-            _id = 0;
-        }
-
-        internal User(int id, string username, string email, DateTime registerDate, Group group)
-        {
-            _id = id;
-            _username = username;
-            _email = email;
-            _registerDate = registerDate;
-            _group = group;
-        }
-
-        public string Email
-        {
-            get
-            {
-                return _email;
-            }
-
-            set
-            {
-                _email = value;
-            }
-        }
-
-        public Group Group
-        {
-            get
-            {
-                return _group;
-            }
-
-            set
-            {
-                _group = value;
-            }
-        }
-
-        public int Id
-        {
-            get
-            {
-                return _id;
-            }
-        }
-
-        public string Password
-        {
-            get
-            {
-                return _password;
-            }
-
-            set
-            {
-                _password = value;
-            }
-        }
-
-        public DateTime RegisterDate
-        {
-            get
-            {
-                return _registerDate;
-            }
-
-            set
-            {
-                _registerDate = value;
-            }
-        }
-
-        public string Username
-        {
-            get
-            {
-                return _username;
-            }
-
-            set
-            {
-                _username = value;
-            }
-        }
+        public int Id { get; set; }
+        public string Email { get; set; }
+        public Group Group { get; set; }
+        public string Username { get; set; }
+        public string Password { get; set; }
+        public DateTime RegisterDate { get; set; }
     }
 }

@@ -46,7 +46,7 @@ namespace w3bot.Core
             {
                 // load cef settings
                 CefSettings settings = new CefSettings();
-                settings.BrowserSubprocessPath = @"x86\CefSharp.BrowserSubprocess.exe";
+                //settings.BrowserSubprocessPath = @"x86\CefSharp.BrowserSubprocess.exe";
                 settings.CachePath = "Cache";
                 settings.PersistSessionCookies = true;
                 settings.PersistUserPreferences = true;

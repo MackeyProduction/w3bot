@@ -4,11 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace w3bot.Database.Entity
+namespace w3bot.Database.Hydrator
 {
-    internal class Group
+    interface IHydrator
     {
-        public int Id { get; set; }
-        public string Name { get; set; }
+        T Hydrate<T>(dynamic result);
     }
 }

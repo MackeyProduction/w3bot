@@ -16,12 +16,12 @@ namespace w3bot.Database.Repository
         /// </summary>
         /// <param name="id">The unique identifier of the entity.</param>
         /// <returns>Returns an dictionary.</returns>
-        Dictionary<string, object> FetchById(int id);
+        T FetchById<T>(int id);
 
         /// <summary>
         /// Fetch all entries as list.
         /// </summary>
         /// <returns>Returns a list with all entries.</returns>
-        List<Dictionary<string, object>> FetchAll();
+        IList<T> FetchAll<T>();
     }
 }

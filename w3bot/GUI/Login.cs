@@ -9,6 +9,8 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using w3bot.Database;
+using w3bot.Database.Repository;
+using w3bot.Service;
 
 namespace w3bot.GUI
 {
@@ -16,36 +18,54 @@ namespace w3bot.GUI
     {
         private bool _statusOk = false;
         public bool StatusOk { get { return _statusOk; } set { _statusOk = value; } }
+        private IManager _serviceManager;
 
-        public Login()
+        public Login(IManager serviceManager)
         {
+            _serviceManager = serviceManager;
+
             InitializeComponent();
         }
 
-        private async void btnLogin_Click(object sender, EventArgs e)
+        private void btnLogin_Click(object sender, EventArgs e)
         {
+            loginWorker.DoWork += LoginWorker_DoWork;
+            loginWorker.RunWorkerCompleted += LoginWorker_RunWorkerCompleted;
+            loginWorker.RunWorkerAsync();
+            btnLogin.Enabled = false;
+        }
+
+        private void LoginWorker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+            if (!loginWorker.CancellationPending && StatusOk)
+            {
+                Close();
+            }
+            else
+            {
+                btnLogin.Enabled = true;
+            }
+        }
+
+        private void LoginWorker_DoWork(object sender, DoWorkEventArgs e)
+        {
+            var dbService = _serviceManager.Get("databaseService").Load() as RepositoryFactory;
+            var user = dbService.CreateRepository("User") as UserRepository;
+
             if (!string.IsNullOrWhiteSpace(tbUsername.Text) && !string.IsNullOrWhiteSpace(tbPassword.Text))
             {
-                try
+                var result = user.Login(tbUsername.Text, tbPassword.Text);
+                
+                if (result)
                 {
-                    var user = new Auth();
-                    var result = user.Login(tbUsername.Text, tbPassword.Text);
-
-                    var myTask = result.ContinueWith(task =>
-                    {
-                        if (task.IsCompleted && task.Result.StatusCode == System.Net.HttpStatusCode.OK)
-                        {
-                            StatusOk = true;
-                        }
-                    });
-                    await myTask;
-
-                    if (StatusOk)
-                    {
-                        Close();
-                    }
-                } catch (Exception) { }
-            } else
+                    StatusOk = true;
+                }
+                else
+                {
+                    MessageBox.Show("User login failed. Check your user credentials.");
+                }
+            }
+            else
             {
                 MessageBox.Show("Please enter a valid username and password.");
             }
@@ -53,12 +73,12 @@ namespace w3bot.GUI
 
         private void linkLblCreateAccount_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            new Register().Show();
+            new Register(_serviceManager).Show();
         }
 
         private void linkLblForgotPassword_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            new ForgotPassword().Show();
+            new ForgotPassword(_serviceManager).Show();
         }
     }
 }
