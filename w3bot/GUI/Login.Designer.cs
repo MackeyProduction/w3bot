@@ -36,6 +36,7 @@
             this.tbUsername = new System.Windows.Forms.TextBox();
             this.tbPassword = new System.Windows.Forms.TextBox();
             this.btnLogin = new System.Windows.Forms.Button();
+            this.loginWorker = new System.ComponentModel.BackgroundWorker();
             this.LoginGroupBox.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -145,5 +146,6 @@
         private System.Windows.Forms.TextBox tbUsername;
         private System.Windows.Forms.TextBox tbPassword;
         private System.Windows.Forms.Button btnLogin;
+        private System.ComponentModel.BackgroundWorker loginWorker;
     }
 }

@@ -84,13 +84,15 @@ namespace w3bot.Database.Repository
                 };
 
                 var receivedData = Post($"{ENDPOINT}/login", values);
-
+                
                 if (receivedData.Result.IsSuccessStatusCode && receivedData.IsCompleted)
                 {
                     dynamic loginResult = HttpContentAsJsonObject(receivedData.Result.Content).Result;
 
                     // fetch token
                     Token = (string)loginResult.token;
+
+                    return true;
                 }
             }
             catch (Exception exception)

@@ -16,6 +16,8 @@ using w3bot.Tests;
 using System.Threading;
 using System.Diagnostics;
 using w3bot.Bot;
+using w3bot.Service;
+using w3bot.Database;
 
 namespace w3bot.GUI
 {
@@ -38,7 +40,10 @@ namespace w3bot.GUI
 
         private void Main_Load(object sender, EventArgs e)
         {
-            Login login = new Login();
+            var serviceManager = new ServiceManager();
+            serviceManager.Set("databaseService", new DatabaseService());
+
+            Login login = new Login(serviceManager);
             login.ShowDialog();
 
             if (!login.StatusOk)

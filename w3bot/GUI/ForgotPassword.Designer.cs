@@ -32,6 +32,7 @@
             this.lblUsername = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.btnRecoverPassword = new System.Windows.Forms.Button();
+            this.forgotPasswordWorker = new System.ComponentModel.BackgroundWorker();
             this.SuspendLayout();
             // 
             // tbUsername
@@ -92,5 +93,6 @@
         private System.Windows.Forms.Label lblUsername;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Button btnRecoverPassword;
+        private System.ComponentModel.BackgroundWorker forgotPasswordWorker;
     }
 }

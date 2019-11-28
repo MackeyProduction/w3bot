@@ -284,6 +284,9 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resource1.resx</DependentUpon>
     </Compile>
+    <Compile Include="Service\ILoadable.cs" />
+    <Compile Include="Service\IManager.cs" />
+    <Compile Include="Service\ServiceManager.cs" />
     <Compile Include="Tests\TestScript.cs" />
     <Compile Include="Tests\UnitTests\ChromiumBrowserAdapterTests.cs" />
     <Compile Include="Tests\UnitTests\CoreTests.cs" />
