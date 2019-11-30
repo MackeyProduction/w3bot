@@ -132,7 +132,7 @@ namespace w3bot.Wrapper
             _chromeBrowser.FrameLoadEnd -= address_change;
         }
 
-        public void SetAddress(Listener.AddressChangedEventArgs args)
+        public void SetAddress(Listener.DocumentAddressChangedEventArgs args)
         {
             
         }

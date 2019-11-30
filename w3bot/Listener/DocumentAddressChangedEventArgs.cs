@@ -7,18 +7,18 @@ using w3bot.Interfaces;
 
 namespace w3bot.Listener
 {
-    public class DocumentLoadEventArgs : EventArgs
+    public class DocumentAddressChangedEventArgs : EventArgs
     {
         private IBrowser _browser;
-        private string _url;
+        private string _address;
 
-        public DocumentLoadEventArgs(IBrowser browser, string url)
+        public DocumentAddressChangedEventArgs(IBrowser browser, string address)
         {
             _browser = browser;
-            _url = url;
+            _address = address;
         }
 
+        public string Address { get { return _address; } }
         public IBrowser Browser { get { return _browser; } }
-        public string Url { get { return _url; } }
     }
 }

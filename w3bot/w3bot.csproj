@@ -126,8 +126,10 @@
     <Compile Include="Core\BotSettings.cs" />
     <Compile Include="Core\Debug.cs" />
     <Compile Include="Core\FormControl.cs" />
+    <Compile Include="Core\IProcessor.cs" />
     <Compile Include="Core\ScriptItem.cs" />
     <Compile Include="Core\Scriptloader.cs" />
+    <Compile Include="Core\WebProcessor.cs" />
     <Compile Include="Database\Connection.cs" />
     <Compile Include="Database\DatabaseService.cs" />
     <Compile Include="Database\Entity\Group.cs" />
@@ -266,7 +268,7 @@
     <Compile Include="Interfaces\IScript.cs" />
     <Compile Include="Interfaces\ITaskScheduler.cs" />
     <Compile Include="Interfaces\IWebBrowserEvents.cs" />
-    <Compile Include="Listener\AddressChangedEventArgs.cs" />
+    <Compile Include="Listener\DocumentAddressChangedEventArgs.cs" />
     <Compile Include="Listener\ChromiumBrowserEventArgs.cs" />
     <Compile Include="Listener\DocumentLoadEventArgs.cs" />
     <Compile Include="Listener\DocumentReadyEventArgs.cs" />

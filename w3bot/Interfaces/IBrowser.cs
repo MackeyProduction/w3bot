@@ -9,7 +9,7 @@ namespace w3bot.Interfaces
     /// <summary>
     /// w3bot interface for Browser.
     /// </summary>
-    public interface IBrowser
+    public interface IBrowser : IDisposable
     {
         /// <summary>
         /// Open source code from current web page.
