@@ -35,6 +35,14 @@ namespace w3bot.Wrapper.Helper
             }
         }
 
+        public void Dispose()
+        {
+            if (!_browser.IsDisposed)
+            {
+                _browser.Dispose();
+            }
+        }
+
         public Task<object> ExecuteJavascript(string script)
         {
             throw new NotImplementedException();

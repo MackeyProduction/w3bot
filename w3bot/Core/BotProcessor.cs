@@ -37,6 +37,7 @@ namespace w3bot.Core
         /// </summary>
         /// <param name="bot">Bot instance.</param>
         /// <param name="proxyOptions">Proxy settings.</param>
+        [Obsolete("This constructor will soon be deprecated. Use the web processor instead.")]
         public BotProcessor(Bot.Bot bot, ProxyOptions proxyOptions = null)
         {
             _bot = bot;

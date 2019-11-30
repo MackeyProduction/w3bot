@@ -9,7 +9,7 @@ namespace w3bot.Interfaces
 {
     interface IWebBrowserEvents
     {
-        void SetAddress(AddressChangedEventArgs args);
+        void SetAddress(DocumentAddressChangedEventArgs args);
 
         void OnDocumentLoad(DocumentLoadEventArgs args);
         void OnDocumentReady(DocumentReadyEventArgs args);
