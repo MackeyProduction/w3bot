@@ -16,6 +16,7 @@ namespace w3bot.Wrapper
         internal BotWindow _botWindow;
         internal ChromiumWebBrowser _chromiumBrowser;
 
+        [Obsolete("The class will soon be deprecated. Use the input classes instead.")]
         internal KeyboardAdapter(Bot.Bot bot)
         {
             _bot = bot;

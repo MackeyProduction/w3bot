@@ -303,9 +303,11 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Wrapper\ChromiumBrowserAdapter.cs" />
-    <Compile Include="Wrapper\Helper\ChromiumBrowserHelper.cs" />
+    <Compile Include="Wrapper\Browser\Chromium.cs" />
     <Compile Include="Wrapper\IBotBrowser.cs" />
     <Compile Include="Wrapper\InputAdapter.cs" />
+    <Compile Include="Wrapper\Input\ChromiumKeyboard.cs" />
+    <Compile Include="Wrapper\Input\ChromiumMouse.cs" />
     <Compile Include="Wrapper\KeyboardAdapter.cs" />
     <Compile Include="Wrapper\MouseAdapter.cs" />
     <Compile Include="Wrapper\Pixel.cs" />
