@@ -111,6 +111,7 @@
     <Compile Include="Bot\Browser.cs" />
     <Compile Include="Bot\Frame.cs" />
     <Compile Include="Bot\Bot.cs" />
+    <Compile Include="Core\AppletProcessor.cs" />
     <Compile Include="Core\BotDirectories.cs" />
     <Compile Include="Core\BotProcessor.cs">
       <SubType>Component</SubType>
@@ -258,7 +259,6 @@
     <Compile Include="Handler\InputHandler.cs" />
     <Compile Include="Handler\PaintHandler.cs" />
     <Compile Include="Handler\TaskScheduler.cs" />
-    <Compile Include="Interfaces\IBot.cs" />
     <Compile Include="Interfaces\IBotWindow.cs" />
     <Compile Include="Interfaces\IBrowser.cs" />
     <Compile Include="Interfaces\IEventHandler.cs" />

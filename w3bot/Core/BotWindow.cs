@@ -25,6 +25,7 @@ namespace w3bot.Core
         internal bool doubleBuffered = true;
         internal bool _doubleBuffered { get { return doubleBuffered; } set { doubleBuffered = false; } }
         internal bool isVanished = false, isClosed = false;
+        internal IProcessor _newProcessor;
 
         /// <summary>
         /// Creates a new BotWindow instance.
@@ -32,6 +33,7 @@ namespace w3bot.Core
         /// <param name="bot">The current bot instance.</param>
         /// <param name="name">The name of the bot window.</param>
         /// <param name="processor">The current processor instance.</param>
+        [Obsolete("The constructor is deprecated. Use the new constructor with IProcessor integration instead.")]
         internal BotWindow(Bot.Bot bot, string name, string url, AbstractBotProcessor processor)
         {
             DoubleBuffered = _doubleBuffered;
@@ -42,6 +44,12 @@ namespace w3bot.Core
             _chromiumBrowser = _processor.GetBrowser();
             _chromiumBrowser.FrameLoadEnd += ChromiumBrowser_FrameLoadEnd;
             Activate();
+        }
+
+        internal BotWindow(string name, IProcessor processor)
+        {
+            _name = name;
+            _newProcessor = processor;
         }
 
         /// <summary>
