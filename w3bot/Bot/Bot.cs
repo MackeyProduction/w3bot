@@ -18,7 +18,7 @@ using w3bot.Wrapper;
 
 namespace w3bot.Bot
 {
-    public class Bot : ChromiumBrowserEventArgs, IBot
+    public class Bot : ChromiumBrowserEventArgs
     {
         internal delegate void Drawable(Graphics g);
         internal static event Drawable paintings = delegate { };
@@ -55,10 +55,21 @@ namespace w3bot.Bot
             return new BotWindow(this, name, url, new BotProcessor(this));
         }
 
+        //public BotWindow CreateBrowserWindow(string name = "View")
+        //{
+        //    return new BotWindow(name, new WebProcessor(null, null));
+        //}
+
+        //public BotWindow CreateAppletWindow(string name = "View")
+        //{
+        //    return new BotWindow(name, new AppletProcessor());
+        //}
+
         /// <summary>
         /// Initializes all necessarily settings for the BotWindow. After initializing you need to use the Open() method to open the window.
         /// </summary>
         /// <param name="botWindow"></param>
+        /// @TODO: Remove this method and move code in BotWindow class.
         public void Initialize(BotWindow botWindow)
         {
             _botWindow = botWindow;

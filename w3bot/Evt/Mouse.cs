@@ -14,6 +14,7 @@ namespace w3bot.Evt
     public static class Mouse
     {
         private static MouseAdapter _mouseAdapter = null;
+        private static IMouseInput _mouse = null;
 
         /// <summary>
         /// Injects a left mouse click in the bot window.
@@ -142,9 +143,15 @@ namespace w3bot.Evt
             _mouseAdapter.Wheel(direction, amount);
         }
 
+        [Obsolete("The method is deprecated. Use the method with interface implementation instead.")]
         internal static void AddConfiguration(Bot.Bot bot)
         {
             _mouseAdapter = bot.botSettings.inputAdapter.mouseAdapter;
+        }
+
+        internal static void AddConfiguration(IMouseInput mouse)
+        {
+            _mouse = mouse;
         }
     }
 }

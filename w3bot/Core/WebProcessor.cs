@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -46,22 +47,22 @@ namespace w3bot.Core
 
         private void _panel_MouseWheel(object sender, MouseEventArgs e)
         {
-            throw new NotImplementedException();
+            _botBrowser.GetMouse().Click(MouseEvent(e), Enumeration.Keys.Event.DOWNUP);
         }
 
         private void _panel_MouseDown(object sender, MouseEventArgs e)
         {
-            throw new NotImplementedException();
+            _botBrowser.GetMouse().Click(MouseEvent(e), Enumeration.Keys.Event.DOWN);
         }
 
         private void _panel_MouseUp(object sender, MouseEventArgs e)
         {
-            throw new NotImplementedException();
+            _botBrowser.GetMouse().Click(MouseEvent(e), Enumeration.Keys.Event.UP);
         }
 
         private void _panel_MouseMove(object sender, MouseEventArgs e)
         {
-            throw new NotImplementedException();
+            _botBrowser.GetMouse().Move(e.X, e.Y);
         }
 
         public void BlockInput()
@@ -89,6 +90,25 @@ namespace w3bot.Core
         public void GetFocus()
         {
             _panel.Focus();
+        }
+
+        private Enumeration.Keys.Button MouseEvent(MouseEventArgs e)
+        {
+            Enumeration.Keys.Button mType;
+            switch (e.Button)
+            {
+                case MouseButtons.Right:
+                    mType = Enumeration.Keys.Button.RIGHT;
+                    break;
+                case MouseButtons.Middle:
+                    mType = Enumeration.Keys.Button.MIDDLE;
+                    break;
+                default:
+                    mType = Enumeration.Keys.Button.LEFT;
+                    break;
+            }
+
+            return mType;
         }
     }
 }
