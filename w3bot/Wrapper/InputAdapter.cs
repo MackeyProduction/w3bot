@@ -11,6 +11,7 @@ namespace w3bot.Wrapper
         internal MouseAdapter mouseAdapter;
         internal KeyboardAdapter keyboardAdapter;
 
+        [Obsolete("The class will soon be deprecated. Use the input classes instead.")]
         internal InputAdapter(MouseAdapter mouseAdapter, KeyboardAdapter keyboardAdapter)
         {
             this.mouseAdapter = mouseAdapter;

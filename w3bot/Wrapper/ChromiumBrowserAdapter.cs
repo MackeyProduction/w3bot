@@ -5,10 +5,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using w3bot.Interfaces;
-using w3bot.Wrapper.Helper;
+using w3bot.Wrapper.Browser;
 using w3bot.Listener;
 using CefSharp;
 using w3bot.Database.Entity;
+using w3bot.Wrapper.Input;
 
 namespace w3bot.Wrapper
 {
@@ -23,7 +24,7 @@ namespace w3bot.Wrapper
             {
                 _chromiumBrowser.FrameLoadEnd += (evt, args) => 
                 {
-                    var adaptedBrowser = new ChromiumBrowserHelper(args.Browser);
+                    var adaptedBrowser = new Chromium(args.Browser);
                     value.Invoke(this, new DocumentReadyEventArgs(adaptedBrowser, args.HttpStatusCode, args.Url));
                 };
             }
@@ -31,7 +32,7 @@ namespace w3bot.Wrapper
             {
                 _chromiumBrowser.FrameLoadEnd -= (evt, args) =>
                 {
-                    var adaptedBrowser = new ChromiumBrowserHelper(args.Browser);
+                    var adaptedBrowser = new Chromium(args.Browser);
                     value.Invoke(this, new DocumentReadyEventArgs(adaptedBrowser, args.HttpStatusCode, args.Url));
                 };
             }
@@ -43,7 +44,7 @@ namespace w3bot.Wrapper
             {
                 _chromiumBrowser.FrameLoadStart += (evt, args) =>
                 {
-                    var adaptedBrowser = new ChromiumBrowserHelper(args.Browser);
+                    var adaptedBrowser = new Chromium(args.Browser);
                     value.Invoke(this, new DocumentLoadEventArgs(adaptedBrowser, args.Url));
                 };
             }
@@ -51,7 +52,7 @@ namespace w3bot.Wrapper
             {
                 _chromiumBrowser.FrameLoadStart -= (evt, args) =>
                 {
-                    var adaptedBrowser = new ChromiumBrowserHelper(args.Browser);
+                    var adaptedBrowser = new Chromium(args.Browser);
                     value.Invoke(this, new DocumentLoadEventArgs(adaptedBrowser, args.Url));
                 };
             }
@@ -63,7 +64,7 @@ namespace w3bot.Wrapper
             {
                 _chromiumBrowser.AddressChanged += (evt, args) =>
                 {
-                    var adaptedBrowser = new ChromiumBrowserHelper(args.Browser);
+                    var adaptedBrowser = new Chromium(args.Browser);
                     value.Invoke(this, new DocumentAddressChangedEventArgs(adaptedBrowser, args.Address));
                 };
             }
@@ -71,7 +72,7 @@ namespace w3bot.Wrapper
             {
                 _chromiumBrowser.AddressChanged -= (evt, args) =>
                 {
-                    var adaptedBrowser = new ChromiumBrowserHelper(args.Browser);
+                    var adaptedBrowser = new Chromium(args.Browser);
                     value.Invoke(this, new DocumentAddressChangedEventArgs(adaptedBrowser, args.Address));
                 };
             }
@@ -133,7 +134,7 @@ namespace w3bot.Wrapper
 
         public Interfaces.IBrowser GetBrowser()
         {
-            return new ChromiumBrowserHelper(_chromiumBrowser.GetBrowser());
+            return new Chromium(_chromiumBrowser.GetBrowser());
         }
 
         public void Dispose()
@@ -142,6 +143,16 @@ namespace w3bot.Wrapper
             {
                 _chromiumBrowser.Dispose();
             }
+        }
+
+        public IKeyboardInput GetKeyboard()
+        {
+            throw new NotImplementedException();
+        }
+
+        public IMouseInput GetMouse()
+        {
+            return new ChromiumMouse(_chromiumBrowser.GetBrowser());
         }
     }
 }

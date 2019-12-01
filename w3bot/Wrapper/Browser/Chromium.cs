@@ -5,13 +5,13 @@ using System.Text;
 using System.Threading.Tasks;
 using w3bot.Interfaces;
 
-namespace w3bot.Wrapper.Helper
+namespace w3bot.Wrapper.Browser
 {
-    class ChromiumBrowserHelper : IBrowser
+    class Chromium : IBrowser
     {
         private CefSharp.IBrowser _browser;
 
-        public ChromiumBrowserHelper(CefSharp.IBrowser browser)
+        public Chromium(CefSharp.IBrowser browser)
         {
             _browser = browser;
         }

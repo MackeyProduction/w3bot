@@ -11,6 +11,8 @@ namespace w3bot.Wrapper
     interface IBotBrowser : IDisposable
     {
         IBrowser GetBrowser();
+        IKeyboardInput GetKeyboard();
+        IMouseInput GetMouse();
 
         /// <summary>
         /// Open new proxy connection.

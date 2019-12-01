@@ -26,6 +26,7 @@ namespace w3bot.Wrapper
         /// w3bot instance for MouseAdapter.
         /// </summary>
         /// <param name="bot">The current bot instance.</param>
+        [Obsolete("The class will soon be deprecated. Use the input classes instead.")]
         internal MouseAdapter(Bot.Bot bot)
         {
             _bot = bot;
