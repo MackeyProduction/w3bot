@@ -1,16 +1,7 @@
-﻿using CefSharp;
-using CefSharp.OffScreen;
-using System;
-using System.Collections.Generic;
+﻿using CefSharp.OffScreen;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using w3bot.Bot;
-using w3bot.Core;
-using w3bot.Enumeration;
-using w3bot.Interfaces;
+using w3bot.Core.Bot;
 
 namespace w3bot.Wrapper
 {

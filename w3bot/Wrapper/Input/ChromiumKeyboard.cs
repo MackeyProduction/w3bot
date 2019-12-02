@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using w3bot.Interfaces;
-
-namespace w3bot.Wrapper.Input
+﻿namespace w3bot.Wrapper.Input
 {
     class ChromiumKeyboard : IKeyboardInput
     {

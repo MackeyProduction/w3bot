@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using w3bot.Core;
-using w3bot.Interfaces;
+﻿using System.Threading.Tasks;
 using w3bot.Wrapper;
 
 namespace w3bot.Bot

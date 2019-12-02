@@ -1,17 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using w3bot.Bot;
-using w3bot.Core;
-using w3bot.Interfaces;
-using w3bot.Listener;
+using w3bot.Core.Bot;
+using w3bot.Core.Script;
+using w3bot.Evt.Handler;
 
 namespace w3bot.GUI
 {
@@ -37,8 +29,8 @@ namespace w3bot.GUI
         {
             if (listViewScripts.SelectedItems.Count == 1)
             {
-                Handler.TaskScheduler.Create = new Handler.TaskScheduler(_bot);
-                var taskScheduler = Handler.TaskScheduler.Create; 
+                TaskScheduler.Create = new TaskScheduler(_bot);
+                var taskScheduler = TaskScheduler.Create; 
                 taskScheduler.Bind(new BotStub(_bot, ((ScriptItem)listViewScripts.SelectedItems[0]).script, _stop));
                 taskScheduler.Execute(_bot.botTab.SelectedIndex);
                 _start();

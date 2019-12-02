@@ -1,23 +1,15 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using CefSharp;
-using CefSharp.WinForms;
 using w3bot.Core;
 using System.Globalization;
 using w3bot.Evt;
-using w3bot.Tests;
 using System.Threading;
 using System.Diagnostics;
-using w3bot.Bot;
 using w3bot.Service;
-using w3bot.Database;
+using w3bot.Core.Bot;
+using w3bot.Core.Database;
 
 namespace w3bot.GUI
 {
