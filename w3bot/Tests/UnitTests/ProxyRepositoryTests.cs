@@ -1,12 +1,8 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Net.Http;
-using System.Text;
-using System.Threading.Tasks;
-using w3bot.Database.Entity;
-using w3bot.Database.Repository;
+using w3bot.Core.Database.Entity;
+using w3bot.Core.Database.Repository;
 
 namespace w3bot.Tests.UnitTests
 {

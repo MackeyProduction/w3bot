@@ -1,13 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using CefSharp;
+﻿using CefSharp;
 using w3bot.Bot;
 using w3bot.Evt;
-using w3bot.Interfaces;
-using w3bot.Listener;
+using w3bot.Evt.Listener;
 
 namespace w3bot.Tests
 {

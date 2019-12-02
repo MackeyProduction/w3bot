@@ -1,23 +1,15 @@
 ﻿using CefSharp;
 using CefSharp.OffScreen;
 using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Linq;
-using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
-using w3bot.Bot;
-using w3bot.Core;
-using w3bot.Enumeration;
-using w3bot.Evt;
-using w3bot.Interfaces;
+using w3bot.Core.Bot;
+using w3bot.Util;
 
 namespace w3bot.Wrapper
 {
     internal class MouseAdapter : IMouseInput
     {
-        internal Bot.Bot _bot;
+        internal w3bot.Bot.Bot _bot;
         internal BotWindow _botWindow;
         internal ChromiumWebBrowser _chromiumBrowser;
         internal MouseEvent _mouseEvent;

@@ -1,20 +1,14 @@
 ﻿using CefSharp;
 using CefSharp.OffScreen;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
-using w3bot.Bot;
-using w3bot.Core;
-using w3bot.Evt;
-using w3bot.Interfaces;
-using w3bot.Interfaces;
-using w3bot.Listener;
+using w3bot.Core.Bot;
+using w3bot.Core.Processor;
+using w3bot.Evt.Listener;
 
 namespace w3bot.Wrapper
 {
-    class BrowserAdapter : BotProcessor, w3bot.Interfaces.IBrowser, IWebBrowserEvents
+    class BrowserAdapter : BotProcessor, IBrowser, IWebBrowserEvents
     {
         internal ChromiumWebBrowser _chromeBrowser = null;
         internal BotWindow _botWindow;
@@ -132,7 +126,7 @@ namespace w3bot.Wrapper
             _chromeBrowser.FrameLoadEnd -= address_change;
         }
 
-        public void SetAddress(Listener.DocumentAddressChangedEventArgs args)
+        public void SetAddress(DocumentAddressChangedEventArgs args)
         {
             
         }

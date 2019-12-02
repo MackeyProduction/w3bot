@@ -1,14 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using System.ComponentModel;
+using w3bot.Core.Bot;
 using w3bot.Wrapper;
-using System.Threading;
-using w3bot.Bot;
 
 namespace w3bot.Core
 {
@@ -16,14 +10,14 @@ namespace w3bot.Core
     {
         internal Form mainWindow { get; set; }
         internal static CoreInformation coreInformation { get { return new CoreInformation(); } }
-        private static Bot.Bot _bot;
-        internal static Bot.Bot bot { get { return _bot; } set { _bot = value; } }
+        private static w3bot.Bot.Bot _bot;
+        internal static w3bot.Bot.Bot bot { get { return _bot; } set { _bot = value; } }
         internal RichTextBox logbox { get; set; }
         internal TabControl tabs { get; set; }
         internal static Core _core { get; set; }
         internal static Form currentWindow { get; set; }
         internal BotStub runningScript { get; set; }
-        internal Handler.TaskScheduler runningScriptList { get; set; }
+        internal Evt.Handler.TaskScheduler runningScriptList { get; set; }
 
         /// <summary>
         /// Initializes the core.
@@ -31,14 +25,14 @@ namespace w3bot.Core
         /// <param name="core">The core instance.</param>
         /// <param name="formControl">Form controls like window, logbox and tabs.</param>
         [Obsolete("This method is deprecated. Use Initialize with form attribute instead.")]
-        internal static void Initialize(Core core, Bot.Bot bot, FormControl formControl)
+        internal static void Initialize(Core core, w3bot.Bot.Bot bot, FormControl formControl)
         {
             _bot = bot;
             _core = core;
             _core.mainWindow = formControl.mainWindow;
             _core.logbox = formControl.logbox;
             _core.tabs = formControl.tabs;
-            Bot.Bot.AddConfiguration(core);
+            w3bot.Bot.Bot.AddConfiguration(core);
         }
 
         internal static void Initialize(Form form)

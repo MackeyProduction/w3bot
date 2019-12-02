@@ -1,15 +1,10 @@
 ﻿using CefSharp.OffScreen;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using w3bot.Interfaces;
 using w3bot.Wrapper.Browser;
-using w3bot.Listener;
 using CefSharp;
-using w3bot.Database.Entity;
 using w3bot.Wrapper.Input;
+using w3bot.Evt.Listener;
+using w3bot.Core.Database.Entity;
 
 namespace w3bot.Wrapper
 {
@@ -132,7 +127,7 @@ namespace w3bot.Wrapper
             }
         }
 
-        public Interfaces.IBrowser GetBrowser()
+        public IBrowser GetBrowser()
         {
             return new Chromium(_chromiumBrowser.GetBrowser());
         }

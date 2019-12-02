@@ -1,18 +1,12 @@
 ﻿using CefSharp.OffScreen;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using w3bot.Bot;
-using w3bot.Core;
-using w3bot.Interfaces;
+using w3bot.Core.Bot;
 
 namespace w3bot.Wrapper
 {
     internal class KeyboardAdapter : IKeyboardInput
     {
-        internal Bot.Bot _bot;
+        internal w3bot.Bot.Bot _bot;
         internal BotWindow _botWindow;
         internal ChromiumWebBrowser _chromiumBrowser;
 
