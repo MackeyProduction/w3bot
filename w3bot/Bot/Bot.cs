@@ -12,14 +12,10 @@ using w3bot.Wrapper;
 
 namespace w3bot.Bot
 {
-    public class Bot : ChromiumBrowserEventArgs
+    public class Bot
     {
         internal delegate void Drawable(Graphics g);
         internal static event Drawable paintings = delegate { };
-        private static ChromiumBrowserEventArgs _chromeBrowserEvents;
-        internal static ChromiumBrowserEventArgs chromeBrowserEvents { get { return _chromeBrowserEvents; } set { _chromeBrowserEvents = value; } }
-        internal delegate void ChromiumBrowserDelegate(object sender, ChromiumBrowserEventArgs e);
-        internal static event ChromiumBrowserDelegate ChromiumBrowserEvent = delegate { };
         internal delegate void EventHandlerDelegate(object sender, EventArgs e);
         internal static event EventHandlerDelegate EvtHandler = delegate { };
         public ChromiumWebBrowser browser { get; set; }
@@ -79,8 +75,6 @@ namespace w3bot.Bot
 
             if (botWindow._url != "")
                 Browser.Navigate(botWindow._url);
-
-            _chromeBrowserEvents = new ChromiumBrowserEventArgs();
         }
 
         /// <summary>
@@ -119,11 +113,6 @@ namespace w3bot.Bot
         internal void RefreshPaints(Graphics g)
         {
             paintings(g);
-        }
-
-        public void ExecuteBrowserEvents(object sender, ChromiumBrowserEventArgs e)
-        {
-            ChromiumBrowserEvent(sender, e);
         }
 
         internal void ExecuteUserEvents(object sender, EventArgs e)

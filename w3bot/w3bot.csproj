@@ -269,7 +269,6 @@
     <Compile Include="Evt\Handler\ITaskScheduler.cs" />
     <Compile Include="Wrapper\IWebBrowserEvents.cs" />
     <Compile Include="Listener\DocumentAddressChangedEventArgs.cs" />
-    <Compile Include="Listener\ChromiumBrowserEventArgs.cs" />
     <Compile Include="Listener\DocumentLoadEventArgs.cs" />
     <Compile Include="Listener\DocumentReadyEventArgs.cs" />
     <Compile Include="Listener\IAddressChangedListener.cs" />
