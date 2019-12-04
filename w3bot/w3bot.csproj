@@ -128,7 +128,7 @@
     <Compile Include="Core\Debug.cs" />
     <Compile Include="Core\FormControl.cs" />
     <Compile Include="Core\Processor\IProcessor.cs" />
-    <Compile Include="Core\Script\ScriptItem.cs" />
+    <Compile Include="Script\ScriptItem.cs" />
     <Compile Include="Core\Script\Scriptloader.cs" />
     <Compile Include="Core\Processor\WebProcessor.cs" />
     <Compile Include="Core\Database\Connection.cs" />
@@ -265,20 +265,20 @@
     <Compile Include="Bot\IFrame.cs" />
     <Compile Include="Wrapper\IKeyboardInput.cs" />
     <Compile Include="Wrapper\IMouseInput.cs" />
-    <Compile Include="Bot\IScript.cs" />
+    <Compile Include="Script\IScript.cs" />
     <Compile Include="Evt\Handler\ITaskScheduler.cs" />
     <Compile Include="Wrapper\IWebBrowserEvents.cs" />
-    <Compile Include="Evt\Listener\DocumentAddressChangedEventArgs.cs" />
-    <Compile Include="Evt\Listener\ChromiumBrowserEventArgs.cs" />
-    <Compile Include="Evt\Listener\DocumentLoadEventArgs.cs" />
-    <Compile Include="Evt\Listener\DocumentReadyEventArgs.cs" />
-    <Compile Include="Evt\Listener\IAddressChangedListener.cs" />
-    <Compile Include="Evt\Listener\IDocumentLoadListener.cs" />
-    <Compile Include="Evt\Listener\IDocumentReadyListener.cs" />
-    <Compile Include="Evt\Listener\IKeyPressListener.cs" />
-    <Compile Include="Evt\Listener\IMouseEventListener.cs" />
-    <Compile Include="Evt\Listener\IPaintListener.cs" />
-    <Compile Include="Evt\Listener\ScriptManifest.cs" />
+    <Compile Include="Listener\DocumentAddressChangedEventArgs.cs" />
+    <Compile Include="Listener\ChromiumBrowserEventArgs.cs" />
+    <Compile Include="Listener\DocumentLoadEventArgs.cs" />
+    <Compile Include="Listener\DocumentReadyEventArgs.cs" />
+    <Compile Include="Listener\IAddressChangedListener.cs" />
+    <Compile Include="Listener\IDocumentLoadListener.cs" />
+    <Compile Include="Listener\IDocumentReadyListener.cs" />
+    <Compile Include="Listener\IKeyPressListener.cs" />
+    <Compile Include="Listener\IMouseEventListener.cs" />
+    <Compile Include="Listener\IPaintListener.cs" />
+    <Compile Include="Script\ScriptManifest.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Resource1.Designer.cs">
@@ -388,9 +388,7 @@
       <SubType>Designer</SubType>
     </None>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Script\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <None Include="Resources\application.png" />
   </ItemGroup>

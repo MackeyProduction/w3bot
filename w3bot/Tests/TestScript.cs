@@ -1,7 +1,8 @@
 ﻿using CefSharp;
 using w3bot.Bot;
 using w3bot.Evt;
-using w3bot.Evt.Listener;
+using w3bot.Listener;
+using w3bot.Script;
 
 namespace w3bot.Tests
 {

@@ -7,7 +7,7 @@ using w3bot.Core;
 using w3bot.Core.Bot;
 using w3bot.Core.Processor;
 using w3bot.Evt;
-using w3bot.Evt.Listener;
+using w3bot.Listener;
 using w3bot.Wrapper;
 
 namespace w3bot.Bot

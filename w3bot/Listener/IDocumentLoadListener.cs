@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using CefSharp;
 
-namespace w3bot.Evt.Listener
+namespace w3bot.Listener
 {
     public interface IDocumentLoadListener
     {

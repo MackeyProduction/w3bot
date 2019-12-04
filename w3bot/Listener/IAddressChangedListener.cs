@@ -5,10 +5,10 @@ using System.Text;
 using System.Threading.Tasks;
 using CefSharp;
 
-namespace w3bot.Evt.Listener
+namespace w3bot.Listener
 {
-    public interface IDocumentReadyListener
+    public interface IAddressChangedListener
     {
-        void DocumentReady(object sender, FrameLoadEndEventArgs e);
+        void AddressChanged(object sender, CefSharp.AddressChangedEventArgs e);
     }
 }

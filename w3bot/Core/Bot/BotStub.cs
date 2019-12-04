@@ -4,6 +4,7 @@ using System.Windows.Forms;
 using w3bot.Bot;
 using w3bot.Evt;
 using w3bot.Evt.Handler;
+using w3bot.Script;
 
 namespace w3bot.Core.Bot
 {
