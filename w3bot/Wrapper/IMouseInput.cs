@@ -10,7 +10,7 @@ namespace w3bot.Wrapper
     /// <summary>
     /// w3bot interface for mouse manipulation.
     /// </summary>
-    interface IMouseInput
+    public interface IMouseInput
     {
         /// <summary>
         /// Execute mouse click.

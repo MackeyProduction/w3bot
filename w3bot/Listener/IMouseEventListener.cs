@@ -5,10 +5,10 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace w3bot.Evt.Listener
+namespace w3bot.Listener
 {
-    public interface IKeyPressListener
+    public interface IMouseEventListener
     {
-        void KeyPress(object sender, KeyPressEventArgs e);
+        void MouseEvent(object sender, MouseEventArgs e);
     }
 }

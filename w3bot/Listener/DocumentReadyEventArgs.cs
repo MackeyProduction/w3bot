@@ -1,7 +1,7 @@
 ﻿using System;
 using w3bot.Wrapper;
 
-namespace w3bot.Evt.Listener
+namespace w3bot.Listener
 {
     public class DocumentReadyEventArgs : EventArgs
     {

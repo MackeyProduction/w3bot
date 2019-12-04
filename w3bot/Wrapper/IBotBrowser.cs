@@ -1,9 +1,9 @@
 ﻿using System;
-using w3bot.Evt.Listener;
+using w3bot.Listener;
 
 namespace w3bot.Wrapper
 {
-    interface IBotBrowser : IDisposable
+    public interface IBotBrowser : IDisposable
     {
         IBrowser GetBrowser();
         IKeyboardInput GetKeyboard();

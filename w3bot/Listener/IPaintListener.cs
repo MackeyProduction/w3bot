@@ -7,7 +7,7 @@ using CefSharp;
 using System.Windows.Forms;
 using System.Drawing;
 
-namespace w3bot.Evt.Listener
+namespace w3bot.Listener
 {
     public interface IPaintListener
     {

@@ -1,7 +1,7 @@
-﻿using CefSharp;
-using w3bot.Bot;
+﻿using w3bot.Bot;
 using w3bot.Evt;
-using w3bot.Evt.Listener;
+using w3bot.Listener;
+using w3bot.Script;
 
 namespace w3bot.Tests
 {
@@ -31,12 +31,12 @@ namespace w3bot.Tests
             return 100;
         }
 
-        public void DocumentReady(object sender, FrameLoadEndEventArgs e)
+        public void DocumentReady(object sender, DocumentReadyEventArgs e)
         {
             Status.Log("Document is ready.");
         }
 
-        public void AddressChanged(object sender, CefSharp.AddressChangedEventArgs e)
+        public void AddressChanged(object sender, DocumentAddressChangedEventArgs e)
         {
             Status.Log("Meh.");
         }

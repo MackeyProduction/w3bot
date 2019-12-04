@@ -1,6 +1,4 @@
-﻿using w3bot.Evt.Listener;
-
-namespace w3bot.Bot
+﻿namespace w3bot.Script
 {
     /// <summary>
     /// w3bot interface for scripts.

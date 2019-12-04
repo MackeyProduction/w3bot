@@ -9,7 +9,7 @@ namespace w3bot.Wrapper
     /// <summary>
     /// w3bot interface for keyboard manipulation.
     /// </summary>
-    interface IKeyboardInput
+    public interface IKeyboardInput
     {
         /// <summary>
         /// Execute keyboard key event.

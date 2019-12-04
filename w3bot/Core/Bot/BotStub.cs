@@ -4,6 +4,8 @@ using System.Windows.Forms;
 using w3bot.Bot;
 using w3bot.Evt;
 using w3bot.Evt.Handler;
+using w3bot.Script;
+using w3bot.Wrapper;
 
 namespace w3bot.Core.Bot
 {
@@ -114,7 +116,10 @@ namespace w3bot.Core.Bot
         internal void ExecuteEvents()
         {
             eventHandler = new Evt.Handler.EventHandler();
-            eventHandler.Bind(new BrowserHandler(_bot, _script));
+
+            // quickfix. TODO: remove this dependency
+            var browser = new ChromiumBrowserAdapter(new CefSharp.OffScreen.ChromiumWebBrowser());
+            eventHandler.Bind(new BrowserHandler(browser, _script));
             eventHandler.Bind(new InputHandler(_bot, _script));
             eventHandler.Bind(new PaintHandler(_bot, _script));
 

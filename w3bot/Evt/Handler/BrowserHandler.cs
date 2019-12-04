@@ -1,16 +1,18 @@
 ﻿using w3bot.Bot;
-using w3bot.Evt.Listener;
+using w3bot.Listener;
+using w3bot.Script;
+using w3bot.Wrapper;
 
 namespace w3bot.Evt.Handler
 {
     public class BrowserHandler : IEventHandler
     {
-        private Bot.Bot _bot;
+        private IBotBrowser _browser;
         private IScript _script;
 
-        public BrowserHandler(Bot.Bot bot, IScript script)
+        public BrowserHandler(IBotBrowser browser, IScript script)
         {
-            _bot = bot;
+            _browser = browser;
             _script = script;
         }
 
@@ -18,17 +20,17 @@ namespace w3bot.Evt.Handler
         {
             if (_script is IAddressChangedListener)
             {
-                Bot.Bot.DocumentAddressChangedEvent += ((IAddressChangedListener)_script).AddressChanged;
+                _browser.AddressChanged += ((IAddressChangedListener)_script).AddressChanged;
             }
 
             if (_script is IDocumentLoadListener)
             {
-                Bot.Bot.DocumentLoadEvent += ((IDocumentLoadListener)_script).DocumentLoad;
+                _browser.DocumentLoad += ((IDocumentLoadListener)_script).DocumentLoad;
             }
 
             if (_script is IDocumentReadyListener)
             {
-                Bot.Bot.DocumentReadyEvent += ((IDocumentReadyListener)_script).DocumentReady;
+                _browser.DocumentReady += ((IDocumentReadyListener)_script).DocumentReady;
             }
         }
 
@@ -36,17 +38,17 @@ namespace w3bot.Evt.Handler
         {
             if (_script is IAddressChangedListener)
             {
-                Bot.Bot.DocumentAddressChangedEvent -= ((IAddressChangedListener)_script).AddressChanged;
+                _browser.AddressChanged -= ((IAddressChangedListener)_script).AddressChanged;
             }
 
             if (_script is IDocumentLoadListener)
             {
-                Bot.Bot.DocumentLoadEvent -= ((IDocumentLoadListener)_script).DocumentLoad;
+                _browser.DocumentLoad -= ((IDocumentLoadListener)_script).DocumentLoad;
             }
 
             if (_script is IDocumentReadyListener)
             {
-                Bot.Bot.DocumentReadyEvent -= ((IDocumentReadyListener)_script).DocumentReady;
+                _browser.DocumentReady -= ((IDocumentReadyListener)_script).DocumentReady;
             }
         }
     }
