@@ -3,7 +3,7 @@ using System.Drawing;
 using w3bot.Util;
 using w3bot.Wrapper;
 
-namespace w3bot.Evt
+namespace w3bot.Input
 {
     public static class Mouse
     {

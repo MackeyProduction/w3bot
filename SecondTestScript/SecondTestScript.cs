@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using w3bot.Bot;
-using w3bot.Evt;
+using w3bot.Input;
 using w3bot.Interfaces;
 using w3bot.Listener;
 

@@ -17,7 +17,7 @@ namespace w3bot.Core
         internal static Core _core { get; set; }
         internal static Form currentWindow { get; set; }
         internal BotStub runningScript { get; set; }
-        internal Evt.Handler.TaskScheduler runningScriptList { get; set; }
+        internal Event.TaskScheduler runningScriptList { get; set; }
 
         /// <summary>
         /// Initializes the core.

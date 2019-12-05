@@ -2,7 +2,7 @@
 using System.Threading;
 using w3bot.Wrapper;
 
-namespace w3bot.Evt
+namespace w3bot.Input
 {
     public static class Keyboard
     {

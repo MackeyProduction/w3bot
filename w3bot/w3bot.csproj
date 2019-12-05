@@ -155,9 +155,9 @@
     <Compile Include="Core\Database\Entity\User.cs" />
     <Compile Include="Core\Database\Entity\UserAgent.cs" />
     <Compile Include="Util\Keys.cs" />
-    <Compile Include="Evt\Keyboard.cs" />
-    <Compile Include="Evt\Mouse.cs" />
-    <Compile Include="Evt\Status.cs" />
+    <Compile Include="Input\Keyboard.cs" />
+    <Compile Include="Input\Mouse.cs" />
+    <Compile Include="Input\Status.cs" />
     <Compile Include="GUI\About.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -254,19 +254,19 @@
     <Compile Include="GUI\UserAgentSettings.Designer.cs">
       <DependentUpon>UserAgentSettings.cs</DependentUpon>
     </Compile>
-    <Compile Include="Evt\Handler\BrowserHandler.cs" />
-    <Compile Include="Evt\Handler\EventHandler.cs" />
-    <Compile Include="Evt\Handler\InputHandler.cs" />
-    <Compile Include="Evt\Handler\PaintHandler.cs" />
-    <Compile Include="Evt\Handler\TaskScheduler.cs" />
+    <Compile Include="Event\BrowserHandler.cs" />
+    <Compile Include="Event\EventHandler.cs" />
+    <Compile Include="Event\InputHandler.cs" />
+    <Compile Include="Event\PaintHandler.cs" />
+    <Compile Include="Event\TaskScheduler.cs" />
     <Compile Include="Core\Bot\IBotWindow.cs" />
     <Compile Include="Wrapper\IBrowser.cs" />
-    <Compile Include="Evt\Handler\IEventHandler.cs" />
+    <Compile Include="Event\IEventHandler.cs" />
     <Compile Include="Bot\IFrame.cs" />
     <Compile Include="Wrapper\IKeyboardInput.cs" />
     <Compile Include="Wrapper\IMouseInput.cs" />
     <Compile Include="Script\IScript.cs" />
-    <Compile Include="Evt\Handler\ITaskScheduler.cs" />
+    <Compile Include="Event\ITaskScheduler.cs" />
     <Compile Include="Wrapper\IWebBrowserEvents.cs" />
     <Compile Include="Listener\DocumentAddressChangedEventArgs.cs" />
     <Compile Include="Listener\DocumentLoadEventArgs.cs" />
