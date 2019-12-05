@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using w3bot.Core;
 
-namespace w3bot.Evt
+namespace w3bot.Input
 {
     public static class Status
     {

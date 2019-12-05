@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace w3bot.Evt.Handler
+namespace w3bot.Event
 {
     public class EventHandler : IEventHandler
     {

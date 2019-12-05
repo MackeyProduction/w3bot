@@ -3,7 +3,7 @@ using w3bot.Listener;
 using w3bot.Script;
 using w3bot.Wrapper;
 
-namespace w3bot.Evt.Handler
+namespace w3bot.Event
 {
     public class BrowserHandler : IEventHandler
     {

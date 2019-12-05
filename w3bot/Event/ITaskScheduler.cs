@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace w3bot.Evt.Handler
+namespace w3bot.Event
 {
     /// <summary>
     /// w3bot interface for task scheduler.

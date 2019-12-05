@@ -2,8 +2,8 @@
 using System.Threading;
 using System.Windows.Forms;
 using w3bot.Bot;
-using w3bot.Evt;
-using w3bot.Evt.Handler;
+using w3bot.Event;
+using w3bot.Input;
 using w3bot.Script;
 using w3bot.Wrapper;
 
@@ -17,7 +17,7 @@ namespace w3bot.Core.Bot
         internal Thread _scriptThread, _drawThread;
         internal bool _running, _pausing;
         private w3bot.Bot.Bot _bot;
-        private Evt.Handler.EventHandler eventHandler;
+        private Event.EventHandler eventHandler;
 
         internal BotStub(w3bot.Bot.Bot bot, IScript script, Action scriptStoppedCallback)
         {
@@ -115,7 +115,7 @@ namespace w3bot.Core.Bot
 
         internal void ExecuteEvents()
         {
-            eventHandler = new Evt.Handler.EventHandler();
+            eventHandler = new Event.EventHandler();
 
             // quickfix. TODO: remove this dependency
             var browser = new ChromiumBrowserAdapter(new CefSharp.OffScreen.ChromiumWebBrowser());

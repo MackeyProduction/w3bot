@@ -1,5 +1,5 @@
 ﻿using w3bot.Bot;
-using w3bot.Evt;
+using w3bot.Input;
 using w3bot.Listener;
 using w3bot.Script;
 

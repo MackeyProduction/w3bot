@@ -3,7 +3,7 @@ using System.Threading;
 using System.Windows.Forms;
 using w3bot.Core.Bot;
 using w3bot.Core.Script;
-using w3bot.Evt.Handler;
+using w3bot.Event;
 using w3bot.Script;
 
 namespace w3bot.GUI

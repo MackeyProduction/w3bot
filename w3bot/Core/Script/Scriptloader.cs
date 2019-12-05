@@ -9,7 +9,7 @@ using System.Reflection;
 using System.Text;
 using w3bot.Bot;
 using w3bot.Core.Bot;
-using w3bot.Evt;
+using w3bot.Input;
 using w3bot.Script;
 
 namespace w3bot.Core.Script

@@ -2,7 +2,7 @@
 using System.Threading;
 using w3bot.Core.Bot;
 
-namespace w3bot.Evt.Handler
+namespace w3bot.Event
 {
     internal class TaskScheduler : ITaskScheduler
     {
