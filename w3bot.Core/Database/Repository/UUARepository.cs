@@ -4,7 +4,7 @@ using System.Net.Http;
 
 namespace w3bot.Core.Database.Repository
 {
-    internal class UUARepository : AbstractHttpRepository, IRepository
+    public class UUARepository : AbstractHttpRepository, IRepository
     {
         public UUARepository(HttpClient httpClient) : base(httpClient)
         {

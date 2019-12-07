@@ -4,7 +4,7 @@ using System.Net.Http;
 
 namespace w3bot.Core.Database.Repository
 {
-    internal class ProxyRepository : AbstractHttpRepository, IRepository
+    public class ProxyRepository : AbstractHttpRepository, IRepository
     {
         private static string PROXY_ENDPOINT = ENDPOINT + "/proxy";
 

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace w3bot.Core.Database.Repository
 {
-    internal class UPRepository : AbstractHttpRepository, IRepository
+    public class UPRepository : AbstractHttpRepository, IRepository
     {
         public UPRepository(HttpClient httpClient) : base(httpClient)
         {

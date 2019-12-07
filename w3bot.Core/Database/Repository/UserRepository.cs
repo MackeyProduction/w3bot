@@ -8,7 +8,7 @@ using w3bot.Core.Database.Entity;
 
 namespace w3bot.Core.Database.Repository
 {
-    internal class UserRepository : AbstractHttpRepository, IRepository
+    public class UserRepository : AbstractHttpRepository, IRepository
     {
         private static string USER_ENDPOINT = ENDPOINT + "/user";
         

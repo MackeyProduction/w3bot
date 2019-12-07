@@ -3,7 +3,6 @@ using System;
 using w3bot.Wrapper.Browser;
 using CefSharp;
 using w3bot.Wrapper.Input;
-using w3bot.Core.Database.Entity;
 using w3bot.Listener;
 
 namespace w3bot.Wrapper

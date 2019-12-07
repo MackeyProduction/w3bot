@@ -4,7 +4,6 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using w3bot.Core;
 
 namespace w3bot.Input
 {

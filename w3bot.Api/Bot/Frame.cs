@@ -1,26 +1,15 @@
-﻿using CefSharp.OffScreen;
-using Emgu.CV;
-using Emgu.CV.CvEnum;
-using Emgu.CV.Structure;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
-using System.Drawing.Imaging;
 using System.Runtime.InteropServices;
-using w3bot.Core.Bot;
 using w3bot.Util;
 
 namespace w3bot.Bot
 {
     public class Frame
     {
-        static ChromiumWebBrowser _chromiumBrowser;
-        static BotWindow _botWindow;
-        static Bot _bot;
         static Bitmap browserBitmap;
         static Point point;
-
-        public static Bitmap MainFrame { get { return _bot.botWindow._processor.Frame; } }
 
         /// <summary>
         /// Finds all matching pixels by a given color.
@@ -30,7 +19,7 @@ namespace w3bot.Bot
         {
             List<Point> pointList = new List<Point>();
 
-            Core.Core.ExeThreadSafe(delegate
+            Core.ExeThreadSafe(delegate
             {
                 try
                 {
@@ -122,7 +111,7 @@ namespace w3bot.Bot
         {
             Rectangle rectangle = new Rectangle();
 
-            Core.Core.ExeThreadSafe(delegate
+            Core.ExeThreadSafe(delegate
             {
                 browserBitmap = _bot.botWindow._processor.Frame;
                 Image<Bgr, byte> bImage = new Image<Bgr, byte>(browserBitmap);
@@ -156,14 +145,6 @@ namespace w3bot.Bot
         public static Rectangle FindText(string text)
         {
             return new Rectangle();
-        }
-
-        internal static void AddConfiguration(Bot bot)
-        {
-            _bot = bot;
-            if (_bot.botWindow == null) throw new InvalidOperationException("The Botwindow isn't initialized. Please initialize the botwindow with the Initialize() method.");
-            _botWindow = _bot.botWindow;
-            _chromiumBrowser = _botWindow._chromiumBrowser;
         }
     }
 }

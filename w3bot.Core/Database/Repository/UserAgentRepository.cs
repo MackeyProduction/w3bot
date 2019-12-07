@@ -4,7 +4,7 @@ using System.Net.Http;
 
 namespace w3bot.Core.Database.Repository
 {
-    internal class UserAgentRepository : AbstractHttpRepository, IRepository
+    public class UserAgentRepository : AbstractHttpRepository, IRepository
     {
         private static string USER_AGENT_ENDPOINT = ENDPOINT + "/agent";
         private Dictionary<Type, List<object>> items = new Dictionary<Type, List<object>>();

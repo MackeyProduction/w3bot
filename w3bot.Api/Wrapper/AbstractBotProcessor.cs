@@ -1,7 +1,7 @@
 ﻿using CefSharp.OffScreen;
 using System.Drawing;
 using System.Windows.Forms;
-using w3bot.Core.Bot;
+using w3bot.Bot;
 
 namespace w3bot.Wrapper
 {

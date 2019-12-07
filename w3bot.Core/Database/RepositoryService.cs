@@ -1,9 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
+using w3bot.Core.Database.Repository;
 using w3bot.Core.Utilities;
 
-namespace w3bot.Core.Database.Repository
+namespace w3bot.Core.Database
 {
     public class RepositoryService : IRepositoryService
     {

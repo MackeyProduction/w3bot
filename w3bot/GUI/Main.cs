@@ -13,7 +13,7 @@ using w3bot.Core.Database.Repository;
 
 namespace w3bot.GUI
 {
-    internal partial class Main : Core.Core
+    internal partial class Main
     {
         string title = "w3bot.org " + CoreInformation.programVersion.ToString("0.0", CultureInfo.InvariantCulture);
         private bool nextKill = false;  // flag to tell the next time the script will be killed without question

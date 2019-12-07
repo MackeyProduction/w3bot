@@ -17,7 +17,7 @@ namespace w3bot
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new Loading());
+            Application.Run(new Main());
         }
     }
 }

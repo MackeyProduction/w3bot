@@ -1,15 +1,7 @@
 ﻿using System;
-using System.Drawing;
-using System.Windows.Forms;
-using CefSharp;
-using w3bot.Core;
 using System.Globalization;
-using w3bot.Input;
 using System.Threading;
 using System.Diagnostics;
-using w3bot.Core.Bot;
-using w3bot.Core.Database;
-using w3bot.Core.Database.Repository;
 
 namespace w3bot.GUI
 {

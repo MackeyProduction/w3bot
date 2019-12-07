@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace w3bot.Core.Database.Repository
 {
-    abstract class AbstractHttpRepository
+    public abstract class AbstractHttpRepository
     {
         private HttpClient _httpClient;
         private Dictionary<string, string> headers = new Dictionary<string, string>();

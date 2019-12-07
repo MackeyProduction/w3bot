@@ -18,7 +18,6 @@ namespace w3bot.Bot
         internal static event Drawable paintings = delegate { };
         internal delegate void EventHandlerDelegate(object sender, EventArgs e);
         internal static event EventHandlerDelegate EvtHandler = delegate { };
-        public ChromiumWebBrowser browser { get; set; }
         internal Size ClientSize { get { return _core.mainWindow.Size; } }
         internal Size FrameSize { get; }
         internal TabControl botTab { get { return _core.tabs; } set { } }
