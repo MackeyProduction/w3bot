@@ -4,7 +4,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using w3bot.Bot;
-using w3bot.Input;
 using w3bot.Interfaces;
 using w3bot.Listener;
 
@@ -15,12 +14,12 @@ namespace SecondTestScript
     {
         public void onFinish()
         {
-            Status.Log("A second script test to test the scriptloader.");
+            //Status.Log("A second script test to test the scriptloader.");
         }
 
         public bool onStart()
         {
-            Status.Log("Script has been started.");
+            //Status.Log("Script has been started.");
 
             var botWindow = CreateBrowserWindow();
             Initialize(botWindow);

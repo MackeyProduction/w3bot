@@ -61,6 +61,10 @@
     <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Autofac, Version=4.9.4.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
+      <HintPath>..\packages\Autofac.4.9.4\lib\net45\Autofac.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Emgu.CV.UI, Version=3.4.1.2976, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\EMGU.CV.3.4.1.2976\lib\net35\Emgu.CV.UI.dll</HintPath>
       <Private>True</Private>
@@ -111,6 +115,9 @@
     <Compile Include="Bot\Browser.cs" />
     <Compile Include="Bot\Frame.cs" />
     <Compile Include="Bot\Bot.cs" />
+    <Compile Include="ContainerConfig.cs" />
+    <Compile Include="Core\Database\IRepositoryService.cs" />
+    <Compile Include="Core\Utilities\IValidator.cs" />
     <Compile Include="Core\Processor\AppletProcessor.cs" />
     <Compile Include="Core\Bot\BotDirectories.cs" />
     <Compile Include="Core\Processor\BotProcessor.cs">
@@ -128,11 +135,13 @@
     <Compile Include="Core\Debug.cs" />
     <Compile Include="Core\FormControl.cs" />
     <Compile Include="Core\Processor\IProcessor.cs" />
+    <Compile Include="Core\Utilities\ILogger.cs" />
+    <Compile Include="Core\Utilities\Logger.cs" />
     <Compile Include="Script\ScriptItem.cs" />
     <Compile Include="Core\Script\Scriptloader.cs" />
     <Compile Include="Core\Processor\WebProcessor.cs" />
     <Compile Include="Core\Database\Connection.cs" />
-    <Compile Include="Core\Database\DatabaseService.cs" />
+    <Compile Include="Core\Database\RepositoryService.cs" />
     <Compile Include="Core\Database\Entity\Group.cs" />
     <Compile Include="Core\Database\Entity\SoftwareExtras.cs" />
     <Compile Include="Core\Database\Entity\UP.cs" />
@@ -146,7 +155,6 @@
     <Compile Include="Core\Database\Repository\AbstractHttpRepository.cs" />
     <Compile Include="Core\Database\Repository\IRepository.cs" />
     <Compile Include="Core\Database\Repository\ProxyRepository.cs" />
-    <Compile Include="Core\Database\Repository\RepositoryFactory.cs" />
     <Compile Include="Core\Database\Repository\UPRepository.cs" />
     <Compile Include="Core\Database\Repository\UserAgentRepository.cs" />
     <Compile Include="Core\Database\Repository\UserRepository.cs" />
@@ -285,9 +293,6 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resource1.resx</DependentUpon>
     </Compile>
-    <Compile Include="Service\ILoadable.cs" />
-    <Compile Include="Service\IManager.cs" />
-    <Compile Include="Service\ServiceManager.cs" />
     <Compile Include="Tests\TestScript.cs" />
     <Compile Include="Tests\UnitTests\ChromiumBrowserAdapterTests.cs" />
     <Compile Include="Tests\UnitTests\CoreTests.cs" />
