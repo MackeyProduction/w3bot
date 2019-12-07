@@ -4,6 +4,7 @@ using System.Linq;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
+using w3bot.Core.Database.Entity;
 
 namespace w3bot.Core.Database.Repository
 {
@@ -179,6 +180,11 @@ namespace w3bot.Core.Database.Repository
             };
 
             return user;
+        }
+
+        public bool IsValid(string validator)
+        {
+            return validator == "User";
         }
     }
 }

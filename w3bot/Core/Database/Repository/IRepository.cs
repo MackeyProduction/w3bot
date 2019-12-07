@@ -3,13 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using w3bot.Core.Utilities;
 
 namespace w3bot.Core.Database.Repository
 {
     /// <summary>
     /// w3bot interface for repositories.
     /// </summary>
-    interface IRepository
+    public interface IRepository : IValidator
     {
         /// <summary>
         /// Fetches a dictionary by id.

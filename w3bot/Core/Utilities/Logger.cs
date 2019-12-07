@@ -4,10 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace w3bot.Service
+namespace w3bot.Core.Utilities
 {
-    public interface ILoadable
+    public class Logger : ILogger
     {
-        object Load();
+        public void Log(string message)
+        {
+
+        }
     }
 }

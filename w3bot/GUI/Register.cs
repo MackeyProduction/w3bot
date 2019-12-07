@@ -1,19 +1,16 @@
-﻿using System;
+﻿using Autofac;
+using System;
 using System.ComponentModel;
 using System.Windows.Forms;
+using w3bot.Core.Database;
 using w3bot.Core.Database.Repository;
-using w3bot.Service;
 
 namespace w3bot.GUI
 {
     public partial class Register : Form
     {
-        private IManager _serviceManager;
-
-        public Register(IManager serviceManager)
+        public Register()
         {
-            _serviceManager = serviceManager;
-
             InitializeComponent();
         }
 
@@ -32,23 +29,28 @@ namespace w3bot.GUI
 
         private void RegisterWorker_DoWork(object sender, DoWorkEventArgs e)
         {
-            if (tbPassword.Text == tbRepeatPassword.Text)
+            var container = ContainerConfig.Configure();
+
+            using (var scope = container.BeginLifetimeScope())
             {
-                var dbService = _serviceManager.Get("databaseService").Load() as RepositoryFactory;
+                var dbService = scope.Resolve<IRepositoryService>();
                 var userRepository = dbService.CreateRepository("User") as UserRepository;
 
-                if (userRepository.Register(tbUsername.Text, tbPassword.Text, tbEmail.Text))
-                {
-                    MessageBox.Show("Registration successful.");
+                if (tbPassword.Text == tbRepeatPassword.Text)
+                {             
+                    if (userRepository.Register(tbUsername.Text, tbPassword.Text, tbEmail.Text))
+                    {
+                        MessageBox.Show("Registration successful.");
+                    }
+                    else
+                    {
+                        MessageBox.Show("Registration failed. Please try later again.");
+                    }
                 }
                 else
                 {
-                    MessageBox.Show("Registration failed. Please try later again.");
+                    MessageBox.Show("The password not fit with the second password.");
                 }
-            }
-            else
-            {
-                MessageBox.Show("The password not fit with the second password.");
             }
         }
     }

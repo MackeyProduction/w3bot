@@ -123,5 +123,10 @@ namespace w3bot.Core.Database.Repository
 
             return userAgent;
         }
+
+        public bool IsValid(string validator)
+        {
+            return validator == "UserAgent";
+        }
     }
 }

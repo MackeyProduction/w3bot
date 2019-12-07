@@ -4,7 +4,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using w3bot.Bot;
-using w3bot.Input;
 using w3bot.Interfaces;
 using w3bot.Listener;
 using System.Windows.Forms;
@@ -20,12 +19,12 @@ namespace TestScript
     {
         public void onFinish()
         {
-            Status.Log("Thank you for using my script.");
+            //Status.Log("Thank you for using my script.");
         }
 
         public bool onStart()
         {
-            Status.Log("Test Script has been started.");
+            //Status.Log("Test Script has been started.");
 
             var browserWindow = CreateBrowserWindow();
             Initialize(browserWindow);
@@ -40,13 +39,13 @@ namespace TestScript
         {
             if (Browser.IsReady)
             {
-                Mouse.Move(414, 402);
-                Mouse.LeftClick(414, 402);
-                var point = Frame.FindPixel(66, 133, 244, 255);
-                var imagePoint = Frame.FindImage(new Bitmap("Unbenannt.bmp"));
-                Status.Log($"X: {point.X}, Y: {point.Y}.");
-                Status.Log($"X: {imagePoint.X}, Y: {imagePoint.Y}.");
-                Status.Log("Executed.");
+                //Mouse.Move(414, 402);
+                //Mouse.LeftClick(414, 402);
+                //var point = Frame.FindPixel(66, 133, 244, 255);
+                //var imagePoint = Frame.FindImage(new Bitmap("Unbenannt.bmp"));
+                //Status.Log($"X: {point.X}, Y: {point.Y}.");
+                //Status.Log($"X: {imagePoint.X}, Y: {imagePoint.Y}.");
+                //Status.Log("Executed.");
                 //return 0;
             }
 
@@ -55,7 +54,7 @@ namespace TestScript
 
         public void DocumentReady(object sender, ChromiumBrowserEventArgs e)
         {
-            Status.Log("Finished loading.");
+            //Status.Log("Finished loading.");
         }
 
         public void OnPaint(Graphics g)
@@ -65,7 +64,7 @@ namespace TestScript
 
         public void DocumentReady(object sender, FrameLoadEndEventArgs e)
         {
-            Status.Log("Document is ready.");
+            //Status.Log("Document is ready.");
         }
     }
 }

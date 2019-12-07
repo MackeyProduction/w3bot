@@ -56,6 +56,11 @@ namespace w3bot.Core.Database.Repository
             throw new HttpRequestException(String.Format("The proxy with the id {0} could not be fetched by the database.", id));
         }
 
+        public bool IsValid(string validator)
+        {
+            return validator == "Proxy";
+        }
+
         internal async void AddProxy(Entity.Proxy proxy)
         {
             //var values = new Dictionary<string, string>

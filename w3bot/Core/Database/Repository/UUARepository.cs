@@ -19,5 +19,10 @@ namespace w3bot.Core.Database.Repository
         {
             throw new NotImplementedException();
         }
+
+        public bool IsValid(string validator)
+        {
+            return validator == "UUA";
+        }
     }
 }

@@ -1,8 +1,10 @@
-﻿using System;
+﻿using Autofac;
+using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Windows.Forms;
+using w3bot.Core.Database;
 using w3bot.Core.Database.Repository;
-using w3bot.Service;
 
 namespace w3bot.GUI
 {
@@ -10,12 +12,9 @@ namespace w3bot.GUI
     {
         private bool _statusOk = false;
         public bool StatusOk { get { return _statusOk; } set { _statusOk = value; } }
-        private IManager _serviceManager;
 
-        public Login(IManager serviceManager)
+        public Login()
         {
-            _serviceManager = serviceManager;
-
             InitializeComponent();
         }
 
@@ -41,36 +40,41 @@ namespace w3bot.GUI
 
         private void LoginWorker_DoWork(object sender, DoWorkEventArgs e)
         {
-            var dbService = _serviceManager.Get("databaseService").Load() as RepositoryFactory;
-            var user = dbService.CreateRepository("User") as UserRepository;
+            var container = ContainerConfig.Configure();
 
-            if (!string.IsNullOrWhiteSpace(tbUsername.Text) && !string.IsNullOrWhiteSpace(tbPassword.Text))
+            using (var scope = container.BeginLifetimeScope())
             {
-                var result = user.Login(tbUsername.Text, tbPassword.Text);
-                
-                if (result)
+                var repositories = scope.Resolve<IRepositoryService>();
+                var user = repositories.CreateRepository("User") as UserRepository;
+
+                if (!string.IsNullOrWhiteSpace(tbUsername.Text) && !string.IsNullOrWhiteSpace(tbPassword.Text))
                 {
-                    StatusOk = true;
+                    var result = user.Login(tbUsername.Text, tbPassword.Text);
+
+                    if (result)
+                    {
+                        StatusOk = true;
+                    }
+                    else
+                    {
+                        MessageBox.Show("User login failed. Check your user credentials.");
+                    }
                 }
                 else
                 {
-                    MessageBox.Show("User login failed. Check your user credentials.");
+                    MessageBox.Show("Please enter a valid username and password.");
                 }
-            }
-            else
-            {
-                MessageBox.Show("Please enter a valid username and password.");
             }
         }
 
         private void linkLblCreateAccount_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            new Register(_serviceManager).Show();
+            new Register().Show();
         }
 
         private void linkLblForgotPassword_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            new ForgotPassword(_serviceManager).Show();
+            new ForgotPassword().Show();
         }
     }
 }

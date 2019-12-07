@@ -7,9 +7,9 @@ using System.Globalization;
 using w3bot.Input;
 using System.Threading;
 using System.Diagnostics;
-using w3bot.Service;
 using w3bot.Core.Bot;
 using w3bot.Core.Database;
+using w3bot.Core.Database.Repository;
 
 namespace w3bot.GUI
 {
@@ -32,10 +32,7 @@ namespace w3bot.GUI
 
         private void Main_Load(object sender, EventArgs e)
         {
-            var serviceManager = new ServiceManager();
-            serviceManager.Set("databaseService", new DatabaseService());
-
-            Login login = new Login(serviceManager);
+            Login login = new Login();
             login.ShowDialog();
 
             if (!login.StatusOk)

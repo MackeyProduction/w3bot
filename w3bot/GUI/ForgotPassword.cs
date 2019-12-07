@@ -1,19 +1,16 @@
-﻿using System;
+﻿using Autofac;
+using System;
 using System.ComponentModel;
 using System.Windows.Forms;
+using w3bot.Core.Database;
 using w3bot.Core.Database.Repository;
-using w3bot.Service;
 
 namespace w3bot.GUI
 {
     public partial class ForgotPassword : Form
     {
-        private IManager _serviceManager;
-
-        public ForgotPassword(IManager serviceManager)
+        public ForgotPassword()
         {
-            _serviceManager = serviceManager;
-
             InitializeComponent();
         }
 
@@ -32,16 +29,21 @@ namespace w3bot.GUI
 
         private void ForgotPasswordWorker_DoWork(object sender, DoWorkEventArgs e)
         {
-            var dbService = _serviceManager.Get("databaseService").Load() as RepositoryFactory;
-            var userRepository = dbService.CreateRepository("User") as UserRepository;
+            var container = ContainerConfig.Configure();
 
-            if (userRepository.ForgotPassword(tbUsername.Text))
+            using (var scope = container.BeginLifetimeScope())
             {
-                MessageBox.Show("In few minutes you will receive an email for password recovery.\nUse the link to recover your password.");
-            }
-            else
-            {
-                MessageBox.Show("Username not found.");
+                var dbService = scope.Resolve<IRepositoryService>();
+                var userRepository = dbService.CreateRepository("User") as UserRepository;
+
+                if (userRepository.ForgotPassword(tbUsername.Text))
+                {
+                    MessageBox.Show("In few minutes you will receive an email for password recovery.\nUse the link to recover your password.");
+                }
+                else
+                {
+                    MessageBox.Show("Username not found.");
+                }
             }
         }
     }
