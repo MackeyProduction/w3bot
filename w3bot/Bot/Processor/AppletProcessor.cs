@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using w3bot.Util;
 
-namespace w3bot.Core.Processor
+namespace w3bot.Bot.Processor
 {
     class AppletProcessor : IProcessor
     {
@@ -36,6 +37,11 @@ namespace w3bot.Core.Processor
         public void GetFocus()
         {
             throw new NotImplementedException();
+        }
+
+        public bool IsValidProcessor(ProcessorType type)
+        {
+            return type == ProcessorType.AppletProcessor;
         }
     }
 }

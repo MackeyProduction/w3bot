@@ -18,24 +18,24 @@ namespace w3bot.GUI
         string title = "w3bot.org " + CoreInformation.programVersion.ToString("0.0", CultureInfo.InvariantCulture);
         private bool nextKill = false;  // flag to tell the next time the script will be killed without question
         private BotWindow botMain;
+        private Login _login;
 
-        public Main()
+        public Main(Login login)
         {
             InitializeComponent();
             
             this.Text = title + " - Idle...";
-            Initialize(this, new Bot.Bot(), new FormControl(this, textBoxLog, tabControlMain));
 
+            _login = login;
             Initialize(this);
             BotDirectories.CreateDirs();
         }
 
         private void Main_Load(object sender, EventArgs e)
         {
-            Login login = new Login();
-            login.ShowDialog();
+            _login.ShowDialog();
 
-            if (!login.StatusOk)
+            if (!_login.StatusOk)
             {
                 this.Close();
                 Application.Exit();
@@ -43,8 +43,7 @@ namespace w3bot.GUI
             }
 
             Status.Log("Welcome to " + title);
-            botMain = bot.CreateBrowserWindow("View", "google.com");
-            bot.Initialize(botMain);
+            botMain = bot.CreateWindow("View");
             botMain.Open();
 
             Bot.Bot.AddConfiguration(this);

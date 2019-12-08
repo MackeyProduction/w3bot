@@ -4,10 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using w3bot.Util;
 
-namespace w3bot.Core.Processor
+namespace w3bot.Bot.Processor
 {
-    interface IProcessor
+    public interface IProcessor
     {
         void Activate();
         void Destroy();
@@ -15,5 +16,6 @@ namespace w3bot.Core.Processor
         void BlockInput();
         void GetFocus();
         void DropFocus();
+        bool IsValidProcessor(ProcessorType type);
     }
 }

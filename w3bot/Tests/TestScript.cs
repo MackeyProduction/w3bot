@@ -6,7 +6,7 @@ using w3bot.Script;
 namespace w3bot.Tests
 {
     [ScriptManifest("TestScript", "YouTube", "Test the bot functionality.", "NoChoice", 1.0)]
-    public class TestScript : Bot.Bot, IScript, IDocumentReadyListener, IAddressChangedListener
+    public class TestScript : AbstractScript, IScript, IDocumentReadyListener, IAddressChangedListener
     {
         public void onFinish()
         {
@@ -17,9 +17,9 @@ namespace w3bot.Tests
         {
             Status.Log("Test Script has been started.");
 
-            var browserWindow = CreateBrowserWindow();
-            Initialize(browserWindow);
-            browserWindow.Open();
+            //var browserWindow = CreateBrowserWindow();
+            //Initialize(browserWindow);
+            //browserWindow.Open();
 
             Browser.Navigate("github.com");
 

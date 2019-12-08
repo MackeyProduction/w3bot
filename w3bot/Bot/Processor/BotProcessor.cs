@@ -55,7 +55,7 @@ namespace w3bot.Core.Processor
             
             chromiumBrowser = new ChromiumWebBrowser("https://www.google.com/");
             chromiumBrowser.Size = this.ClientSize;
-            _bot.browser = chromiumBrowser;
+            //_bot.browser = chromiumBrowser;
 
             chromiumBrowser.BrowserInitialized += ChromiumBrowser_BrowserInitialized;
         }

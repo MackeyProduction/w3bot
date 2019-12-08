@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Windows.Forms;
 using w3bot.Listener;
+using w3bot.Util;
 using w3bot.Wrapper;
 
-namespace w3bot.Core.Processor
+namespace w3bot.Bot.Processor
 {
     class WebProcessor : IProcessor
     {
@@ -105,6 +106,11 @@ namespace w3bot.Core.Processor
             }
 
             return mType;
+        }
+
+        public bool IsValidProcessor(ProcessorType type)
+        {
+            return type == ProcessorType.BrowserProcessor;
         }
     }
 }

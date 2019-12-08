@@ -9,8 +9,12 @@ namespace w3bot.GUI
 {
     public partial class Register : Form
     {
-        public Register()
+        private IRepositoryService _repositoryService;
+
+        public Register(IRepositoryService repositoryService)
         {
+            _repositoryService = repositoryService;
+
             InitializeComponent();
         }
 
@@ -29,28 +33,22 @@ namespace w3bot.GUI
 
         private void RegisterWorker_DoWork(object sender, DoWorkEventArgs e)
         {
-            var container = ContainerConfig.Configure();
+            var userRepository = _repositoryService.CreateRepository("User") as UserRepository;
 
-            using (var scope = container.BeginLifetimeScope())
+            if (tbPassword.Text == tbRepeatPassword.Text)
             {
-                var dbService = scope.Resolve<IRepositoryService>();
-                var userRepository = dbService.CreateRepository("User") as UserRepository;
-
-                if (tbPassword.Text == tbRepeatPassword.Text)
-                {             
-                    if (userRepository.Register(tbUsername.Text, tbPassword.Text, tbEmail.Text))
-                    {
-                        MessageBox.Show("Registration successful.");
-                    }
-                    else
-                    {
-                        MessageBox.Show("Registration failed. Please try later again.");
-                    }
+                if (userRepository.Register(tbUsername.Text, tbPassword.Text, tbEmail.Text))
+                {
+                    MessageBox.Show("Registration successful.");
                 }
                 else
                 {
-                    MessageBox.Show("The password not fit with the second password.");
+                    MessageBox.Show("Registration failed. Please try later again.");
                 }
+            }
+            else
+            {
+                MessageBox.Show("The password not fit with the second password.");
             }
         }
     }

@@ -10,6 +10,7 @@ namespace w3bot.Input
 {
     public static class Status
     {
+
         public static string Log(string text)
         {
             return Core.Core.AppendTextToLog(text, Color.Black);

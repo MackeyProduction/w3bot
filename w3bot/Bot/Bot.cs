@@ -1,13 +1,15 @@
 ﻿using CefSharp.OffScreen;
 using System;
+using System.Collections.Generic;
 using System.Drawing;
+using System.Linq;
 using System.Threading;
 using System.Windows.Forms;
-using w3bot.Core;
+using w3bot.Bot.Processor;
 using w3bot.Core.Bot;
-using w3bot.Core.Processor;
 using w3bot.Input;
 using w3bot.Listener;
+using w3bot.Util;
 using w3bot.Wrapper;
 
 namespace w3bot.Bot
@@ -18,7 +20,6 @@ namespace w3bot.Bot
         internal static event Drawable paintings = delegate { };
         internal delegate void EventHandlerDelegate(object sender, EventArgs e);
         internal static event EventHandlerDelegate EvtHandler = delegate { };
-        public ChromiumWebBrowser browser { get; set; }
         internal Size ClientSize { get { return _core.mainWindow.Size; } }
         internal Size FrameSize { get; }
         internal TabControl botTab { get { return _core.tabs; } set { } }
@@ -28,53 +29,31 @@ namespace w3bot.Bot
         internal BotSettings botSettings { get { return _botSettings; } set { _botSettings = value; } }
         private static Core.Core _core;
         internal Core.Core core { get { return _core; } set { _core = value; } }
+        private IEnumerable<IProcessor> _processors;
 
         internal static void AddConfiguration(Core.Core core)
         {
             _core = core;
         }
 
-        /// <summary>
-        /// Creates a new BotWindow which allows you to send input.
-        /// </summary>
-        /// <param name="name">Bot window name.</param>
-        /// <param name="url">Url of the bot window.</param>
-        /// <returns>Returns an BotWindow object.</returns>
-        public BotWindow CreateBrowserWindow(string name = "View", string url = "")
+        public Bot(IEnumerable<IProcessor> processors)
         {
-            return new BotWindow(this, name, url, new BotProcessor(this));
+            _processors = processors;
         }
 
-        //public BotWindow CreateBrowserWindow(string name = "View")
-        //{
-        //    return new BotWindow(name, new WebProcessor(null, null));
-        //}
-
-        //public BotWindow CreateAppletWindow(string name = "View")
-        //{
-        //    return new BotWindow(name, new AppletProcessor());
-        //}
-
-        /// <summary>
-        /// Initializes all necessarily settings for the BotWindow. After initializing you need to use the Open() method to open the window.
-        /// </summary>
-        /// <param name="botWindow"></param>
-        /// @TODO: Remove this method and move code in BotWindow class.
-        public void Initialize(BotWindow botWindow)
+        public BotWindow CreateWindow(string name = "View", ProcessorType type = ProcessorType.BrowserProcessor)
         {
-            _botWindow = botWindow;
-            _botSettings = new BotSettings();
-            _botSettings.browserAdapter = new BrowserAdapter(this);
-            _botSettings.inputAdapter = new InputAdapter(new MouseAdapter(this), new KeyboardAdapter(this));
+            return new BotWindow(name, _processors.Single(item => item.GetType().ToString() == type.ToString()));
+        }
 
-            // add configuration
-            Browser.AddConfiguration(this);
-            Mouse.AddConfiguration(this);
-            Frame.AddConfiguration(this);
-            Debug.AddConfiguration(this);
+        public BotWindow CreateBrowserWindow(string name = "View")
+        {
+            return CreateWindow(name, ProcessorType.BrowserProcessor);
+        }
 
-            if (botWindow._url != "")
-                Browser.Navigate(botWindow._url);
+        public BotWindow CreateAppletWindow(string name = "View")
+        {
+            return CreateWindow(name, ProcessorType.AppletProcessor);
         }
 
         /// <summary>

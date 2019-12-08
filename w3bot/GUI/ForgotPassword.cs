@@ -9,8 +9,12 @@ namespace w3bot.GUI
 {
     public partial class ForgotPassword : Form
     {
-        public ForgotPassword()
+        private IRepositoryService _repositoryService;
+
+        public ForgotPassword(IRepositoryService repositoryService)
         {
+            _repositoryService = repositoryService;
+
             InitializeComponent();
         }
 
@@ -29,21 +33,15 @@ namespace w3bot.GUI
 
         private void ForgotPasswordWorker_DoWork(object sender, DoWorkEventArgs e)
         {
-            var container = ContainerConfig.Configure();
+            var userRepository = _repositoryService.CreateRepository("User") as UserRepository;
 
-            using (var scope = container.BeginLifetimeScope())
+            if (userRepository.ForgotPassword(tbUsername.Text))
             {
-                var dbService = scope.Resolve<IRepositoryService>();
-                var userRepository = dbService.CreateRepository("User") as UserRepository;
-
-                if (userRepository.ForgotPassword(tbUsername.Text))
-                {
-                    MessageBox.Show("In few minutes you will receive an email for password recovery.\nUse the link to recover your password.");
-                }
-                else
-                {
-                    MessageBox.Show("Username not found.");
-                }
+                MessageBox.Show("In few minutes you will receive an email for password recovery.\nUse the link to recover your password.");
+            }
+            else
+            {
+                MessageBox.Show("Username not found.");
             }
         }
     }
