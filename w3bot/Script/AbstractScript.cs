@@ -5,11 +5,10 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using w3bot.Bot.Processor;
 
 namespace w3bot.Script
 {
-    public abstract class AbstractScript
+    public abstract class AbstractScript : Bot.Bot
     {
         private bool _running, _pausing;
         private Thread _scriptThread, _drawThread;

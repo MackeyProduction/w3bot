@@ -4,11 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using w3bot.Util;
+using w3bot.Core.Utilities;
 
-namespace w3bot.Bot.Processor
+namespace w3bot.Core.Processor
 {
-    public interface IProcessor
+    interface IProcessor
     {
         void Activate();
         void Destroy();

@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace w3bot.Util
+namespace w3bot.Core.Utilities
 {
-    public enum ProcessorType
+    internal enum ProcessorType
     {
         BrowserProcessor,
         AppletProcessor

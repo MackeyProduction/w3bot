@@ -3,9 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using w3bot.Core.Utilities;
 using w3bot.Util;
 
-namespace w3bot.Bot.Processor
+namespace w3bot.Core.Processor
 {
     class AppletProcessor : IProcessor
     {

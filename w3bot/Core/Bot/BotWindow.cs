@@ -3,18 +3,14 @@ using CefSharp.OffScreen;
 using System;
 using System.Linq;
 using System.Windows.Forms;
-using w3bot.Bot.Processor;
+using w3bot.Core.Processor;
 using w3bot.Wrapper;
 
 namespace w3bot.Core.Bot
 {
     public class BotWindow : TabPage, IBotWindow
     {
-        internal ChromiumWebBrowser _chromiumBrowser;
-        internal AbstractBotProcessor _processor;
-        internal w3bot.Bot.Bot _bot;
-        internal String _name, _url;
-        internal String _sourceCode { get; set; }
+        internal String _name;
         internal bool doubleBuffered = true;
         internal bool _doubleBuffered { get { return doubleBuffered; } set { doubleBuffered = false; } }
         internal bool isVanished = false, isClosed = false;
@@ -92,18 +88,6 @@ namespace w3bot.Core.Bot
                 _bot.botTab.SelectedTab = this;
                 _processor.ActivateProcessor(this);
             });
-        }
-
-        private void ChromiumBrowser_FrameLoadEnd(object sender, FrameLoadEndEventArgs e)
-        {
-            if (e.Frame.IsMain)
-            {
-                _chromiumBrowser.GetSourceAsync().ContinueWith(taskHtml =>
-                {
-                    // load the source code
-                    _sourceCode = taskHtml.Result;
-                });
-            }
         }
     }
 }

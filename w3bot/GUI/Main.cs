@@ -13,7 +13,7 @@ using w3bot.Core.Database.Repository;
 
 namespace w3bot.GUI
 {
-    internal partial class Main : Core.Core
+    public partial class Main
     {
         string title = "w3bot.org " + CoreInformation.programVersion.ToString("0.0", CultureInfo.InvariantCulture);
         private bool nextKill = false;  // flag to tell the next time the script will be killed without question
@@ -33,14 +33,14 @@ namespace w3bot.GUI
 
         private void Main_Load(object sender, EventArgs e)
         {
-            _login.ShowDialog();
+            //_login.ShowDialog();
 
-            if (!_login.StatusOk)
-            {
-                this.Close();
-                Application.Exit();
-                return;
-            }
+            //if (!_login.StatusOk)
+            //{
+            //    this.Close();
+            //    Application.Exit();
+            //    return;
+            //}
 
             Status.Log("Welcome to " + title);
             botMain = bot.CreateWindow("View");
@@ -97,12 +97,6 @@ namespace w3bot.GUI
 
         private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            new Thread(new ThreadStart(delegate
-            {
-                Tests.TestScript testScript = new Tests.TestScript();
-                BotStub botStub = new BotStub(bot, testScript, Script_stopped);
-                botStub.onStart();
-            })).Start();
             new About().ShowDialog();
         }
 
@@ -179,8 +173,6 @@ namespace w3bot.GUI
             stopToolStripMenuItem.Enabled = false;
             runningScript = null;
         }
-
-        
 
         private void mousePositionToolStripMenuItem_Click(object sender, EventArgs e)
         {

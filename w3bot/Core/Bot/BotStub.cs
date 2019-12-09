@@ -61,7 +61,7 @@ namespace w3bot.Core.Bot
                         Thread.Sleep(delay);
                     }
                 }
-                _bot.core.mainWindow.Invoke((MethodInvoker)delegate { _scriptStopped(); }); //let upper instances know that the script is now stopped
+                //_bot.core.mainWindow.Invoke((MethodInvoker)delegate { _scriptStopped(); }); //let upper instances know that the script is now stopped
             }));
 
             // paint thread

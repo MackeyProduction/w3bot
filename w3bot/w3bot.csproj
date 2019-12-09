@@ -117,30 +117,28 @@
     <Compile Include="Bot\Bot.cs" />
     <Compile Include="ContainerConfig.cs" />
     <Compile Include="Core\Database\IRepositoryService.cs" />
+    <Compile Include="Core\Processor\IProcessorService.cs" />
+    <Compile Include="Core\Processor\ProcessorService.cs" />
     <Compile Include="Core\Utilities\IValidator.cs" />
-    <Compile Include="Bot\Processor\AppletProcessor.cs" />
+    <Compile Include="Core\Processor\AppletProcessor.cs" />
     <Compile Include="Core\Bot\BotDirectories.cs" />
-    <Compile Include="Bot\Processor\BotProcessor.cs">
-      <SubType>Component</SubType>
-    </Compile>
     <Compile Include="Core\Bot\BotStub.cs" />
     <Compile Include="Core\Bot\BotWindow.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Core\Core.cs">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Include="Core\Core.cs" />
     <Compile Include="Core\CoreInformation.cs" />
-    <Compile Include="Core\Bot\BotSettings.cs" />
     <Compile Include="Core\Debug.cs" />
-    <Compile Include="Core\FormControl.cs" />
-    <Compile Include="Bot\Processor\IProcessor.cs" />
+    <Compile Include="Core\Processor\IProcessor.cs" />
     <Compile Include="Core\Utilities\ILogger.cs" />
     <Compile Include="Core\Utilities\Logger.cs" />
+    <Compile Include="GUI\Main.Designer.cs">
+      <DependentUpon>Main.cs</DependentUpon>
+    </Compile>
     <Compile Include="Script\AbstractScript.cs" />
     <Compile Include="Script\ScriptItem.cs" />
     <Compile Include="Core\Script\Scriptloader.cs" />
-    <Compile Include="Bot\Processor\WebProcessor.cs" />
+    <Compile Include="Core\Processor\WebProcessor.cs" />
     <Compile Include="Core\Database\Connection.cs" />
     <Compile Include="Core\Database\RepositoryService.cs" />
     <Compile Include="Core\Database\Entity\Group.cs" />
@@ -215,12 +213,7 @@
     <Compile Include="GUI\Login.Designer.cs">
       <DependentUpon>Login.cs</DependentUpon>
     </Compile>
-    <Compile Include="GUI\Main.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="GUI\Main.Designer.cs">
-      <DependentUpon>Main.cs</DependentUpon>
-    </Compile>
+    <Compile Include="GUI\Main.cs" />
     <Compile Include="GUI\ProxySettings.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -269,7 +262,7 @@
     <Compile Include="Event\PaintHandler.cs" />
     <Compile Include="Event\TaskScheduler.cs" />
     <Compile Include="Core\Bot\IBotWindow.cs" />
-    <Compile Include="Util\ProcessorType.cs" />
+    <Compile Include="Core\Utilities\ProcessorType.cs" />
     <Compile Include="Wrapper\IBrowser.cs" />
     <Compile Include="Event\IEventHandler.cs" />
     <Compile Include="Bot\IFrame.cs" />
@@ -301,21 +294,11 @@
     <Compile Include="Tests\UnitTests\ProxyRepositoryTests.cs" />
     <Compile Include="Tests\UnitTests\UserAgentRepositoryTests.cs" />
     <Compile Include="Util\PixelSearchPattern.cs" />
-    <Compile Include="Wrapper\AbstractBotProcessor.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="Wrapper\BotBrowserService.cs" />
-    <Compile Include="Wrapper\BrowserAdapter.cs">
-      <SubType>Component</SubType>
-    </Compile>
     <Compile Include="Wrapper\ChromiumBrowserAdapter.cs" />
     <Compile Include="Wrapper\Browser\Chromium.cs" />
     <Compile Include="Wrapper\IBotBrowser.cs" />
-    <Compile Include="Wrapper\InputAdapter.cs" />
     <Compile Include="Wrapper\Input\ChromiumKeyboard.cs" />
     <Compile Include="Wrapper\Input\ChromiumMouse.cs" />
-    <Compile Include="Wrapper\KeyboardAdapter.cs" />
-    <Compile Include="Wrapper\MouseAdapter.cs" />
     <Compile Include="Util\Pixel.cs" />
     <EmbeddedResource Include="GUI\About.resx">
       <DependentUpon>About.cs</DependentUpon>

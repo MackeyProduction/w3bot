@@ -5,8 +5,9 @@ using System.Drawing;
 using System.Linq;
 using System.Threading;
 using System.Windows.Forms;
-using w3bot.Bot.Processor;
 using w3bot.Core.Bot;
+using w3bot.Core.Processor;
+using w3bot.Core.Utilities;
 using w3bot.Input;
 using w3bot.Listener;
 using w3bot.Util;
@@ -14,46 +15,50 @@ using w3bot.Wrapper;
 
 namespace w3bot.Bot
 {
-    public class Bot
+    public abstract class Bot
     {
         internal delegate void Drawable(Graphics g);
         internal static event Drawable paintings = delegate { };
         internal delegate void EventHandlerDelegate(object sender, EventArgs e);
         internal static event EventHandlerDelegate EvtHandler = delegate { };
-        internal Size ClientSize { get { return _core.mainWindow.Size; } }
+        internal Size ClientSize { get { return _form.Size; } }
         internal Size FrameSize { get; }
-        internal TabControl botTab { get { return _core.tabs; } set { } }
-        private BotWindow _botWindow;
-        internal BotWindow botWindow { get { return _botWindow; } set { _botWindow = value; } }
-        private BotSettings _botSettings;
-        internal BotSettings botSettings { get { return _botSettings; } set { _botSettings = value; } }
+        internal BotWindow botWindow { get; set; }
         private static Core.Core _core;
         internal Core.Core core { get { return _core; } set { _core = value; } }
-        private IEnumerable<IProcessor> _processors;
+        private static Form _form;
+        private static IProcessorService _processorService;
 
-        internal static void AddConfiguration(Core.Core core)
+        internal static void AddConfiguration(Core.Core core, Form form)
         {
             _core = core;
+            _form = form;
+            _processorService = _core.GetProcessors();
         }
 
-        public Bot(IEnumerable<IProcessor> processors)
-        {
-            _processors = processors;
-        }
-
-        public BotWindow CreateWindow(string name = "View", ProcessorType type = ProcessorType.BrowserProcessor)
-        {
-            return new BotWindow(name, _processors.Single(item => item.GetType().ToString() == type.ToString()));
-        }
-
+        /// <summary>
+        /// Initialize an instance of BotWindow with integrated browser processor.
+        /// </summary>
+        /// <param name="name">The name of the window.</param>
+        /// <returns>Returns an instance of BotWindow.</returns>
         public BotWindow CreateBrowserWindow(string name = "View")
         {
             return CreateWindow(name, ProcessorType.BrowserProcessor);
         }
 
+        /// <summary>
+        /// Initialize an instance of BotWindow with integrated applet processor.
+        /// </summary>
+        /// <param name="name">The name of the window.</param>
+        /// <returns>Returns an instance of BotWindow.</returns>
         public BotWindow CreateAppletWindow(string name = "View")
         {
             return CreateWindow(name, ProcessorType.AppletProcessor);
+        }
+
+        private BotWindow CreateWindow(string name, ProcessorType type)
+        {
+            return new BotWindow(name, _processorService.GetProcessor(type));
         }
 
         /// <summary>
@@ -94,9 +99,25 @@ namespace w3bot.Bot
             paintings(g);
         }
 
-        internal void ExecuteUserEvents(object sender, EventArgs e)
+        /// <summary>
+        /// Execute the action in a safe thread to avoid thread crashes.
+        /// </summary>
+        /// <param name="a">Executes the action.</param>
+        internal static void ExeThreadSafe(Action a)
         {
+            if (_form.InvokeRequired)
+                _form.Invoke((MethodInvoker)delegate { a(); });
+            else
+                a();
+        }
 
+        /// <summary>
+        /// Clears all tab pages.
+        /// </summary>
+        internal static void ReInit()
+        {
+            var tabs = (TabControl)_form.Controls.Find("", true)[0];
+            tabs.TabPages.Clear();
         }
     }
 }

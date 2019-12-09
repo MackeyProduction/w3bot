@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Windows.Forms;
+using w3bot.Core.Utilities;
 using w3bot.Listener;
-using w3bot.Util;
 using w3bot.Wrapper;
 
-namespace w3bot.Bot.Processor
+namespace w3bot.Core.Processor
 {
     class WebProcessor : IProcessor
     {
