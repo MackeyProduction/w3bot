@@ -12,9 +12,12 @@ namespace w3bot.GUI
     {
         private bool _statusOk = false;
         public bool StatusOk { get { return _statusOk; } set { _statusOk = value; } }
+        private IRepositoryService _repositoryService;
 
-        public Login()
+        public Login(IRepositoryService repositoryService)
         {
+            _repositoryService = repositoryService;
+
             InitializeComponent();
         }
 
@@ -40,41 +43,35 @@ namespace w3bot.GUI
 
         private void LoginWorker_DoWork(object sender, DoWorkEventArgs e)
         {
-            var container = ContainerConfig.Configure();
+            var user = _repositoryService.CreateRepository("User") as UserRepository;
 
-            using (var scope = container.BeginLifetimeScope())
+            if (!string.IsNullOrWhiteSpace(tbUsername.Text) && !string.IsNullOrWhiteSpace(tbPassword.Text))
             {
-                var repositories = scope.Resolve<IRepositoryService>();
-                var user = repositories.CreateRepository("User") as UserRepository;
+                var result = user.Login(tbUsername.Text, tbPassword.Text);
 
-                if (!string.IsNullOrWhiteSpace(tbUsername.Text) && !string.IsNullOrWhiteSpace(tbPassword.Text))
+                if (result)
                 {
-                    var result = user.Login(tbUsername.Text, tbPassword.Text);
-
-                    if (result)
-                    {
-                        StatusOk = true;
-                    }
-                    else
-                    {
-                        MessageBox.Show("User login failed. Check your user credentials.");
-                    }
+                    StatusOk = true;
                 }
                 else
                 {
-                    MessageBox.Show("Please enter a valid username and password.");
+                    MessageBox.Show("User login failed. Check your user credentials.");
                 }
+            }
+            else
+            {
+                MessageBox.Show("Please enter a valid username and password.");
             }
         }
 
         private void linkLblCreateAccount_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            new Register().Show();
+            new Register(_repositoryService).Show();
         }
 
         private void linkLblForgotPassword_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            new ForgotPassword().Show();
+            new ForgotPassword(_repositoryService).Show();
         }
     }
 }

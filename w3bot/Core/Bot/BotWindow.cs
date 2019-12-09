@@ -3,7 +3,7 @@ using CefSharp.OffScreen;
 using System;
 using System.Linq;
 using System.Windows.Forms;
-using w3bot.Core.Processor;
+using w3bot.Bot.Processor;
 using w3bot.Wrapper;
 
 namespace w3bot.Core.Bot
@@ -23,26 +23,14 @@ namespace w3bot.Core.Bot
         /// <summary>
         /// Creates a new BotWindow instance.
         /// </summary>
-        /// <param name="bot">The current bot instance.</param>
         /// <param name="name">The name of the bot window.</param>
         /// <param name="processor">The current processor instance.</param>
-        [Obsolete("The constructor is deprecated. Use the new constructor with IProcessor integration instead.")]
-        internal BotWindow(w3bot.Bot.Bot bot, string name, string url, AbstractBotProcessor processor)
-        {
-            DoubleBuffered = _doubleBuffered;
-            _bot = bot;
-            _name = name;
-            _url = url;
-            _processor = processor;
-            _chromiumBrowser = _processor.GetBrowser();
-            _chromiumBrowser.FrameLoadEnd += ChromiumBrowser_FrameLoadEnd;
-            Activate();
-        }
-
         internal BotWindow(string name, IProcessor processor)
         {
+            DoubleBuffered = _doubleBuffered;
             _name = name;
             _newProcessor = processor;
+            Activate();
         }
 
         /// <summary>
@@ -104,11 +92,6 @@ namespace w3bot.Core.Bot
                 _bot.botTab.SelectedTab = this;
                 _processor.ActivateProcessor(this);
             });
-        }
-
-        internal AbstractBotProcessor GetProcessor()
-        {
-            return _processor;
         }
 
         private void ChromiumBrowser_FrameLoadEnd(object sender, FrameLoadEndEventArgs e)

@@ -118,9 +118,9 @@
     <Compile Include="ContainerConfig.cs" />
     <Compile Include="Core\Database\IRepositoryService.cs" />
     <Compile Include="Core\Utilities\IValidator.cs" />
-    <Compile Include="Core\Processor\AppletProcessor.cs" />
+    <Compile Include="Bot\Processor\AppletProcessor.cs" />
     <Compile Include="Core\Bot\BotDirectories.cs" />
-    <Compile Include="Core\Processor\BotProcessor.cs">
+    <Compile Include="Bot\Processor\BotProcessor.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Core\Bot\BotStub.cs" />
@@ -134,12 +134,13 @@
     <Compile Include="Core\Bot\BotSettings.cs" />
     <Compile Include="Core\Debug.cs" />
     <Compile Include="Core\FormControl.cs" />
-    <Compile Include="Core\Processor\IProcessor.cs" />
+    <Compile Include="Bot\Processor\IProcessor.cs" />
     <Compile Include="Core\Utilities\ILogger.cs" />
     <Compile Include="Core\Utilities\Logger.cs" />
+    <Compile Include="Script\AbstractScript.cs" />
     <Compile Include="Script\ScriptItem.cs" />
     <Compile Include="Core\Script\Scriptloader.cs" />
-    <Compile Include="Core\Processor\WebProcessor.cs" />
+    <Compile Include="Bot\Processor\WebProcessor.cs" />
     <Compile Include="Core\Database\Connection.cs" />
     <Compile Include="Core\Database\RepositoryService.cs" />
     <Compile Include="Core\Database\Entity\Group.cs" />
@@ -268,6 +269,7 @@
     <Compile Include="Event\PaintHandler.cs" />
     <Compile Include="Event\TaskScheduler.cs" />
     <Compile Include="Core\Bot\IBotWindow.cs" />
+    <Compile Include="Util\ProcessorType.cs" />
     <Compile Include="Wrapper\IBrowser.cs" />
     <Compile Include="Event\IEventHandler.cs" />
     <Compile Include="Bot\IFrame.cs" />

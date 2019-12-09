@@ -40,11 +40,6 @@ namespace w3bot.Core
             currentWindow = form;
         }
 
-        internal IBotBrowser GetBrowser(string browserType, object settings)
-        {
-            return new BotBrowserService(null).GetBotBrowser();
-        }
-
         /// <summary>
         /// Execute the action in a safe thread to avoid thread crashes.
         /// </summary>
