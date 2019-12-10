@@ -8,9 +8,10 @@ using System.Drawing;
 using System.Drawing.Imaging;
 using System.Runtime.InteropServices;
 using w3bot.Core.Bot;
+using w3bot.Script;
 using w3bot.Util;
 
-namespace w3bot.Bot
+namespace w3bot.Api
 {
     public class Frame
     {
@@ -30,7 +31,7 @@ namespace w3bot.Bot
         {
             List<Point> pointList = new List<Point>();
 
-            Core.Core.ExeThreadSafe(delegate
+            Core.CoreService.ExeThreadSafe(delegate
             {
                 try
                 {
@@ -122,7 +123,7 @@ namespace w3bot.Bot
         {
             Rectangle rectangle = new Rectangle();
 
-            Core.Core.ExeThreadSafe(delegate
+            Core.CoreService.ExeThreadSafe(delegate
             {
                 browserBitmap = _bot.botWindow._processor.Frame;
                 Image<Bgr, byte> bImage = new Image<Bgr, byte>(browserBitmap);

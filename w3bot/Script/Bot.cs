@@ -5,6 +5,7 @@ using System.Drawing;
 using System.Linq;
 using System.Threading;
 using System.Windows.Forms;
+using w3bot.Core;
 using w3bot.Core.Bot;
 using w3bot.Core.Processor;
 using w3bot.Core.Utilities;
@@ -13,7 +14,7 @@ using w3bot.Listener;
 using w3bot.Util;
 using w3bot.Wrapper;
 
-namespace w3bot.Bot
+namespace w3bot.Script
 {
     public abstract class Bot
     {
@@ -24,16 +25,25 @@ namespace w3bot.Bot
         internal Size ClientSize { get { return _form.Size; } }
         internal Size FrameSize { get; }
         internal BotWindow botWindow { get; set; }
-        private static Core.Core _core;
-        internal Core.Core core { get { return _core; } set { _core = value; } }
+        private static CoreService _core;
         private static Form _form;
         private static IProcessorService _processorService;
 
-        internal static void AddConfiguration(Core.Core core, Form form)
+        internal static void AddConfiguration(Form form, CoreService core)
         {
             _core = core;
             _form = form;
             _processorService = _core.GetProcessors();
+        }
+
+        internal CoreService GetCoreService()
+        {
+            return _core;
+        }
+
+        internal Event.IExecutable GetDaemons()
+        {
+            return null;
         }
 
         /// <summary>
@@ -41,7 +51,7 @@ namespace w3bot.Bot
         /// </summary>
         /// <param name="name">The name of the window.</param>
         /// <returns>Returns an instance of BotWindow.</returns>
-        public BotWindow CreateBrowserWindow(string name = "View")
+        public IBotWindow CreateBrowserWindow(string name = "View")
         {
             return CreateWindow(name, ProcessorType.BrowserProcessor);
         }
@@ -51,43 +61,14 @@ namespace w3bot.Bot
         /// </summary>
         /// <param name="name">The name of the window.</param>
         /// <returns>Returns an instance of BotWindow.</returns>
-        public BotWindow CreateAppletWindow(string name = "View")
+        public IBotWindow CreateAppletWindow(string name = "View")
         {
             return CreateWindow(name, ProcessorType.AppletProcessor);
         }
 
-        private BotWindow CreateWindow(string name, ProcessorType type)
+        private IBotWindow CreateWindow(string name, ProcessorType type)
         {
             return new BotWindow(name, _processorService.GetProcessor(type));
-        }
-
-        /// <summary>
-        /// Pauses the current running script for 1000 milliseconds (1 second)
-        /// </summary>
-        public static void Sleep()
-        {
-            Thread.Sleep(1000);
-        }
-
-        /// <summary>
-        /// Pauses the current running script for a given time.
-        /// </summary>
-        /// <param name="delay"></param>
-        public static void Sleep(int delay)
-        {
-            Thread.Sleep(delay);
-        }
-
-        /// <summary>
-        /// Pauses the current running script for a given time. The time will be a random value between the two given parameters
-        /// </summary>
-        /// <param name="minDelay">The minimum time in milliseconds to sleep</param>
-        /// <param name="maxDelay">The maximum time in milliseconds to sleep</param>
-        public static void Sleep(int minDelay, int maxDelay)
-        {
-            Random ran = new Random(DateTime.Now.Millisecond);
-            int delay = ran.Next(minDelay, maxDelay + 1);
-            Thread.Sleep(delay);
         }
 
         /// <summary>

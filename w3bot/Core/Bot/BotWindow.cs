@@ -35,7 +35,7 @@ namespace w3bot.Core.Bot
         public void Open()
         {
             if (isClosed) throw new InvalidOperationException("The Botwindow is already destroyed. It can't be reopen.");
-            Core.ExeThreadSafe(delegate
+            CoreService.ExeThreadSafe(delegate
             {
                 isVanished = false;
                 _bot.botTab.TabPages.Add(this);
@@ -51,7 +51,7 @@ namespace w3bot.Core.Bot
         {
             if (isClosed) throw new InvalidOperationException("The Botwindow is already destroyed. It can't be vanished.");
             if (isVanished) return;
-            Core.ExeThreadSafe(delegate
+            CoreService.ExeThreadSafe(delegate
             {
                 _bot.botTab.TabPages.Remove(this);
                 int bots = _bot.botTab.TabPages.Count;
@@ -66,7 +66,7 @@ namespace w3bot.Core.Bot
         public void Destroy()
         {
             if (isClosed) throw new InvalidOperationException("The Botwindow is already destroyed. It can't be closed.");
-            Core.ExeThreadSafe(delegate
+            CoreService.ExeThreadSafe(delegate
             {
                 this.Controls.Remove(_processor);
                 _processor.Destroy();
@@ -82,7 +82,7 @@ namespace w3bot.Core.Bot
         public void Activate()
         {
             if (isClosed) throw new InvalidOperationException("The Botwindow is already destroyed. It can't be reactivated.");
-            Core.ExeThreadSafe(delegate
+            CoreService.ExeThreadSafe(delegate
             {
                 //if (_bot.botWindow != null) _bot.botWindow._processor.BlockInput();
                 _bot.botTab.SelectedTab = this;

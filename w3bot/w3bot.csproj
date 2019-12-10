@@ -112,9 +112,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Bot\Browser.cs" />
-    <Compile Include="Bot\Frame.cs" />
-    <Compile Include="Bot\Bot.cs" />
+    <Compile Include="Api\Browser.cs" />
+    <Compile Include="Api\Frame.cs" />
+    <Compile Include="Script\Bot.cs" />
     <Compile Include="ContainerConfig.cs" />
     <Compile Include="Core\Database\IRepositoryService.cs" />
     <Compile Include="Core\Processor\IProcessorService.cs" />
@@ -126,15 +126,12 @@
     <Compile Include="Core\Bot\BotWindow.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Core\Core.cs" />
+    <Compile Include="Core\CoreService.cs" />
     <Compile Include="Core\CoreInformation.cs" />
     <Compile Include="Core\Debug.cs" />
     <Compile Include="Core\Processor\IProcessor.cs" />
     <Compile Include="Core\Utilities\ILogger.cs" />
     <Compile Include="Core\Utilities\Logger.cs" />
-    <Compile Include="GUI\Main.Designer.cs">
-      <DependentUpon>Main.cs</DependentUpon>
-    </Compile>
     <Compile Include="Script\AbstractScript.cs" />
     <Compile Include="Script\ScriptItem.cs" />
     <Compile Include="Core\Script\Scriptloader.cs" />
@@ -214,6 +211,9 @@
       <DependentUpon>Login.cs</DependentUpon>
     </Compile>
     <Compile Include="GUI\Main.cs" />
+    <Compile Include="GUI\Main.Designer.cs">
+      <DependentUpon>Main.cs</DependentUpon>
+    </Compile>
     <Compile Include="GUI\ProxySettings.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -256,20 +256,20 @@
     <Compile Include="GUI\UserAgentSettings.Designer.cs">
       <DependentUpon>UserAgentSettings.cs</DependentUpon>
     </Compile>
-    <Compile Include="Event\BrowserHandler.cs" />
-    <Compile Include="Event\EventHandler.cs" />
-    <Compile Include="Event\InputHandler.cs" />
-    <Compile Include="Event\PaintHandler.cs" />
-    <Compile Include="Event\TaskScheduler.cs" />
+    <Compile Include="Event\BrowserEvent.cs" />
+    <Compile Include="Event\AbstractEvent.cs" />
+    <Compile Include="Event\InputEvent.cs" />
+    <Compile Include="Event\PaintEvent.cs" />
+    <Compile Include="Event\ScriptExecutor.cs" />
     <Compile Include="Core\Bot\IBotWindow.cs" />
     <Compile Include="Core\Utilities\ProcessorType.cs" />
     <Compile Include="Wrapper\IBrowser.cs" />
-    <Compile Include="Event\IEventHandler.cs" />
-    <Compile Include="Bot\IFrame.cs" />
+    <Compile Include="Event\IEventListener.cs" />
+    <Compile Include="Api\IFrame.cs" />
     <Compile Include="Wrapper\IKeyboardInput.cs" />
     <Compile Include="Wrapper\IMouseInput.cs" />
     <Compile Include="Script\IScript.cs" />
-    <Compile Include="Event\ITaskScheduler.cs" />
+    <Compile Include="Event\IExecutable.cs" />
     <Compile Include="Wrapper\IWebBrowserEvents.cs" />
     <Compile Include="Listener\DocumentAddressChangedEventArgs.cs" />
     <Compile Include="Listener\DocumentLoadEventArgs.cs" />
@@ -290,7 +290,6 @@
     </Compile>
     <Compile Include="Tests\TestScript.cs" />
     <Compile Include="Tests\UnitTests\ChromiumBrowserAdapterTests.cs" />
-    <Compile Include="Tests\UnitTests\CoreTests.cs" />
     <Compile Include="Tests\UnitTests\ProxyRepositoryTests.cs" />
     <Compile Include="Tests\UnitTests\UserAgentRepositoryTests.cs" />
     <Compile Include="Util\PixelSearchPattern.cs" />

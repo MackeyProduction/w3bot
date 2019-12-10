@@ -1,7 +1,7 @@
 ﻿using System.Threading.Tasks;
 using w3bot.Wrapper;
 
-namespace w3bot.Bot
+namespace w3bot.Api
 {
     public static class Browser
     {

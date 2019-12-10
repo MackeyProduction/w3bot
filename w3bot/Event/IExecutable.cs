@@ -7,14 +7,14 @@ using System.Threading.Tasks;
 namespace w3bot.Event
 {
     /// <summary>
-    /// w3bot interface for event handling.
+    /// w3bot interface for task scheduler.
     /// </summary>
-    public interface IEventHandler
+    interface IExecutable
     {
         /// <summary>
         /// Executes event.
         /// </summary>
-        void Apply();
+        void Execute(int tabId);
 
         /// <summary>
         /// Destroys an event.

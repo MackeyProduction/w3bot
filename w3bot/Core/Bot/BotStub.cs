@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Threading;
 using System.Windows.Forms;
-using w3bot.Bot;
+using w3bot.Api;
 using w3bot.Event;
 using w3bot.Input;
-using w3bot.Script;
 using w3bot.Wrapper;
+using w3bot.Script;
 
 namespace w3bot.Core.Bot
 {
@@ -16,10 +16,10 @@ namespace w3bot.Core.Bot
         internal IScript _script;
         internal Thread _scriptThread, _drawThread;
         internal bool _running, _pausing;
-        private w3bot.Bot.Bot _bot;
-        private Event.EventHandler eventHandler;
+        private w3bot.Script.Bot _bot;
+        private Event.AbstractEvent eventHandler;
 
-        internal BotStub(w3bot.Bot.Bot bot, IScript script, Action scriptStoppedCallback)
+        internal BotStub(w3bot.Script.Bot bot, IScript script, Action scriptStoppedCallback)
         {
             _bot = bot;
             _botStub = this;
@@ -115,15 +115,15 @@ namespace w3bot.Core.Bot
 
         internal void ExecuteEvents()
         {
-            eventHandler = new Event.EventHandler();
+            //eventHandler = new Event.AbstractEvent();
 
-            // quickfix. TODO: remove this dependency
-            var browser = new ChromiumBrowserAdapter(new CefSharp.OffScreen.ChromiumWebBrowser());
-            eventHandler.Bind(new BrowserHandler(browser, _script));
-            eventHandler.Bind(new InputHandler(_bot, _script));
-            eventHandler.Bind(new PaintHandler(_bot, _script));
+            //// quickfix. TODO: remove this dependency
+            //var browser = new ChromiumBrowserAdapter(new CefSharp.OffScreen.ChromiumWebBrowser());
+            //eventHandler.Bind(new BrowserEvent(browser, _script));
+            //eventHandler.Bind(new InputEvent(_bot, _script));
+            //eventHandler.Bind(new PaintEvent(_bot, _script));
 
-            eventHandler.Apply();
+            //eventHandler.Apply();
         }
 
         internal void DestroyEvents()

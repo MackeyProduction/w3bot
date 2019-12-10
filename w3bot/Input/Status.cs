@@ -62,7 +62,7 @@ namespace w3bot.Input
         {
             var logbox = (RichTextBox)_form.Controls.Find("", true)[0];
             string result = "[" + DateTime.Now.Hour + ":" + DateTime.Now.Minute + ":" + DateTime.Now.Second + "]" + "\t\t" + msg + '\n';
-            Bot.Bot.ExeThreadSafe(delegate
+            Script.Bot.ExeThreadSafe(delegate
             {
                 logbox.SelectionStart = logbox.TextLength;
                 logbox.SelectionLength = 0;

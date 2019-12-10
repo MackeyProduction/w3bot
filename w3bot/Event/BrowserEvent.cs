@@ -1,16 +1,16 @@
-﻿using w3bot.Bot;
+﻿using w3bot.Api;
 using w3bot.Listener;
-using w3bot.Script;
+using w3bot.Api;
 using w3bot.Wrapper;
 
 namespace w3bot.Event
 {
-    public class BrowserHandler : IEventHandler
+    public class BrowserEvent : IEventListener
     {
         private IBotBrowser _browser;
         private IScript _script;
 
-        public BrowserHandler(IBotBrowser browser, IScript script)
+        public BrowserEvent(IBotBrowser browser, IScript script)
         {
             _browser = browser;
             _script = script;

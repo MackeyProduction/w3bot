@@ -6,10 +6,9 @@ using w3bot.Core.Utilities;
 
 namespace w3bot.Core
 {
-    internal class Core
+    internal class CoreService
     {
         internal static CoreInformation Information { get { return new CoreInformation(); } }
-        internal Event.TaskScheduler runningScriptList { get; set; }
         private readonly IRepositoryService _repositoryService;
         private readonly IProcessorService _processorService;
         private readonly ILogger _logger;
@@ -18,7 +17,7 @@ namespace w3bot.Core
         /// Initializes the core.
         /// </summary>
         /// <param name="form">The form instance.</param>
-        internal Core(IRepositoryService repositoryService, IProcessorService processorService, ILogger logger)
+        internal CoreService(IRepositoryService repositoryService, IProcessorService processorService, ILogger logger)
         {
             _repositoryService = repositoryService;
             _processorService = processorService;

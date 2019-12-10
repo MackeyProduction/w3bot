@@ -10,6 +10,7 @@ using System.Diagnostics;
 using w3bot.Core.Bot;
 using w3bot.Core.Database;
 using w3bot.Core.Database.Repository;
+using w3bot.Script;
 
 namespace w3bot.GUI
 {
@@ -17,17 +18,16 @@ namespace w3bot.GUI
     {
         string title = "w3bot.org " + CoreInformation.programVersion.ToString("0.0", CultureInfo.InvariantCulture);
         private bool nextKill = false;  // flag to tell the next time the script will be killed without question
-        private BotWindow botMain;
-        private Login _login;
+        private IBotWindow botMain;
+        private Bot _bot;
 
-        public Main(Login login)
+        public Main(Bot bot)
         {
             InitializeComponent();
             
             this.Text = title + " - Idle...";
 
-            _login = login;
-            Initialize(this);
+            _bot = bot;
             BotDirectories.CreateDirs();
         }
 
@@ -43,10 +43,9 @@ namespace w3bot.GUI
             //}
 
             Status.Log("Welcome to " + title);
-            botMain = bot.CreateWindow("View");
+            botMain = _bot.CreateBrowserWindow("View");
             botMain.Open();
 
-            Bot.Bot.AddConfiguration(this);
             blockToolStripMenuItem.PerformClick();
         }
 
@@ -254,7 +253,7 @@ namespace w3bot.GUI
         private void updatesToolStripMenuItem_Click(object sender, EventArgs e)
         {
             bot.botWindow._doubleBuffered = false;
-            Bot.Bot.AddConfiguration(this);
+            Api.Bot.AddConfiguration(this);
             updatesToolStripMenuItem.Checked = Core.Debug.toggle(Core.Debug.NoDoubleBuffer);
         }
 
