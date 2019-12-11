@@ -1,4 +1,7 @@
-﻿namespace w3bot.Script
+﻿using System.Threading;
+using w3bot.Util;
+
+namespace w3bot.Script
 {
     /// <summary>
     /// w3bot interface for scripts.
@@ -7,20 +10,20 @@
     public interface IScript
     {
         /// <summary>
-        /// Initializes the running script.
+        /// Gets the current state of the script.
         /// </summary>
-        /// <returns>Returns true if the script is initialized.</returns>
-        bool onStart();
+        ScriptUtils.State CurrentState { get; set; }
 
         /// <summary>
-        /// Starts the running script.
+        /// Gets the script manifest.
         /// </summary>
-        /// <returns>Returns the current script tick rate.</returns>
-        int onUpdate();
+        ScriptManifest Manifest { get; set; }
 
         /// <summary>
-        /// Destroys the running script.
+        /// Executes the thread with state.
         /// </summary>
-        void onFinish();
+        /// <param name="state">The state of the script.</param>
+        /// <returns>Returns the thread of the running script.</returns>
+        Thread Execute(ScriptUtils.State state);
     }
 }

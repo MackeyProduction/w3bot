@@ -4,14 +4,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
-using w3bot.Script;
+using w3bot.Util;
 
 namespace w3bot.Script
 {
-    public abstract class AbstractScript : Bot
+    public abstract class AbstractScript : Bot, IScript
     {
-        private bool _running, _pausing;
         private Thread _scriptThread, _drawThread;
 
         /// <summary>
@@ -69,6 +67,9 @@ namespace w3bot.Script
             }
         }
 
+        public ScriptUtils.State CurrentState { get; set; }
+        public ScriptManifest Manifest { get; set; }
+
         public Bot GetBot()
         {
             return ContainerConfig.Configure().Resolve<Bot>();
@@ -88,17 +89,16 @@ namespace w3bot.Script
         /// </summary>
         public virtual void OnFinish()
         {
-            _running = false;
+            CurrentState = ScriptUtils.State.STOP;
         }
 
         /// <summary>
         /// Called when the script gets started.
         /// </summary>
         /// <returns>Returns true when the script gets started.</returns>
-        public virtual bool OnStart()
+        public virtual void OnStart()
         {
-            _running = true;
-            return true;
+            CurrentState = ScriptUtils.State.START;
         }
 
         /// <summary>
@@ -107,33 +107,13 @@ namespace w3bot.Script
         /// <returns>Returns the tick rate of the script.</returns>
         public virtual int OnUpdate()
         {
-            int delay;
-
             // script thread
-            _scriptThread = new Thread(new ThreadStart(delegate
-            {
-                if (OnStart())
-                {
-                    while (_running)
-                    {
-                        delay = OnUpdate();
-
-                        while (_pausing)
-                            Thread.Sleep(100);
-
-                        if (delay < 1)
-                            OnFinish();
-
-                        Thread.Sleep(delay);
-                    }
-                }
-                //_bot.core.mainWindow.Invoke((MethodInvoker)delegate { _scriptStopped(); }); //let upper instances know that the script is now stopped
-            }));
+            Execute(CurrentState).Start();
 
             // paint thread
             _drawThread = new Thread(new ThreadStart(delegate
             {
-                while (_running)
+                while (CurrentState.Equals(ScriptUtils.State.START))
                 {
                     //_bot.core.Invalidate(); // main processor have to repaint the paint
                     Thread.Sleep(65);
@@ -141,7 +121,6 @@ namespace w3bot.Script
             }));
 
             // start threads
-            _scriptThread.Start();
             _drawThread.Start();
 
             return 100;
@@ -152,7 +131,7 @@ namespace w3bot.Script
         /// </summary>
         public void OnPause()
         {
-            _pausing = true;
+            CurrentState = ScriptUtils.State.PAUSING;
         }
 
         /// <summary>
@@ -160,7 +139,7 @@ namespace w3bot.Script
         /// </summary>
         public void OnResume()
         {
-            _pausing = false;
+            CurrentState = ScriptUtils.State.RESUME;
         }
 
         /// <summary>
@@ -208,6 +187,31 @@ namespace w3bot.Script
             Random ran = new Random(DateTime.Now.Millisecond);
             int delay = ran.Next(minDelay, maxDelay + 1);
             Thread.Sleep(delay);
+        }
+
+        public Thread Execute(ScriptUtils.State state)
+        {
+            int delay;
+
+            // script thread
+            _scriptThread = new Thread(new ThreadStart(delegate
+            {
+                while (CurrentState.Equals(ScriptUtils.State.START))
+                {
+                    delay = OnUpdate();
+
+                    while (CurrentState.Equals(ScriptUtils.State.PAUSING))
+                        Thread.Sleep(100);
+
+                    if (delay < 1)
+                        OnFinish();
+
+                    Thread.Sleep(delay);
+                }
+                //_bot.core.mainWindow.Invoke((MethodInvoker)delegate { _scriptStopped(); }); //let upper instances know that the script is now stopped
+            }));
+
+            return _scriptThread;
         }
     }
 }

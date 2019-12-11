@@ -6,15 +6,15 @@ using System.Windows.Forms;
 using w3bot.Core.Processor;
 using w3bot.Wrapper;
 
-namespace w3bot.Core.Bot
+namespace w3bot.Script
 {
     public class BotWindow : TabPage, IBotWindow
     {
-        internal String _name;
+        internal string _name;
         internal bool doubleBuffered = true;
         internal bool _doubleBuffered { get { return doubleBuffered; } set { doubleBuffered = false; } }
         internal bool isVanished = false, isClosed = false;
-        internal IProcessor _newProcessor;
+        internal IProcessor _processor;
 
         /// <summary>
         /// Creates a new BotWindow instance.
@@ -25,7 +25,7 @@ namespace w3bot.Core.Bot
         {
             DoubleBuffered = _doubleBuffered;
             _name = name;
-            _newProcessor = processor;
+            _processor = processor;
             Activate();
         }
 
@@ -35,7 +35,7 @@ namespace w3bot.Core.Bot
         public void Open()
         {
             if (isClosed) throw new InvalidOperationException("The Botwindow is already destroyed. It can't be reopen.");
-            CoreService.ExeThreadSafe(delegate
+            Bot.ExeThreadSafe(delegate
             {
                 isVanished = false;
                 _bot.botTab.TabPages.Add(this);
@@ -51,7 +51,7 @@ namespace w3bot.Core.Bot
         {
             if (isClosed) throw new InvalidOperationException("The Botwindow is already destroyed. It can't be vanished.");
             if (isVanished) return;
-            CoreService.ExeThreadSafe(delegate
+            Bot.ExeThreadSafe(delegate
             {
                 _bot.botTab.TabPages.Remove(this);
                 int bots = _bot.botTab.TabPages.Count;
@@ -66,7 +66,7 @@ namespace w3bot.Core.Bot
         public void Destroy()
         {
             if (isClosed) throw new InvalidOperationException("The Botwindow is already destroyed. It can't be closed.");
-            CoreService.ExeThreadSafe(delegate
+            Bot.ExeThreadSafe(delegate
             {
                 this.Controls.Remove(_processor);
                 _processor.Destroy();
@@ -82,7 +82,7 @@ namespace w3bot.Core.Bot
         public void Activate()
         {
             if (isClosed) throw new InvalidOperationException("The Botwindow is already destroyed. It can't be reactivated.");
-            CoreService.ExeThreadSafe(delegate
+            Bot.ExeThreadSafe(delegate
             {
                 //if (_bot.botWindow != null) _bot.botWindow._processor.BlockInput();
                 _bot.botTab.SelectedTab = this;

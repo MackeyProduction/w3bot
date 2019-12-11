@@ -9,6 +9,7 @@ using w3bot.Core;
 using w3bot.Core.Bot;
 using w3bot.Core.Processor;
 using w3bot.Core.Utilities;
+using w3bot.Event;
 using w3bot.Input;
 using w3bot.Listener;
 using w3bot.Util;
@@ -28,22 +29,32 @@ namespace w3bot.Script
         private static CoreService _core;
         private static Form _form;
         private static IProcessorService _processorService;
+        private static IExecutable _executable;
 
-        internal static void AddConfiguration(Form form, CoreService core)
+        internal static void AddConfiguration(Form form, CoreService core, IExecutable executable)
         {
             _core = core;
             _form = form;
+            _executable = executable;
             _processorService = _core.GetProcessors();
         }
 
+        /// <summary>
+        /// Gets all relevant info by the core.
+        /// </summary>
+        /// <returns>Returns an instance of CoreService.</returns>
         internal CoreService GetCoreService()
         {
             return _core;
         }
 
-        internal Event.IExecutable GetDaemons()
+        /// <summary>
+        /// Gets all running deamons.
+        /// </summary>
+        /// <returns>Returns an instance of executable.</returns>
+        internal IExecutable GetDaemons()
         {
-            return null;
+            return _executable;
         }
 
         /// <summary>
@@ -66,6 +77,12 @@ namespace w3bot.Script
             return CreateWindow(name, ProcessorType.AppletProcessor);
         }
 
+        /// <summary>
+        /// Initialize an instance of BotWindow.
+        /// </summary>
+        /// <param name="name">The name of the window.</param>
+        /// <param name="type">The processor type.</param>
+        /// <returns>Returns an instance of BotWindow.</returns>
         private IBotWindow CreateWindow(string name, ProcessorType type)
         {
             return new BotWindow(name, _processorService.GetProcessor(type));

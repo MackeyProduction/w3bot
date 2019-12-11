@@ -2,26 +2,21 @@
 using System.Threading;
 using w3bot.Core.Bot;
 using w3bot.Script;
+using w3bot.Util;
 
 namespace w3bot.Event
 {
     internal class ScriptExecutor : IExecutable
     {
-        private Bot _bot;
-        private List<BotStub> _botStubList;
-        private List<Thread> _threads;
+        private IList<IScript> _scripts;
+        private IList<Thread> _threads;
         private static ScriptExecutor _instance;
         private static readonly object padlock = new object();
 
-        internal ScriptExecutor(Bot bot)
+        internal ScriptExecutor(IList<IScript> scripts, IList<Thread> threads)
         {
-            _bot = bot;
-
-            if (_botStubList == null)
-            {
-                _botStubList = new List<BotStub>();
-                _threads = new List<Thread>();
-            }
+            _scripts = scripts;
+            _threads = threads;
         }
 
         internal static ScriptExecutor Create
@@ -42,41 +37,31 @@ namespace w3bot.Event
             }
         }
 
-        public List<BotStub> GetItems()
+        public IList<IScript> GetScripts()
         {
-            return _botStubList;
+            return _scripts;
         }
 
-        public void Bind(BotStub botStub)
+        public void Bind(IScript script)
         {
-            _botStubList.Add(botStub);
-            _bot.core.runningScriptList = this;
-            Bot.AddConfiguration(_bot.core);
+            _scripts.Add(script);
         }
 
         public void Remove(int tabId)
         {
-            _botStubList.RemoveAt(tabId);
-            _bot.core.runningScriptList = this;
+            _scripts.RemoveAt(tabId);
             _threads[tabId].Abort();
-            Bot.AddConfiguration(_bot.core);
         }
 
         public void Execute(int tabId)
         {
-            if (tabId != -1 && tabId < _botStubList.Count)
+            if (tabId != -1 && tabId < _scripts.Count)
             {
-                var currentBotStub = _botStubList[tabId];
-
-                if (!currentBotStub._running)
+                var currentScript = _scripts[tabId];
+                
+                if (!(currentScript.CurrentState == ScriptUtils.State.START))
                 {
-                    var thread = new Thread(new ThreadStart(delegate
-                    {
-                        currentBotStub.ExecuteScript();
-
-                        _bot.core.runningScript = currentBotStub;
-                        Bot.AddConfiguration(_bot.core);
-                    }));
+                    var thread = currentScript.Execute(ScriptUtils.State.START);
                     _threads.Add(thread);
 
                     _threads[tabId].Start();
@@ -86,7 +71,7 @@ namespace w3bot.Event
 
         public void Destroy()
         {
-            _botStubList = null;
+            _scripts = null;
         }
     }
 }

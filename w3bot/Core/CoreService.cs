@@ -8,7 +8,7 @@ namespace w3bot.Core
 {
     internal class CoreService
     {
-        internal static CoreInformation Information { get { return new CoreInformation(); } }
+        internal CoreInformation Information { get { return new CoreInformation(); } }
         private readonly IRepositoryService _repositoryService;
         private readonly IProcessorService _processorService;
         private readonly ILogger _logger;

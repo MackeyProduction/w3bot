@@ -114,6 +114,7 @@
   <ItemGroup>
     <Compile Include="Api\Browser.cs" />
     <Compile Include="Api\Frame.cs" />
+    <Compile Include="Event\KeyboardEvent.cs" />
     <Compile Include="Script\Bot.cs" />
     <Compile Include="ContainerConfig.cs" />
     <Compile Include="Core\Database\IRepositoryService.cs" />
@@ -123,7 +124,7 @@
     <Compile Include="Core\Processor\AppletProcessor.cs" />
     <Compile Include="Core\Bot\BotDirectories.cs" />
     <Compile Include="Core\Bot\BotStub.cs" />
-    <Compile Include="Core\Bot\BotWindow.cs">
+    <Compile Include="Script\BotWindow.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Core\CoreService.cs" />
@@ -258,11 +259,12 @@
     </Compile>
     <Compile Include="Event\BrowserEvent.cs" />
     <Compile Include="Event\AbstractEvent.cs" />
-    <Compile Include="Event\InputEvent.cs" />
+    <Compile Include="Event\MouseEvent.cs" />
     <Compile Include="Event\PaintEvent.cs" />
     <Compile Include="Event\ScriptExecutor.cs" />
-    <Compile Include="Core\Bot\IBotWindow.cs" />
+    <Compile Include="Script\IBotWindow.cs" />
     <Compile Include="Core\Utilities\ProcessorType.cs" />
+    <Compile Include="Util\ScriptUtils.cs" />
     <Compile Include="Wrapper\IBrowser.cs" />
     <Compile Include="Event\IEventListener.cs" />
     <Compile Include="Api\IFrame.cs" />
