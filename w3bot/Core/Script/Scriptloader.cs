@@ -7,10 +7,9 @@ using System.Linq;
 using System.Net;
 using System.Reflection;
 using System.Text;
-using w3bot.Api;
 using w3bot.Core.Bot;
 using w3bot.Input;
-using w3bot.Api;
+using w3bot.Script;
 
 namespace w3bot.Core.Script
 {

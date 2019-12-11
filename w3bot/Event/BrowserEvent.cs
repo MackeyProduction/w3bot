@@ -1,6 +1,5 @@
-﻿using w3bot.Api;
-using w3bot.Listener;
-using w3bot.Api;
+﻿using w3bot.Listener;
+using w3bot.Script;
 using w3bot.Wrapper;
 
 namespace w3bot.Event

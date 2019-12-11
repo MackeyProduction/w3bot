@@ -10,9 +10,9 @@ namespace w3bot.Core
 {
     class Debug
     {
-        private static List<w3bot.Api.Bot.Drawable> debugs = new List<w3bot.Api.Bot.Drawable>();
+        private static List<w3bot.Script.Bot.Drawable> debugs = new List<w3bot.Script.Bot.Drawable>();
 
-        internal static w3bot.Api.Bot _bot;
+        internal static w3bot.Script.Bot _bot;
         internal static int paintPos = 0;
         private static Font font = new Font("Arial", 8);
         private static int height = 13;
@@ -25,19 +25,19 @@ namespace w3bot.Core
         private static Image<Gray, float> _imgSobel, _imgLaplacian;
         private static int _xorder = 1, _yorder = 0, _apertureSize = 3, _apertureSizeLaplacian = 7;
 
-        internal static bool toggle(w3bot.Api.Bot.Drawable drawable)
+        internal static bool toggle(w3bot.Script.Bot drawable)
         {
             bool added = true;
             if (debugs.Contains(drawable))
             {
                 debugs.Remove(drawable);
-                w3bot.Api.Bot.paintings -= drawable;
+                w3bot.Script.Bot.paintings -= drawable;
                 added = false;
             }
             else
             {
                 debugs.Add(drawable);
-                w3bot.Api.Bot.paintings += drawable;
+                w3bot.Script.Bot.paintings += drawable;
             }
             _bot.core.Invalidate(); //causes repaint
             return added;
@@ -62,10 +62,10 @@ namespace w3bot.Core
             paintPos = 0;
         }
 
-        internal static void AddConfiguration(w3bot.Api.Bot bot)
+        internal static void AddConfiguration(w3bot.Script.Bot bot)
         {
             _bot = bot;
-            w3bot.Api.Bot.paintings += ResetHeight;
+            w3bot.Script.Bot.paintings += ResetHeight;
         }
 
         internal static void PixelColor(Graphics g)

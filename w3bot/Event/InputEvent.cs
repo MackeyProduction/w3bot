@@ -1,15 +1,14 @@
-﻿using w3bot.Api;
-using w3bot.Listener;
-using w3bot.Api;
+﻿using w3bot.Listener;
+using w3bot.Script;
 
 namespace w3bot.Event
 {
     public class InputEvent : IEventListener
     {
-        private Api.Bot _bot;
+        private Bot _bot;
         private IScript _script;
 
-        public InputEvent(Api.Bot bot, IScript script)
+        public InputEvent(Bot bot, IScript script)
         {
             _bot = bot;
             _script = script;
