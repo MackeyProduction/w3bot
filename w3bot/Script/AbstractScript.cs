@@ -10,7 +10,7 @@ namespace w3bot.Script
 {
     public abstract class AbstractScript : Bot, IScript
     {
-        private Thread _scriptThread, _drawThread;
+        private Thread _scriptThread;
 
         /// <summary>
         /// Gets the name of the script.
@@ -109,19 +109,6 @@ namespace w3bot.Script
         {
             // script thread
             Execute(CurrentState).Start();
-
-            // paint thread
-            _drawThread = new Thread(new ThreadStart(delegate
-            {
-                while (CurrentState.Equals(ScriptUtils.State.START))
-                {
-                    //_bot.core.Invalidate(); // main processor have to repaint the paint
-                    Thread.Sleep(65);
-                }
-            }));
-
-            // start threads
-            _drawThread.Start();
 
             return 100;
         }

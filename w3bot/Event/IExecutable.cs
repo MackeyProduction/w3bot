@@ -14,7 +14,7 @@ namespace w3bot.Event
         /// <summary>
         /// Executes event.
         /// </summary>
-        void Execute(int tabId);
+        void Execute(int id);
 
         /// <summary>
         /// Destroys an event.

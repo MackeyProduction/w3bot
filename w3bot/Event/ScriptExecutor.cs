@@ -10,8 +10,6 @@ namespace w3bot.Event
     {
         private IList<IScript> _scripts;
         private IList<Thread> _threads;
-        private static ScriptExecutor _instance;
-        private static readonly object padlock = new object();
 
         internal ScriptExecutor(IList<IScript> scripts, IList<Thread> threads)
         {
@@ -19,52 +17,18 @@ namespace w3bot.Event
             _threads = threads;
         }
 
-        internal static ScriptExecutor Create
+        public void Execute(int id)
         {
-            get
+            if (id != -1 && id < _scripts.Count)
             {
-                return _instance;
-            }
-            set
-            {
-                lock (padlock)
-                {
-                    if (_instance == null)
-                    {
-                        _instance = value;
-                    }
-                }
-            }
-        }
-
-        public IList<IScript> GetScripts()
-        {
-            return _scripts;
-        }
-
-        public void Bind(IScript script)
-        {
-            _scripts.Add(script);
-        }
-
-        public void Remove(int tabId)
-        {
-            _scripts.RemoveAt(tabId);
-            _threads[tabId].Abort();
-        }
-
-        public void Execute(int tabId)
-        {
-            if (tabId != -1 && tabId < _scripts.Count)
-            {
-                var currentScript = _scripts[tabId];
+                var currentScript = _scripts[id];
                 
                 if (!(currentScript.CurrentState == ScriptUtils.State.START))
                 {
                     var thread = currentScript.Execute(ScriptUtils.State.START);
                     _threads.Add(thread);
 
-                    _threads[tabId].Start();
+                    _threads[id].Start();
                 }
             }
         }
@@ -72,6 +36,7 @@ namespace w3bot.Event
         public void Destroy()
         {
             _scripts = null;
+            _threads = null;
         }
     }
 }

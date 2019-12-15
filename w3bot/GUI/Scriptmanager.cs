@@ -30,11 +30,11 @@ namespace w3bot.GUI
         {
             if (listViewScripts.SelectedItems.Count == 1)
             {
-                ScriptExecutor.Create = new ScriptExecutor(_bot);
-                var taskScheduler = ScriptExecutor.Create; 
-                taskScheduler.Bind(new BotStub(_bot, ((ScriptItem)listViewScripts.SelectedItems[0]).script, _stop));
-                taskScheduler.Execute(_bot.botTab.SelectedIndex);
-                _start();
+                //ScriptExecutor.Create = new ScriptExecutor(_bot);
+                //var taskScheduler = ScriptExecutor.Create; 
+                //taskScheduler.Bind(new BotStub(_bot, ((ScriptItem)listViewScripts.SelectedItems[0]).script, _stop));
+                //taskScheduler.Execute(_bot.botTab.SelectedIndex);
+                //_start();
                 this.Close();
             }
         }
@@ -52,7 +52,7 @@ namespace w3bot.GUI
                 {
                     foreach (var script in scripts)
                     {
-                        Core.CoreService.ExeThreadSafe(delegate
+                        Bot.ExeThreadSafe(delegate
                         {
                             script.Text = script.manifest.name;
                             script.SubItems.Add(script.manifest.targetApp);
@@ -62,7 +62,7 @@ namespace w3bot.GUI
                             listViewScripts.Items.Add(script);
                         });
                     }
-                    Core.CoreService.ExeThreadSafe(delegate { progressBarLoad.Visible = false; });
+                    Bot.ExeThreadSafe(delegate { progressBarLoad.Visible = false; });
                 }
                 else
                 {
