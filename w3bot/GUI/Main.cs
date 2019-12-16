@@ -11,6 +11,7 @@ using w3bot.Core.Bot;
 using w3bot.Core.Database;
 using w3bot.Core.Database.Repository;
 using w3bot.Script;
+using w3bot.Event;
 
 namespace w3bot.GUI
 {
@@ -19,6 +20,8 @@ namespace w3bot.GUI
         string title = "w3bot.org " + CoreInformation.programVersion.ToString("0.0", CultureInfo.InvariantCulture);
         private bool nextKill = false;  // flag to tell the next time the script will be killed without question
         private IBotWindow botMain;
+        private IExecutable _executable;
+        private IScript runningScript;
         private Bot _bot;
 
         public Main(Bot bot)
@@ -28,6 +31,8 @@ namespace w3bot.GUI
             this.Text = title + " - Idle...";
 
             _bot = bot;
+            _executable = bot.GetDaemons();
+            runningScript = _executable.GetExecutables<IScript>()[0];
             BotDirectories.CreateDirs();
         }
 
@@ -41,7 +46,7 @@ namespace w3bot.GUI
             //    Application.Exit();
             //    return;
             //}
-
+            
             Status.Log("Welcome to " + title);
             botMain = _bot.CreateBrowserWindow("View");
             botMain.Open();
@@ -51,13 +56,12 @@ namespace w3bot.GUI
 
         private void Main_FormClosing(object sender, FormClosingEventArgs e)
         {
-            if (runningScript != null && runningScript._running)
+            if (runningScript != null && runningScript.CurrentState == Util.ScriptUtils.State.START)
             {
                 if (MessageBox.Show("Do you want to close w3bot? A script is still running.", "Close", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
                 {
                     Cef.Shutdown();
-                    runningScript.onFinish();
-                    runningScript.onKill();
+                    runningScript.CurrentState = Util.ScriptUtils.State.STOP;
                 }
                 else
                 {
@@ -132,21 +136,21 @@ namespace w3bot.GUI
         {
             if (runningScript == null)
             {
-                new Scriptmanager(bot, Script_started, Script_stopped).ShowDialog();
+                new Scriptmanager(new ScriptExecutor(null), Script_started, Script_stopped).ShowDialog();
             }
             else
             {
-                if (runningScript._running)
+                if (runningScript.CurrentState == Util.ScriptUtils.State.START)
                 {
-                    if (runningScript._pausing)
+                    if (runningScript.CurrentState == Util.ScriptUtils.State.PAUSING)
                     {
-                        runningScript.onResume();
+                        runningScript.CurrentState = Util.ScriptUtils.State.RESUME;
                         this.Text = title + " - Script running...";
                         startToolStripMenuItem1.Text = "Pause";
                     }
                     else
                     {
-                        runningScript.onPause();
+                        runningScript.CurrentState = Util.ScriptUtils.State.PAUSING;
                         this.Text = title + " - Script paused...";
                         startToolStripMenuItem1.Text = "Resume";
                     }
@@ -189,7 +193,7 @@ namespace w3bot.GUI
             {
                 if (nextKill)
                 {
-                    runningScript.onKill();
+                    runningScript.CurrentState = Util.ScriptUtils.State.STOP;
                     Status.Warning("Script has been terminated");
                     return;
                 }
@@ -253,7 +257,6 @@ namespace w3bot.GUI
         private void updatesToolStripMenuItem_Click(object sender, EventArgs e)
         {
             bot.botWindow._doubleBuffered = false;
-            Api.Bot.AddConfiguration(this);
             updatesToolStripMenuItem.Checked = Core.Debug.toggle(Core.Debug.NoDoubleBuffer);
         }
 

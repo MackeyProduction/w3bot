@@ -1,6 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading;
-using w3bot.Core.Bot;
 using w3bot.Script;
 using w3bot.Util;
 
@@ -9,14 +9,19 @@ namespace w3bot.Event
     internal class ScriptExecutor : IExecutable
     {
         private IList<IScript> _scripts;
-        private IList<Thread> _threads;
 
-        internal ScriptExecutor(IList<IScript> scripts, IList<Thread> threads)
+        // TODO: maybe create a service for this? 
+        internal ScriptExecutor(IList<IScript> scripts)
         {
             _scripts = scripts;
-            _threads = threads;
         }
 
+        public void Bind<T>(T name)
+        {
+            _scripts.Add((IScript)name);
+        }
+
+        // TODO: Change parameter to script state?
         public void Execute(int id)
         {
             if (id != -1 && id < _scripts.Count)
@@ -25,10 +30,9 @@ namespace w3bot.Event
                 
                 if (!(currentScript.CurrentState == ScriptUtils.State.START))
                 {
-                    var thread = currentScript.Execute(ScriptUtils.State.START);
-                    _threads.Add(thread);
+                    var thread = currentScript.GetExecutable(ScriptUtils.State.START);
 
-                    _threads[id].Start();
+                    thread.Start();
                 }
             }
         }
@@ -36,7 +40,11 @@ namespace w3bot.Event
         public void Destroy()
         {
             _scripts = null;
-            _threads = null;
+        }
+
+        public IList<T> GetExecutables<T>()
+        {
+            return (IList<T>)Convert.ChangeType(_scripts, typeof(IList<IScript>));
         }
     }
 }

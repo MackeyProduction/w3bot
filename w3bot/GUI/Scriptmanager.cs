@@ -10,7 +10,7 @@ namespace w3bot.GUI
 {
     public partial class Scriptmanager : Form
     {
-        private Bot _bot;
+        private IExecutable _executable;
         private Action _start, _stop;
 
         public Scriptmanager()
@@ -18,23 +18,21 @@ namespace w3bot.GUI
             InitializeComponent();
         }
 
-        public Scriptmanager(Bot bot, Action start, Action stop)
+        public Scriptmanager(IExecutable executable, Action start, Action stop)
         {
             InitializeComponent();
             _start = start;
             _stop = stop;
-            _bot = bot;
+            _executable = executable;
         }
 
         private void buttonStart_Click(object sender, System.EventArgs e)
         {
             if (listViewScripts.SelectedItems.Count == 1)
             {
-                //ScriptExecutor.Create = new ScriptExecutor(_bot);
-                //var taskScheduler = ScriptExecutor.Create; 
-                //taskScheduler.Bind(new BotStub(_bot, ((ScriptItem)listViewScripts.SelectedItems[0]).script, _stop));
-                //taskScheduler.Execute(_bot.botTab.SelectedIndex);
-                //_start();
+                _executable.Bind(((ScriptItem)listViewScripts.SelectedItems[0]).script);
+                _executable.Execute(1);
+                _start();
                 this.Close();
             }
         }

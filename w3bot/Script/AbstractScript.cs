@@ -108,7 +108,7 @@ namespace w3bot.Script
         public virtual int OnUpdate()
         {
             // script thread
-            Execute(CurrentState).Start();
+            GetExecutable(CurrentState).Start();
 
             return 100;
         }
@@ -176,9 +176,15 @@ namespace w3bot.Script
             Thread.Sleep(delay);
         }
 
-        public Thread Execute(ScriptUtils.State state)
+        public Thread GetExecutable(ScriptUtils.State state)
         {
             int delay;
+
+            // avoid multiple initialization of script thread
+            if (_scriptThread != null)
+            {
+                return _scriptThread;
+            }
 
             // script thread
             _scriptThread = new Thread(new ThreadStart(delegate

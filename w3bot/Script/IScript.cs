@@ -24,6 +24,6 @@ namespace w3bot.Script
         /// </summary>
         /// <param name="state">The state of the script.</param>
         /// <returns>Returns the thread of the running script.</returns>
-        Thread Execute(ScriptUtils.State state);
+        Thread GetExecutable(ScriptUtils.State state);
     }
 }
