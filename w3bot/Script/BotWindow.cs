@@ -86,7 +86,7 @@ namespace w3bot.Script
             {
                 //if (_bot.botWindow != null) _bot.botWindow._processor.BlockInput();
                 _bot.botTab.SelectedTab = this;
-                _processor.ActivateProcessor(this);
+                _processor.Activate();
             });
         }
     }

@@ -5,6 +5,7 @@ using w3bot.Api;
 using Emgu.CV;
 using Emgu.CV.Structure;
 using w3bot.GUI;
+using w3bot.Core.Processor;
 
 namespace w3bot.Core
 {
@@ -24,8 +25,14 @@ namespace w3bot.Core
         private static Image<Gray, byte> _imgCanny, _imgGray;
         private static Image<Gray, float> _imgSobel, _imgLaplacian;
         private static int _xorder = 1, _yorder = 0, _apertureSize = 3, _apertureSizeLaplacian = 7;
+        private static IProcessor _processor;
 
-        internal static bool toggle(w3bot.Script.Bot drawable)
+        internal Debug(IProcessor processor)
+        {
+            _processor = processor;
+        }
+
+        internal static bool toggle(w3bot.Script.Bot.Drawable drawable)
         {
             bool added = true;
             if (debugs.Contains(drawable))
@@ -46,7 +53,7 @@ namespace w3bot.Core
         internal static void Mouse(Graphics g)
         {
             Pen greenPen = new Pen(Color.Green); //draws the mouse
-            Point m = _bot.botWindow._processor.MousePos;
+            Point m = _processor.MousePos;
             g.DrawLine(greenPen, new Point(m.X - 5, m.Y - 5), new Point(m.X + 5, m.Y + 5));
             g.DrawLine(greenPen, new Point(m.X - 5, m.Y + 5), new Point(m.X + 5, m.Y - 5));
         }
@@ -54,7 +61,7 @@ namespace w3bot.Core
         internal static void MousePosition(Graphics g)
         {
             paintPos++;
-            g.DrawString("Mouse: " + _bot.botWindow._processor.MousePos.X + ", " + _bot.botWindow._processor.MousePos.Y, font, Brushes.Green, 5, paintPos * height);
+            g.DrawString("Mouse: " + _processor.MousePos.X + ", " + _processor.MousePos.Y, font, Brushes.Green, 5, paintPos * height);
         }
 
         internal static void ResetHeight(Graphics g)
@@ -71,7 +78,7 @@ namespace w3bot.Core
         internal static void PixelColor(Graphics g)
         {
             paintPos++;
-            Color p = Frame.MainFrame.GetPixel(_bot.botWindow._processor.MousePos.X, _bot.botWindow._processor.MousePos.Y);
+            Color p = Frame.MainFrame.GetPixel(_processor.MousePos.X, _processor.MousePos.Y);
             g.FillRectangle(new SolidBrush(Color.FromArgb(p.R, p.G, p.B)), 5, (paintPos * height) + 2, 10, 8);
             g.DrawRectangle(Pens.Black, 5, (paintPos * height) + 2, 10, 8);
             g.DrawString("R: " + p.R + ", G:" + p.G + " , B:" + p.B, font, Brushes.Green, 15, paintPos * height);

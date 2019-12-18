@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Drawing;
 using System.Windows.Forms;
 using w3bot.Core.Utilities;
 using w3bot.Listener;
@@ -11,6 +12,10 @@ namespace w3bot.Core.Processor
         private Panel _panel;
         private IBotBrowser _botBrowser;
         private bool _input;
+
+        public Bitmap Frame => throw new NotImplementedException();
+
+        public Point MousePos { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 
         public WebProcessor(Panel panel, IBotBrowser botBrowser)
         {
@@ -111,6 +116,11 @@ namespace w3bot.Core.Processor
         public bool IsValidProcessor(ProcessorType type)
         {
             return type == ProcessorType.BrowserProcessor;
+        }
+
+        public void Dispose()
+        {
+            throw new NotImplementedException();
         }
     }
 }

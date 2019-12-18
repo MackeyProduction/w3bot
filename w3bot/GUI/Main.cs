@@ -15,11 +15,11 @@ using w3bot.Event;
 
 namespace w3bot.GUI
 {
-    public partial class Main
+    public partial class Main : Form
     {
         string title = "w3bot.org " + CoreInformation.programVersion.ToString("0.0", CultureInfo.InvariantCulture);
         private bool nextKill = false;  // flag to tell the next time the script will be killed without question
-        private IBotWindow botMain;
+        private BotWindow botMain;
         private IExecutable _executable;
         private IScript runningScript;
         private Bot _bot;
@@ -48,7 +48,7 @@ namespace w3bot.GUI
             //}
             
             Status.Log("Welcome to " + title);
-            botMain = _bot.CreateBrowserWindow("View");
+            botMain = (BotWindow)_bot.CreateBrowserWindow("View");
             botMain.Open();
 
             blockToolStripMenuItem.PerformClick();

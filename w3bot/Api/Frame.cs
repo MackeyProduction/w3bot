@@ -8,6 +8,7 @@ using System.Drawing;
 using System.Drawing.Imaging;
 using System.Runtime.InteropServices;
 using w3bot.Core.Bot;
+using w3bot.Core.Processor;
 using w3bot.Script;
 using w3bot.Util;
 
@@ -15,13 +16,11 @@ namespace w3bot.Api
 {
     public class Frame
     {
-        static ChromiumWebBrowser _chromiumBrowser;
-        static BotWindow _botWindow;
-        static Bot _bot;
-        static Bitmap browserBitmap;
-        static Point point;
+        private static Bitmap _browserBitmap;
+        private static Point _point;
+        private static IProcessor _processor;
 
-        public static Bitmap MainFrame { get { return _bot.botWindow._processor.Frame; } }
+        public static Bitmap MainFrame { get { return _processor.Frame; } }
 
         /// <summary>
         /// Finds all matching pixels by a given color.
@@ -31,21 +30,21 @@ namespace w3bot.Api
         {
             List<Point> pointList = new List<Point>();
 
-            Core.CoreService.ExeThreadSafe(delegate
+            Bot.ExeThreadSafe(delegate
             {
                 try
                 {
                     // fetch browser bitmap
-                    browserBitmap = _bot.botWindow._processor.Frame;
+                    _browserBitmap = _processor.Frame;
 
-                    if (browserBitmap != null)
+                    if (_browserBitmap != null)
                     {
                         // locks bitmap in memory
-                        BitmapData bitmapData = browserBitmap.LockBits(new Rectangle(0, 0, browserBitmap.Width, browserBitmap.Height), ImageLockMode.ReadWrite, browserBitmap.PixelFormat);
+                        BitmapData bitmapData = _browserBitmap.LockBits(new Rectangle(0, 0, _browserBitmap.Width, _browserBitmap.Height), ImageLockMode.ReadWrite, _browserBitmap.PixelFormat);
 
                         // retrieve color depth in bits each pixel and determine the byte buffer size
-                        int bytesPerPixel = Bitmap.GetPixelFormatSize(browserBitmap.PixelFormat) / 8;
-                        int byteCount = bitmapData.Stride * browserBitmap.Height;
+                        int bytesPerPixel = Bitmap.GetPixelFormatSize(_browserBitmap.PixelFormat) / 8;
+                        int byteCount = bitmapData.Stride * _browserBitmap.Height;
                         byte[] pixels = new byte[byteCount];
 
                         // get first pointer from pixel and copy values to an unmanaged memory pointer
@@ -72,15 +71,15 @@ namespace w3bot.Api
 
                                 if (pixels[currentLine + x] == pattern.B && pixels[currentLine + x + 1] == pattern.G && pixels[currentLine + x + 2] == pattern.R)
                                 {
-                                    point = new Point(x / bytesPerPixel, y);
-                                    pointList.Add(point);
+                                    _point = new Point(x / bytesPerPixel, y);
+                                    pointList.Add(_point);
                                 }
                             }
                         }
 
                         // copy modified bytes back
                         Marshal.Copy(pixels, 0, ptrFirstPixel, pixels.Length);
-                        browserBitmap.UnlockBits(bitmapData);
+                        _browserBitmap.UnlockBits(bitmapData);
                     }
                 }
                 catch (Exception)
@@ -123,10 +122,10 @@ namespace w3bot.Api
         {
             Rectangle rectangle = new Rectangle();
 
-            Core.CoreService.ExeThreadSafe(delegate
+            Bot.ExeThreadSafe(delegate
             {
-                browserBitmap = _bot.botWindow._processor.Frame;
-                Image<Bgr, byte> bImage = new Image<Bgr, byte>(browserBitmap);
+                _browserBitmap = _processor.Frame;
+                Image<Bgr, byte> bImage = new Image<Bgr, byte>(_browserBitmap);
                 Image<Bgr, byte> comparedImage = new Image<Bgr, byte>(bitmap);
 
                 double Threshold = tolerance; //set it to a decimal value between 0 and 1.00, 1.00 meaning that the images must be identical
@@ -139,8 +138,8 @@ namespace w3bot.Api
                     {
                         if (Matches.Data[y, x, 0] >= Threshold) //Check if its a valid match
                         {
-                            point = new Point(x, y);
-                            rectangle = new Rectangle(point, new Size(bitmap.Width, bitmap.Height));
+                            _point = new Point(x, y);
+                            rectangle = new Rectangle(_point, new Size(bitmap.Width, bitmap.Height));
                         }
                     }
                 }
@@ -159,12 +158,9 @@ namespace w3bot.Api
             return new Rectangle();
         }
 
-        internal static void AddConfiguration(Bot bot)
+        internal static void AddConfiguration(IProcessor processor)
         {
-            _bot = bot;
-            if (_bot.botWindow == null) throw new InvalidOperationException("The Botwindow isn't initialized. Please initialize the botwindow with the Initialize() method.");
-            _botWindow = _bot.botWindow;
-            _chromiumBrowser = _botWindow._chromiumBrowser;
+            _processor = processor;
         }
     }
 }

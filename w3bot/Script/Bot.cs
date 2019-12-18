@@ -25,7 +25,6 @@ namespace w3bot.Script
         internal static event EventHandlerDelegate EvtHandler = delegate { };
         internal Size ClientSize { get { return _form.Size; } }
         internal Size FrameSize { get; }
-        internal BotWindow botWindow { get; set; }
         private static CoreService _core;
         private static Form _form;
         private static IProcessorService _processorService;

@@ -123,7 +123,6 @@
     <Compile Include="Core\Utilities\IValidator.cs" />
     <Compile Include="Core\Processor\AppletProcessor.cs" />
     <Compile Include="Core\Bot\BotDirectories.cs" />
-    <Compile Include="Core\Bot\BotStub.cs" />
     <Compile Include="Script\BotWindow.cs">
       <SubType>Component</SubType>
     </Compile>
