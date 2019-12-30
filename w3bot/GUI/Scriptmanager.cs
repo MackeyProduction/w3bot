@@ -10,7 +10,7 @@ namespace w3bot.GUI
 {
     public partial class Scriptmanager : Form
     {
-        private Bot.Bot _bot;
+        private IExecutable _executable;
         private Action _start, _stop;
 
         public Scriptmanager()
@@ -18,22 +18,20 @@ namespace w3bot.GUI
             InitializeComponent();
         }
 
-        public Scriptmanager(Bot.Bot bot, Action start, Action stop)
+        public Scriptmanager(IExecutable executable, Action start, Action stop)
         {
             InitializeComponent();
             _start = start;
             _stop = stop;
-            _bot = bot;
+            _executable = executable;
         }
 
         private void buttonStart_Click(object sender, System.EventArgs e)
         {
             if (listViewScripts.SelectedItems.Count == 1)
             {
-                TaskScheduler.Create = new TaskScheduler(_bot);
-                var taskScheduler = TaskScheduler.Create; 
-                taskScheduler.Bind(new BotStub(_bot, ((ScriptItem)listViewScripts.SelectedItems[0]).script, _stop));
-                taskScheduler.Execute(_bot.botTab.SelectedIndex);
+                _executable.Bind(((ScriptItem)listViewScripts.SelectedItems[0]).script);
+                _executable.Execute(1);
                 _start();
                 this.Close();
             }
@@ -52,7 +50,7 @@ namespace w3bot.GUI
                 {
                     foreach (var script in scripts)
                     {
-                        Core.Core.ExeThreadSafe(delegate
+                        Bot.ExeThreadSafe(delegate
                         {
                             script.Text = script.manifest.name;
                             script.SubItems.Add(script.manifest.targetApp);
@@ -62,7 +60,7 @@ namespace w3bot.GUI
                             listViewScripts.Items.Add(script);
                         });
                     }
-                    Core.Core.ExeThreadSafe(delegate { progressBarLoad.Visible = false; });
+                    Bot.ExeThreadSafe(delegate { progressBarLoad.Visible = false; });
                 }
                 else
                 {

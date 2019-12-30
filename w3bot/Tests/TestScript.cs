@@ -1,4 +1,4 @@
-﻿using w3bot.Bot;
+﻿using w3bot.Api;
 using w3bot.Input;
 using w3bot.Listener;
 using w3bot.Script;

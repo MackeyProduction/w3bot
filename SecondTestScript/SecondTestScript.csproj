@@ -58,7 +58,7 @@
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Xml" />
     <Reference Include="w3bot">
-      <HintPath>..\w3bot\bin\Debug\w3bot.exe</HintPath>
+      <HintPath>..\w3bot\obj\x86\Debug\w3bot.exe</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>

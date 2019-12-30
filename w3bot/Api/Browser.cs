@@ -1,11 +1,11 @@
 ﻿using System.Threading.Tasks;
 using w3bot.Wrapper;
 
-namespace w3bot.Bot
+namespace w3bot.Api
 {
     public static class Browser
     {
-        private static BrowserAdapter _browserAdapter = null;
+        private static IBotBrowser _browserAdapter = null;
 
         /// <summary>
         /// Returns true when the browser is finished loading.
@@ -14,7 +14,7 @@ namespace w3bot.Bot
         {
             get
             {
-                return _browserAdapter.IsReady;
+                return _browserAdapter.GetBrowser().IsReady;
             }
         }
 
@@ -36,7 +36,7 @@ namespace w3bot.Bot
         {
             get
             {
-                return _browserAdapter.SouceCode;
+                return _browserAdapter.GetBrowser().SouceCode;
             }
         }
 
@@ -56,7 +56,7 @@ namespace w3bot.Bot
         /// </summary>
         public static void ClearProxy()
         {
-            _browserAdapter.ClearProxy();
+            //_browserAdapter.GetBrowser().ClearProxy();
         }
 
         /// <summary>
@@ -64,7 +64,7 @@ namespace w3bot.Bot
         /// </summary>
         public static void ClearUserAgent()
         {
-            _browserAdapter.ClearUserAgent();
+            //_browserAdapter.ClearUserAgent();
         }
 
         /// <summary>
@@ -72,7 +72,7 @@ namespace w3bot.Bot
         /// </summary>
         public static void GoBack()
         {
-            _browserAdapter.GoBack();
+            _browserAdapter.GetBrowser().GoBack();
         }
 
         /// <summary>
@@ -80,7 +80,7 @@ namespace w3bot.Bot
         /// </summary>
         public static void GoForward()
         {
-            _browserAdapter.GoForward();
+            _browserAdapter.GetBrowser().GoForward();
         }
 
         /// <summary>
@@ -89,7 +89,7 @@ namespace w3bot.Bot
         /// <param name="url"></param>
         public static void Navigate(string url)
         {
-            _browserAdapter.Navigate(url);
+            _browserAdapter.GetBrowser().Navigate(url);
         }
 
         /// <summary>
@@ -97,7 +97,7 @@ namespace w3bot.Bot
         /// </summary>
         public static void Refresh()
         {
-            _browserAdapter.Refresh();
+            _browserAdapter.GetBrowser().Refresh();
         }
 
         /// <summary>
@@ -107,16 +107,16 @@ namespace w3bot.Bot
         /// <returns>Returns an Javascript object.</returns>
         public static async Task<object> ExecuteJavascript(string script)
         {
-            return await _browserAdapter.ExecuteJavascript(script);
+            return await _browserAdapter.GetBrowser().ExecuteJavascript(script);
         }
 
         /// <summary>
         /// Add configuration to Browser instance.
         /// </summary>
-        /// <param name="bot">The bot instance.</param>
-        internal static void AddConfiguration(Bot bot)
+        /// <param name="browser">The browser instance.</param>
+        internal static void AddConfiguration(IBotBrowser browser)
         {
-            _browserAdapter = bot.botSettings.browserAdapter;
+            _browserAdapter = browser;
         }
     }
 }

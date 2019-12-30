@@ -7,7 +7,6 @@ namespace w3bot.Input
 {
     public static class Mouse
     {
-        private static MouseAdapter _mouseAdapter = null;
         private static IMouseInput _mouse = null;
 
         /// <summary>
@@ -77,7 +76,7 @@ namespace w3bot.Input
         public static void Click(Keys.Button button, Keys.Event evt, int x = -1, int y = -1)
         {
             Move(x, y);
-            _mouseAdapter.Click(button, evt);
+            _mouse.Click(button, evt);
         }
 
         /// <summary>
@@ -87,7 +86,7 @@ namespace w3bot.Input
         /// <param name="y">Y coordinate where to move.</param>
         public static void Move(int x, int y)
         {
-            _mouseAdapter.Move(x, y);
+            _mouse.Move(x, y);
         }
 
         /// <summary>
@@ -97,7 +96,7 @@ namespace w3bot.Input
         /// <param name="amount">The amount of wheeling.</param>
         public static void Wheel(Keys.Wheel wheel, int amount)
         {
-            _mouseAdapter.Wheel(wheel, amount);
+            _mouse.Wheel(wheel, amount);
         }
 
         /// <summary>
@@ -134,13 +133,7 @@ namespace w3bot.Input
         /// <param name="amount">The amount of wheeling.</param>
         public static void Scroll(Keys.Wheel direction = Keys.Wheel.DOWN, int amount = 1)
         {
-            _mouseAdapter.Wheel(direction, amount);
-        }
-
-        [Obsolete("The method is deprecated. Use the method with interface implementation instead.")]
-        internal static void AddConfiguration(Bot.Bot bot)
-        {
-            _mouseAdapter = bot.botSettings.inputAdapter.mouseAdapter;
+            _mouse.Wheel(direction, amount);
         }
 
         internal static void AddConfiguration(IMouseInput mouse)

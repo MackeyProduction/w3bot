@@ -4,9 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace w3bot.Bot
+namespace w3bot.Core.Utilities
 {
-    public interface IFrame
+    internal enum ProcessorType
     {
+        BrowserProcessor,
+        AppletProcessor
     }
 }

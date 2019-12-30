@@ -2,20 +2,20 @@
 
 namespace w3bot.Event
 {
-    public class EventHandler : IEventHandler
+    public abstract class AbstractEvent : IEventListener
     {
-        private static List<IEventHandler> _eventHandlers;
+        private static List<IEventListener> _eventHandlers;
 
-        public EventHandler()
+        public AbstractEvent()
         {
-            _eventHandlers = new List<IEventHandler>();
+            _eventHandlers = new List<IEventListener>();
         }
 
         /// <summary>
         /// Binds an event to event handler. All events stored in a list and can be executed with Verify() method.
         /// </summary>
         /// <param name="eventHandler"></param>
-        public void Bind(IEventHandler eventHandler)
+        public void Bind(IEventListener eventHandler)
         {
             _eventHandlers.Add(eventHandler);
         }
@@ -36,7 +36,7 @@ namespace w3bot.Event
         {
             foreach (var handler in _eventHandlers)
             {
-                if (handler is IEventHandler)
+                if (handler is IEventListener)
                 {
                     handler.Apply();
                 }
@@ -50,7 +50,7 @@ namespace w3bot.Event
         {
             foreach (var handler in _eventHandlers)
             {
-                if (handler is IEventHandler)
+                if (handler is IEventListener)
                 {
                     handler.Destroy();
                 }
