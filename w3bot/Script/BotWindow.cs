@@ -38,9 +38,9 @@ namespace w3bot.Script
             Bot.ExeThreadSafe(delegate
             {
                 isVanished = false;
-                _bot.botTab.TabPages.Add(this);
-                _bot.botTab.SelectedTab = this;
-                _bot.botTab.SelectedTab.Text = _name;
+                //_bot.botTab.TabPages.Add(this);
+                //_bot.botTab.SelectedTab = this;
+                //_bot.botTab.SelectedTab.Text = _name;
             });
         }
 
@@ -51,13 +51,13 @@ namespace w3bot.Script
         {
             if (isClosed) throw new InvalidOperationException("The Botwindow is already destroyed. It can't be vanished.");
             if (isVanished) return;
-            Bot.ExeThreadSafe(delegate
-            {
-                _bot.botTab.TabPages.Remove(this);
-                int bots = _bot.botTab.TabPages.Count;
-                if (bots > 0) ((BotWindow)_bot.botTab.TabPages[bots - 1]).Activate();
-                isVanished = true;
-            });
+            //Bot.ExeThreadSafe(delegate
+            //{
+                //_bot.botTab.TabPages.Remove(this);
+                //int bots = _bot.botTab.TabPages.Count;
+                //if (bots > 0) ((BotWindow)_bot.botTab.TabPages[bots - 1]).Activate();
+                //isVanished = true;
+            //});
         }
 
         /// <summary>
@@ -68,7 +68,7 @@ namespace w3bot.Script
             if (isClosed) throw new InvalidOperationException("The Botwindow is already destroyed. It can't be closed.");
             Bot.ExeThreadSafe(delegate
             {
-                this.Controls.Remove(_processor);
+                //this.Controls.Remove(_processor);
                 _processor.Destroy();
                 _processor = null;
                 Vanish();
@@ -85,7 +85,7 @@ namespace w3bot.Script
             Bot.ExeThreadSafe(delegate
             {
                 //if (_bot.botWindow != null) _bot.botWindow._processor.BlockInput();
-                _bot.botTab.SelectedTab = this;
+                //_bot.botTab.SelectedTab = this;
                 _processor.Activate();
             });
         }

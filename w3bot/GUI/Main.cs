@@ -32,7 +32,8 @@ namespace w3bot.GUI
 
             _bot = bot;
             _executable = bot.GetDaemons();
-            runningScript = _executable.GetExecutables<IScript>()[0];
+            Status.AddConfiguration(this);
+            //runningScript = _executable.GetExecutables<IScript>()[0];
             BotDirectories.CreateDirs();
         }
 
@@ -110,7 +111,7 @@ namespace w3bot.GUI
 
         private void sourceCodeToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            new Source(bot.botWindow._sourceCode, bot.botWindow._url).ShowDialog();
+            //new Source(bot.botWindow._sourceCode, bot.botWindow._url).ShowDialog();
         }
 
         private void allowToolStripMenuItem_Click(object sender, EventArgs e)
@@ -125,7 +126,7 @@ namespace w3bot.GUI
         private void blockToolStripMenuItem_Click(object sender, EventArgs e)
         {
             botMain._processor.BlockInput();
-            botMain._processor.GetFocus();
+            //botMain._processor.GetFocus();
 
             blockToolStripMenuItem.Checked = true;
             allowToolStripMenuItem.Checked = false;
@@ -164,7 +165,7 @@ namespace w3bot.GUI
             this.Text = title + " - Script running...";
             stopToolStripMenuItem.Enabled = true;
             blockToolStripMenuItem.PerformClick();
-            botMain._processor.GetFocus(); //make sure botting is possible by focusing the view
+            //botMain._processor.GetFocus(); //make sure botting is possible by focusing the view
         }
 
         private void Script_stopped()
@@ -198,15 +199,15 @@ namespace w3bot.GUI
                     return;
                 }
 
-                if (MessageBox.Show("Are you sure you want to stop the running script?", "Stop Script?", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
-                {
-                    runningScript.onFinish();
-                    runningScript.onResume(); //resume script to make sure it doest stuck in the sleep loop
-                    nextKill = true;
-                    runningScriptList.Remove((int)bot.botTab.SelectedIndex);
-                    stopToolStripMenuItem.Text = "Stopping...";
-                    this.Text = title + " - Script stopping...";
-                }
+                //if (MessageBox.Show("Are you sure you want to stop the running script?", "Stop Script?", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+                //{
+                //    runningScript.onFinish();
+                //    runningScript.onResume(); //resume script to make sure it doest stuck in the sleep loop
+                //    nextKill = true;
+                //    runningScriptList.Remove((int)bot.botTab.SelectedIndex);
+                //    stopToolStripMenuItem.Text = "Stopping...";
+                //    this.Text = title + " - Script stopping...";
+                //}
             }
         }
 
@@ -246,7 +247,7 @@ namespace w3bot.GUI
 
         private void devToolsToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            bot.botWindow._chromiumBrowser.ShowDevTools();
+            //bot.botWindow._chromiumBrowser.ShowDevTools();
         }
 
         private void magnifierToolStripMenuItem_Click(object sender, EventArgs e)
@@ -256,7 +257,7 @@ namespace w3bot.GUI
 
         private void updatesToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            bot.botWindow._doubleBuffered = false;
+            //bot.botWindow._doubleBuffered = false;
             updatesToolStripMenuItem.Checked = Core.Debug.toggle(Core.Debug.NoDoubleBuffer);
         }
 
@@ -264,20 +265,20 @@ namespace w3bot.GUI
         {
             try
             {
-                if (runningScriptList != null)
-                {
-                    if (bot.botTab.SelectedIndex < runningScriptList.GetItems().Count && bot.botTab.SelectedIndex != -1)
-                    {
-                        runningScriptList.Execute((int)bot.botTab.SelectedIndex);
-                        runningScript = runningScriptList.GetItems()[bot.botTab.SelectedIndex];
-                        bot.botTab.Focus();
-                        Script_started();
-                    }
-                    else
-                    {
-                        Script_stopped();
-                    }
-                }
+                //if (runningScriptList != null)
+                //{
+                    //if (bot.botTab.SelectedIndex < runningScriptList.GetItems().Count && bot.botTab.SelectedIndex != -1)
+                    //{
+                        //runningScriptList.Execute((int)bot.botTab.SelectedIndex);
+                        //runningScript = runningScriptList.GetItems()[bot.botTab.SelectedIndex];
+                        //bot.botTab.Focus();
+                        //Script_started();
+                    //}
+                    //else
+                    //{
+                        //Script_stopped();
+                    //}
+                //}
             }
             catch (Exception) { }
         }

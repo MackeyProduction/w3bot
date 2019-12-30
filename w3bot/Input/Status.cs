@@ -60,7 +60,7 @@ namespace w3bot.Input
         /// <returns></returns>
         internal static string AppendTextToLog(string msg, Color color)
         {
-            var logbox = (RichTextBox)_form.Controls.Find("", true)[0];
+            var logbox = (RichTextBox)_form.Controls.Find("textBoxLog", true)[0];
             string result = "[" + DateTime.Now.Hour + ":" + DateTime.Now.Minute + ":" + DateTime.Now.Second + "]" + "\t\t" + msg + '\n';
             Script.Bot.ExeThreadSafe(delegate
             {

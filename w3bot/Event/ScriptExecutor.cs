@@ -42,9 +42,9 @@ namespace w3bot.Event
             _scripts = null;
         }
 
-        public IList<T> GetExecutables<T>()
+        public List<T> GetExecutables<T>()
         {
-            return (IList<T>)Convert.ChangeType(_scripts, typeof(IList<IScript>));
+            return (List<T>)Convert.ChangeType(_scripts, typeof(List<IScript>));
         }
     }
 }

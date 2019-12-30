@@ -114,6 +114,7 @@
   <ItemGroup>
     <Compile Include="Api\Browser.cs" />
     <Compile Include="Api\Frame.cs" />
+    <Compile Include="Core\Reflection\NonPublicConstructorFinder.cs" />
     <Compile Include="Event\KeyboardEvent.cs" />
     <Compile Include="Script\Bot.cs" />
     <Compile Include="ContainerConfig.cs" />

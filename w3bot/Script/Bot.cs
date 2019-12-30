@@ -17,7 +17,7 @@ using w3bot.Wrapper;
 
 namespace w3bot.Script
 {
-    public abstract class Bot
+    public class Bot
     {
         internal delegate void Drawable(Graphics g);
         internal static event Drawable paintings = delegate { };
@@ -25,15 +25,20 @@ namespace w3bot.Script
         internal static event EventHandlerDelegate EvtHandler = delegate { };
         internal Size ClientSize { get { return _form.Size; } }
         internal Size FrameSize { get; }
-        private static CoreService _core;
+        private CoreService _core;
         private static Form _form;
-        private static IProcessorService _processorService;
-        private static IExecutable _executable;
+        private IProcessorService _processorService;
+        private IExecutable _executable;
 
-        internal static void AddConfiguration(Form form, CoreService core, IExecutable executable)
+        public Bot()
+        {
+
+        }
+
+        internal void AddConfiguration(CoreService core, IExecutable executable)
         {
             _core = core;
-            _form = form;
+            //_form = form;
             _executable = executable;
             _processorService = _core.GetProcessors();
         }
@@ -102,10 +107,10 @@ namespace w3bot.Script
         /// <param name="a">Executes the action.</param>
         internal static void ExeThreadSafe(Action a)
         {
-            if (_form.InvokeRequired)
-                _form.Invoke((MethodInvoker)delegate { a(); });
-            else
-                a();
+            //if (_form.InvokeRequired)
+            //    _form.Invoke((MethodInvoker)delegate { a(); });
+            //else
+            //    a();
         }
 
         /// <summary>
@@ -113,8 +118,8 @@ namespace w3bot.Script
         /// </summary>
         internal static void ReInit()
         {
-            var tabs = (TabControl)_form.Controls.Find("", true)[0];
-            tabs.TabPages.Clear();
+            //var tabs = (TabControl)_form.Controls.Find("", true)[0];
+            //tabs.TabPages.Clear();
         }
     }
 }

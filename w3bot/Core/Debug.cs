@@ -46,7 +46,7 @@ namespace w3bot.Core
                 debugs.Add(drawable);
                 w3bot.Script.Bot.paintings += drawable;
             }
-            _bot.core.Invalidate(); //causes repaint
+            //_bot.core.Invalidate(); //causes repaint
             return added;
         }
 

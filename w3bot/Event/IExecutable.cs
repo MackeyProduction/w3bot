@@ -17,7 +17,7 @@ namespace w3bot.Event
         /// </summary>
         /// <typeparam name="T">The type of the executable list.</typeparam>
         /// <returns>Returns a list of executables.</returns>
-        IList<T> GetExecutables<T>();
+        List<T> GetExecutables<T>();
 
         /// <summary>
         /// Binds an executable to the exec stack.

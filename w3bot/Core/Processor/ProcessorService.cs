@@ -7,7 +7,7 @@ using w3bot.Core.Utilities;
 
 namespace w3bot.Core.Processor
 {
-    internal class ProcessorService
+    internal class ProcessorService : IProcessorService
     {
         private IEnumerable<IProcessor> _processors;
 
@@ -16,7 +16,7 @@ namespace w3bot.Core.Processor
             _processors = processors;
         }
 
-        internal IProcessor GetProcessor(ProcessorType processorType)
+        public IProcessor GetProcessor(ProcessorType processorType)
         {
             return _processors.Single(item => item.IsValidProcessor(processorType));
         }
