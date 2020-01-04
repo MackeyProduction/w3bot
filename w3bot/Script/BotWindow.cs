@@ -4,6 +4,7 @@ using System;
 using System.Linq;
 using System.Windows.Forms;
 using w3bot.Core.Processor;
+using w3bot.GUI.Service;
 using w3bot.Wrapper;
 
 namespace w3bot.Script
@@ -15,17 +16,21 @@ namespace w3bot.Script
         internal bool _doubleBuffered { get { return doubleBuffered; } set { doubleBuffered = false; } }
         internal bool isVanished = false, isClosed = false;
         internal IProcessor _processor;
+        internal FormService _formService;
+        internal TabControl _botTab;
 
         /// <summary>
         /// Creates a new BotWindow instance.
         /// </summary>
         /// <param name="name">The name of the bot window.</param>
         /// <param name="processor">The current processor instance.</param>
-        internal BotWindow(string name, IProcessor processor)
+        internal BotWindow(string name, IProcessor processor, FormService formService)
         {
             DoubleBuffered = _doubleBuffered;
             _name = name;
             _processor = processor;
+            _formService = formService;
+            _botTab = (TabControl)_formService.GetFormControl("tabControlMain");
             Activate();
         }
 
@@ -38,9 +43,9 @@ namespace w3bot.Script
             Bot.ExeThreadSafe(delegate
             {
                 isVanished = false;
-                //_bot.botTab.TabPages.Add(this);
-                //_bot.botTab.SelectedTab = this;
-                //_bot.botTab.SelectedTab.Text = _name;
+                _botTab.TabPages.Add(this);
+                _botTab.SelectedTab = this;
+                _botTab.SelectedTab.Text = _name;
             });
         }
 
@@ -51,13 +56,13 @@ namespace w3bot.Script
         {
             if (isClosed) throw new InvalidOperationException("The Botwindow is already destroyed. It can't be vanished.");
             if (isVanished) return;
-            //Bot.ExeThreadSafe(delegate
-            //{
-                //_bot.botTab.TabPages.Remove(this);
-                //int bots = _bot.botTab.TabPages.Count;
-                //if (bots > 0) ((BotWindow)_bot.botTab.TabPages[bots - 1]).Activate();
-                //isVanished = true;
-            //});
+            Bot.ExeThreadSafe(delegate
+            {
+                _botTab.TabPages.Remove(this);
+                int bots = _botTab.TabPages.Count;
+                if (bots > 0) ((BotWindow)_botTab.TabPages[bots - 1]).Activate();
+                isVanished = true;
+            });
         }
 
         /// <summary>
@@ -85,7 +90,7 @@ namespace w3bot.Script
             Bot.ExeThreadSafe(delegate
             {
                 //if (_bot.botWindow != null) _bot.botWindow._processor.BlockInput();
-                //_bot.botTab.SelectedTab = this;
+                _botTab.SelectedTab = this;
                 _processor.Activate();
             });
         }
