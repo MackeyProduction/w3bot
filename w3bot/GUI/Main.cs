@@ -8,8 +8,6 @@ using w3bot.Input;
 using System.Threading;
 using System.Diagnostics;
 using w3bot.Core.Bot;
-using w3bot.Core.Database;
-using w3bot.Core.Database.Repository;
 using w3bot.Script;
 using w3bot.Event;
 
@@ -32,7 +30,8 @@ namespace w3bot.GUI
 
             _bot = bot;
             _executable = bot.GetDaemons();
-            Status.AddConfiguration(this);
+            Bot._form = this;
+            Status.AddConfiguration(bot.GetFormService());
             //runningScript = _executable.GetExecutables<IScript>()[0];
             BotDirectories.CreateDirs();
         }

@@ -116,6 +116,7 @@
     <Compile Include="Api\Frame.cs" />
     <Compile Include="Core\Reflection\NonPublicConstructorFinder.cs" />
     <Compile Include="Event\KeyboardEvent.cs" />
+    <Compile Include="GUI\Service\FormService.cs" />
     <Compile Include="Script\Bot.cs" />
     <Compile Include="ContainerConfig.cs" />
     <Compile Include="Core\Database\IRepositoryService.cs" />
@@ -211,7 +212,9 @@
     <Compile Include="GUI\Login.Designer.cs">
       <DependentUpon>Login.cs</DependentUpon>
     </Compile>
-    <Compile Include="GUI\Main.cs" />
+    <Compile Include="GUI\Main.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="GUI\Main.Designer.cs">
       <DependentUpon>Main.cs</DependentUpon>
     </Compile>
@@ -267,7 +270,6 @@
     <Compile Include="Util\ScriptUtils.cs" />
     <Compile Include="Wrapper\IBrowser.cs" />
     <Compile Include="Event\IEventListener.cs" />
-    <Compile Include="Api\IFrame.cs" />
     <Compile Include="Wrapper\IKeyboardInput.cs" />
     <Compile Include="Wrapper\IMouseInput.cs" />
     <Compile Include="Script\IScript.cs" />

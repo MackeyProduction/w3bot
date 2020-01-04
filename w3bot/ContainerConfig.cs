@@ -15,6 +15,7 @@ using w3bot.Core.Reflection;
 using w3bot.Core.Utilities;
 using w3bot.Event;
 using w3bot.GUI;
+using w3bot.GUI.Service;
 using w3bot.Script;
 using w3bot.Wrapper;
 
@@ -73,10 +74,7 @@ namespace w3bot
 
         private static void RegisterBot()
         {
-            var assembly = Assembly.GetExecutingAssembly();
-            builder.RegisterAssemblyTypes(assembly)
-                .Where(type => type.IsSubclassOf(typeof(Form)));
-            //builder.RegisterType<Form>().As<Main>();
+            builder.RegisterType<FormService>();
             builder.RegisterType<CoreService>()
                 .FindConstructorsWith(new NonPublicConstructorFinder())
                 .AsSelf();
@@ -88,11 +86,11 @@ namespace w3bot
             builder.RegisterType<ChromiumWebBrowser>();
             builder.RegisterType<Bot>()
                 .OnActivating(e => {
-                    //var form = e.Context.Resolve<Main>();
+                    var formService = e.Context.Resolve<FormService>();
                     var coreService = e.Context.Resolve<CoreService>();
                     var executable = e.Context.Resolve<IExecutable>();
 
-                    e.Instance.AddConfiguration(coreService, executable);
+                    e.Instance.AddConfiguration(formService, coreService, executable);
                 });
         }
     }

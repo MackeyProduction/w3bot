@@ -10,6 +10,7 @@ using w3bot.Core.Bot;
 using w3bot.Core.Processor;
 using w3bot.Core.Utilities;
 using w3bot.Event;
+using w3bot.GUI.Service;
 using w3bot.Input;
 using w3bot.Listener;
 using w3bot.Util;
@@ -25,8 +26,9 @@ namespace w3bot.Script
         internal static event EventHandlerDelegate EvtHandler = delegate { };
         internal Size ClientSize { get { return _form.Size; } }
         internal Size FrameSize { get; }
+        internal static Form _form;
         private CoreService _core;
-        private static Form _form;
+        private static FormService _formService;
         private IProcessorService _processorService;
         private IExecutable _executable;
 
@@ -35,10 +37,10 @@ namespace w3bot.Script
 
         }
 
-        internal void AddConfiguration(CoreService core, IExecutable executable)
+        internal void AddConfiguration(FormService formService, CoreService core, IExecutable executable)
         {
             _core = core;
-            //_form = form;
+            _formService = formService;
             _executable = executable;
             _processorService = _core.GetProcessors();
         }
@@ -59,6 +61,11 @@ namespace w3bot.Script
         internal IExecutable GetDaemons()
         {
             return _executable;
+        }
+
+        internal FormService GetFormService()
+        {
+            return _formService;
         }
 
         /// <summary>
@@ -107,10 +114,10 @@ namespace w3bot.Script
         /// <param name="a">Executes the action.</param>
         internal static void ExeThreadSafe(Action a)
         {
-            //if (_form.InvokeRequired)
-            //    _form.Invoke((MethodInvoker)delegate { a(); });
-            //else
-            //    a();
+            if (_form.InvokeRequired)
+                _form.Invoke((MethodInvoker)delegate { a(); });
+            else
+                a();
         }
 
         /// <summary>
@@ -118,8 +125,8 @@ namespace w3bot.Script
         /// </summary>
         internal static void ReInit()
         {
-            //var tabs = (TabControl)_form.Controls.Find("", true)[0];
-            //tabs.TabPages.Clear();
+            var tabs = (TabControl)_formService.GetFormControl("");
+            tabs.TabPages.Clear();
         }
     }
 }

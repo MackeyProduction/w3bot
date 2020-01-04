@@ -120,7 +120,7 @@ namespace w3bot.Core.Processor
 
         public void Dispose()
         {
-            throw new NotImplementedException();
+            _panel.Dispose();
         }
     }
 }

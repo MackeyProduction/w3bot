@@ -6,12 +6,13 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using w3bot.Core;
+using w3bot.GUI.Service;
 
 namespace w3bot.Input
 {
     public static class Status
     {
-        private static Form _form;
+        private static FormService _form;
 
         public static string Log(string text)
         {
@@ -47,7 +48,7 @@ namespace w3bot.Input
             return result;
         }
 
-        internal static void AddConfiguration(Form form)
+        internal static void AddConfiguration(FormService form)
         {
             _form = form;
         }
@@ -60,7 +61,7 @@ namespace w3bot.Input
         /// <returns></returns>
         internal static string AppendTextToLog(string msg, Color color)
         {
-            var logbox = (RichTextBox)_form.Controls.Find("textBoxLog", true)[0];
+            var logbox = (RichTextBox)_form.GetFormControl("textBoxLog");
             string result = "[" + DateTime.Now.Hour + ":" + DateTime.Now.Minute + ":" + DateTime.Now.Second + "]" + "\t\t" + msg + '\n';
             Script.Bot.ExeThreadSafe(delegate
             {
