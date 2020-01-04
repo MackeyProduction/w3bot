@@ -63,6 +63,10 @@ namespace w3bot.Script
             return _executable;
         }
 
+        /// <summary>
+        /// Gets a service for handling the form controls.
+        /// </summary>
+        /// <returns>Returns an instance of FormService.</returns>
         internal FormService GetFormService()
         {
             return _formService;
