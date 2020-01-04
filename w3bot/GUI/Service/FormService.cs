@@ -12,16 +12,21 @@ namespace w3bot.GUI.Service
     {
         public FormService()
         {
-
+            
         }
 
-        public Control GetFormControl(string controlName)
+        /// <summary>
+        /// Search in form controls for a control with the given name.
+        /// </summary>
+        /// <param name="controlName">The name of the control.</param>
+        /// <returns>Returns the control.</returns>
+        public Control GetFormControlByName(string controlName)
         {
             Control controlResult;
 
             try
             {
-                controlResult = Bot._form.Controls.Find(controlName, true).FirstOrDefault(); // TODO: Remove this hack and add form in constructor.
+                controlResult = Bot._form.Controls.Find(controlName, true).FirstOrDefault();
             }
             catch (Exception e)
             {
@@ -29,6 +34,18 @@ namespace w3bot.GUI.Service
             }
 
             return controlResult;
+        }
+
+        /// <summary>
+        /// Search in form controls for a control with the given type.
+        /// </summary>
+        /// <param name="type">The type of the control.</param>
+        /// <returns>Returns the first or default result by the controls enumerable.</returns>
+        public Control GetFormControlByType(Type type)
+        {
+            var controls = Bot._form.Controls.Cast<Control>();
+
+            return controls.Where(ctrl => ctrl.GetType() == type).FirstOrDefault();
         }
     }
 }

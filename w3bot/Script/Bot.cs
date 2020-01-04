@@ -129,7 +129,7 @@ namespace w3bot.Script
         /// </summary>
         internal static void ReInit()
         {
-            var tabs = (TabControl)_formService.GetFormControl("");
+            var tabs = (TabControl)_formService.GetFormControlByType(typeof(TabControl));
             tabs.TabPages.Clear();
         }
     }
