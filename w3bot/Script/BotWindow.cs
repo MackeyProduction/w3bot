@@ -5,7 +5,6 @@ using System.Linq;
 using System.Windows.Forms;
 using w3bot.Core.Processor;
 using w3bot.GUI.Service;
-using w3bot.Wrapper;
 
 namespace w3bot.Script
 {
@@ -30,7 +29,7 @@ namespace w3bot.Script
             _name = name;
             _processor = processor;
             _formService = formService;
-            _botTab = (TabControl)_formService.GetFormControl("tabControlMain");
+            _botTab = (TabControl)_formService.GetFormControlByType(typeof(TabControl));
             Activate();
         }
 
