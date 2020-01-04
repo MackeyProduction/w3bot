@@ -100,7 +100,7 @@ namespace w3bot.Script
         /// <returns>Returns an instance of BotWindow.</returns>
         private IBotWindow CreateWindow(string name, ProcessorType type)
         {
-            return new BotWindow(name, _processorService.GetProcessor(type));
+            return new BotWindow(name, _processorService.GetProcessor(type), _formService);
         }
 
         /// <summary>
