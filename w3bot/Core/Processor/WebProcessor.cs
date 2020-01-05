@@ -7,21 +7,52 @@ using w3bot.Wrapper;
 
 namespace w3bot.Core.Processor
 {
-    internal class WebProcessor : IProcessor
+    internal class WebProcessor : Panel, IProcessor
     {
-        private Panel _panel;
         private IBotBrowser _botBrowser;
         private bool _input;
+        private Timer _timer;
+        private Point _mouse;
 
-        public Bitmap Frame => throw new NotImplementedException();
+        public Bitmap Frame
+        {
+            get
+            {
+                return _botBrowser.Frame;
+            }
+        }
 
-        public Point MousePos { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        public Point MousePos
+        {
+            get
+            {
+                return _mouse;
+            }
+
+            set
+            {
+                _mouse = value;
+            }
+        }
+
+        public Panel Panel
+        {
+            get
+            {
+                return this;
+            }
+        }
 
         public WebProcessor(IBotBrowser botBrowser)
         {
+            DoubleBuffered = true;
+            Size = new Size(994, 582);
             _botBrowser = botBrowser;
-            //_panel = panel;
             _input = false;
+            _timer = new Timer();
+            _timer.Interval = 25;
+            _timer.Tick += Timer_Tick;
+            _mouse = new Point(0, 0);
         }
 
         public void Activate()
@@ -31,18 +62,32 @@ namespace w3bot.Core.Processor
 
         private void _botBrowser_DocumentReady(object sender, DocumentReadyEventArgs e)
         {
-            throw new NotImplementedException();
+            Paint += WebProcessor_Paint;
+            _timer.Start();
+        }
+
+        private void WebProcessor_Paint(object sender, PaintEventArgs e)
+        {
+            if (_botBrowser.Frame == null) return;
+
+            var g = e.Graphics;
+            g.DrawImage(_botBrowser.Frame, 0, 0);
+        }
+
+        private void Timer_Tick(object sender, EventArgs e)
+        {
+            this.Invalidate();
         }
 
         public void AllowInput()
         {
             if (!_input)
             {
-                _panel.MouseMove += _panel_MouseMove;
-                _panel.MouseUp += _panel_MouseUp;
-                _panel.MouseDown += _panel_MouseDown;
+                this.MouseMove += _panel_MouseMove;
+                this.MouseUp += _panel_MouseUp;
+                this.MouseDown += _panel_MouseDown;
                 //_bot.core.mainWindow.KeyPress += MainWindow_KeyPress;
-                _panel.MouseWheel += _panel_MouseWheel;
+                this.MouseWheel += _panel_MouseWheel;
                 _input = true;
             }
         }
@@ -64,6 +109,7 @@ namespace w3bot.Core.Processor
 
         private void _panel_MouseMove(object sender, MouseEventArgs e)
         {
+            _mouse = new Point(e.X, e.Y);
             _botBrowser.GetMouse().Move(e.X, e.Y);
         }
 
@@ -71,10 +117,10 @@ namespace w3bot.Core.Processor
         {
             if (_input)
             {
-                _panel.MouseMove -= _panel_MouseMove;
-                _panel.MouseUp -= _panel_MouseUp;
-                _panel.MouseDown -= _panel_MouseDown;
-                _panel.MouseWheel -= _panel_MouseWheel;
+                this.MouseMove -= _panel_MouseMove;
+                this.MouseUp -= _panel_MouseUp;
+                this.MouseDown -= _panel_MouseDown;
+                this.MouseWheel -= _panel_MouseWheel;
                 _input = false;
             }
         }
@@ -91,7 +137,7 @@ namespace w3bot.Core.Processor
 
         public void GetFocus()
         {
-            _panel.Focus();
+            this.Focus();
         }
 
         private Util.Keys.Button MouseEvent(MouseEventArgs e)
@@ -118,9 +164,9 @@ namespace w3bot.Core.Processor
             return type == ProcessorType.BrowserProcessor;
         }
 
-        public void Dispose()
-        {
-            _panel.Dispose();
-        }
+        //public void Dispose()
+        //{
+        //    _panel.Dispose();
+        //}
     }
 }

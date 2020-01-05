@@ -82,8 +82,8 @@ namespace w3bot
                 .FindConstructorsWith(new NonPublicConstructorFinder())
                 .AsSelf();
             builder.RegisterType<BotWindow>().As<IBotWindow>();
-            builder.RegisterType<ChromiumBrowserAdapter>().As<IBotBrowser>();
             builder.RegisterType<ChromiumWebBrowser>();
+            builder.RegisterType<ChromiumBrowserAdapter>().As<IBotBrowser>();
             builder.RegisterType<Bot>()
                 .OnActivating(e => {
                     var formService = e.Context.Resolve<FormService>();
