@@ -1,4 +1,6 @@
-﻿namespace w3bot.Wrapper.Input
+﻿using CefSharp;
+
+namespace w3bot.Wrapper.Input
 {
     class ChromiumKeyboard : IKeyboardInput
     {
@@ -11,7 +13,10 @@
 
         public void KeyEvent(char c)
         {
-            _browser.GetHost().SendKeyEvent(new CefSharp.KeyEvent());
+            KeyEvent keyEvent = new KeyEvent();
+            keyEvent.Type = KeyEventType.Char;
+            keyEvent.WindowsKeyCode = c;
+            _browser.GetHost().SendKeyEvent(keyEvent);
         }
     }
 }

@@ -65,8 +65,15 @@ namespace w3bot.Core.Processor
         {
             if (_botBrowser.Frame == null) return;
 
+            Pen greenPen = new Pen(Color.Green);
+
             var g = e.Graphics;
             g.DrawImage(_botBrowser.Frame, 0, 0);
+
+            // draw mouse
+            Point m = _mouse;
+            e.Graphics.DrawLine(greenPen, new Point(m.X - 5, m.Y - 5), new Point(m.X + 5, m.Y + 5));
+            e.Graphics.DrawLine(greenPen, new Point(m.X - 5, m.Y + 5), new Point(m.X + 5, m.Y - 5));
         }
 
         private void Timer_Tick(object sender, EventArgs e)
@@ -81,15 +88,28 @@ namespace w3bot.Core.Processor
                 this.MouseMove += _panel_MouseMove;
                 this.MouseUp += _panel_MouseUp;
                 this.MouseDown += _panel_MouseDown;
-                //_bot.core.mainWindow.KeyPress += MainWindow_KeyPress;
                 this.MouseWheel += _panel_MouseWheel;
+                w3bot.Script.Bot._form.KeyPress += _form_KeyPress;
                 _input = true;
             }
         }
 
+        private void _form_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            _botBrowser.GetKeyboard().KeyEvent(e.KeyChar);
+        }
+
         private void _panel_MouseWheel(object sender, MouseEventArgs e)
         {
-            _botBrowser.GetMouse().Click(MouseEvent(e), Util.Keys.Event.DOWNUP);
+            int deltaY = e.Delta;
+            if (deltaY > 0)
+            {
+                _botBrowser.GetMouse().Wheel(Util.Keys.Wheel.UP, 120);
+            }
+            else
+            {
+                _botBrowser.GetMouse().Wheel(Util.Keys.Wheel.DOWN, 120);
+            }
         }
 
         private void _panel_MouseDown(object sender, MouseEventArgs e)
@@ -116,6 +136,7 @@ namespace w3bot.Core.Processor
                 this.MouseUp -= _panel_MouseUp;
                 this.MouseDown -= _panel_MouseDown;
                 this.MouseWheel -= _panel_MouseWheel;
+                w3bot.Script.Bot._form.KeyPress -= _form_KeyPress;
                 _input = false;
             }
         }
@@ -158,10 +179,5 @@ namespace w3bot.Core.Processor
         {
             return type == ProcessorType.BrowserProcessor;
         }
-
-        //public void Dispose()
-        //{
-        //    _panel.Dispose();
-        //}
     }
 }

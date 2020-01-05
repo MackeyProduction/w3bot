@@ -6,8 +6,6 @@ using w3bot.Wrapper.Input;
 using w3bot.Core.Database.Entity;
 using w3bot.Listener;
 using System.Drawing;
-using System.IO;
-using System.Reflection;
 
 namespace w3bot.Wrapper
 {
@@ -17,6 +15,7 @@ namespace w3bot.Wrapper
 
         private ChromiumWebBrowser _chromiumBrowser;
         private IMouseInput _chromiumMouse;
+        private IKeyboardInput _chromiumKeyboard;
         private IBrowser _browser;
         private CefSharp.AbstractCefSettings _cefSettings;
         private Bitmap _browserBitmap;
@@ -105,13 +104,6 @@ namespace w3bot.Wrapper
             }
             _chromiumBrowser = new ChromiumWebBrowser(HOME_URL);
             _chromiumBrowser.Size = new Size(994, 582);
-            _chromiumBrowser.BrowserInitialized += _chromiumBrowser_BrowserInitialized;
-        }
-
-        private void _chromiumBrowser_BrowserInitialized(object sender, EventArgs e)
-        {
-            _browser = new Chromium(_chromiumBrowser.GetBrowser());
-            _chromiumMouse = new ChromiumMouse(_chromiumBrowser.GetBrowser());
         }
 
         public ChromiumBrowserAdapter(CefSharp.AbstractCefSettings settings)
@@ -178,7 +170,7 @@ namespace w3bot.Wrapper
 
         public IBrowser GetBrowser()
         {
-            return _browser;
+            return (_browser == null) ? _browser = new Chromium(_chromiumBrowser.GetBrowser()) : _browser;
         }
 
         public void Dispose()
@@ -191,12 +183,12 @@ namespace w3bot.Wrapper
 
         public IKeyboardInput GetKeyboard()
         {
-            throw new NotImplementedException();
+            return (_chromiumKeyboard == null) ? _chromiumKeyboard = new ChromiumKeyboard(_chromiumBrowser.GetBrowser()) : _chromiumKeyboard;
         }
 
         public IMouseInput GetMouse()
         {
-            return _chromiumMouse;
+            return (_chromiumMouse == null) ? _chromiumMouse = new ChromiumMouse(_chromiumBrowser.GetBrowser()) : _chromiumMouse;
         }
     }
 }
