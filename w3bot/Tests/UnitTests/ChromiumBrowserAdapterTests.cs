@@ -33,7 +33,7 @@ namespace w3bot.Tests.UnitTests
 
         private void CbBrowser_BrowserInitialized(object sender, EventArgs e)
         {
-            var cbAdapter = new ChromiumBrowserAdapter(_cbBrowser);
+            var cbAdapter = new ChromiumBrowserAdapter();
             var browser = cbAdapter.GetBrowser();
 
             Assert.IsTrue(browser.IsReady);

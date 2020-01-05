@@ -4,6 +4,7 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 using w3bot.Core.Utilities;
 using w3bot.Util;
 
@@ -14,6 +15,8 @@ namespace w3bot.Core.Processor
         public Bitmap Frame => throw new NotImplementedException();
 
         public Point MousePos { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+
+        public Panel Panel => throw new NotImplementedException();
 
         public void Activate()
         {

@@ -52,6 +52,11 @@ namespace w3bot.Core.Processor
         Point MousePos { get; set; }
 
         /// <summary>
+        /// Gets the panel of the processor.
+        /// </summary>
+        Panel Panel { get; }
+
+        /// <summary>
         /// Validates the processor.
         /// </summary>
         /// <param name="type">The type of the processor.</param>

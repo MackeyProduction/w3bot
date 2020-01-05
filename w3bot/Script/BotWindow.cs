@@ -1,6 +1,4 @@
-﻿using CefSharp;
-using CefSharp.OffScreen;
-using System;
+﻿using System;
 using System.Linq;
 using System.Windows.Forms;
 using w3bot.Core.Processor;
@@ -29,6 +27,7 @@ namespace w3bot.Script
             _name = name;
             _processor = processor;
             _formService = formService;
+            this.Controls.Add(_processor.Panel);
             _botTab = (TabControl)_formService.GetFormControlByType(typeof(TabControl));
             Activate();
         }
@@ -45,6 +44,7 @@ namespace w3bot.Script
                 _botTab.TabPages.Add(this);
                 _botTab.SelectedTab = this;
                 _botTab.SelectedTab.Text = _name;
+                _botTab.Invalidate();
             });
         }
 
