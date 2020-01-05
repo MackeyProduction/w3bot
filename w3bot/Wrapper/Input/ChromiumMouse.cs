@@ -101,7 +101,7 @@ namespace w3bot.Wrapper.Input
                     vert -= amount;
                     break;
             }
-            _browser.GetHost().SendMouseWheelEvent(_mouseEvent, vert, hort);
+            _browser.GetHost().SendMouseWheelEvent(_mouseEvent.X, _mouseEvent.Y, hort, vert, CefEventFlags.None);
         }
     }
 }
