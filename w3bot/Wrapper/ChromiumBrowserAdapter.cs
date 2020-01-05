@@ -6,6 +6,8 @@ using w3bot.Wrapper.Input;
 using w3bot.Core.Database.Entity;
 using w3bot.Listener;
 using System.Drawing;
+using System.IO;
+using System.Reflection;
 
 namespace w3bot.Wrapper
 {
@@ -14,6 +16,8 @@ namespace w3bot.Wrapper
         const string HOME_URL = "https://www.google.com/";
 
         private ChromiumWebBrowser _chromiumBrowser;
+        private IMouseInput _chromiumMouse;
+        private IBrowser _browser;
         private CefSharp.AbstractCefSettings _cefSettings;
         private Bitmap _browserBitmap;
 
@@ -101,6 +105,13 @@ namespace w3bot.Wrapper
             }
             _chromiumBrowser = new ChromiumWebBrowser(HOME_URL);
             _chromiumBrowser.Size = new Size(994, 582);
+            _chromiumBrowser.BrowserInitialized += _chromiumBrowser_BrowserInitialized;
+        }
+
+        private void _chromiumBrowser_BrowserInitialized(object sender, EventArgs e)
+        {
+            _browser = new Chromium(_chromiumBrowser.GetBrowser());
+            _chromiumMouse = new ChromiumMouse(_chromiumBrowser.GetBrowser());
         }
 
         public ChromiumBrowserAdapter(CefSharp.AbstractCefSettings settings)
@@ -148,11 +159,18 @@ namespace w3bot.Wrapper
         {
             get
             {
-                _chromiumBrowser.ScreenshotAsync().ContinueWith(task =>
+                try
                 {
-                    // load browser bitmap
-                    _browserBitmap = task.Result;
-                });
+                    _chromiumBrowser.ScreenshotAsync().ContinueWith(task =>
+                    {
+                        // load browser bitmap
+                        _browserBitmap = task.Result;
+                    });
+                }
+                catch (Exception e)
+                {
+                    throw e;
+                }
 
                 return _browserBitmap;
             }
@@ -160,7 +178,7 @@ namespace w3bot.Wrapper
 
         public IBrowser GetBrowser()
         {
-            return new Chromium(_chromiumBrowser.GetBrowser());
+            return _browser;
         }
 
         public void Dispose()
@@ -178,12 +196,7 @@ namespace w3bot.Wrapper
 
         public IMouseInput GetMouse()
         {
-            return new ChromiumMouse(_chromiumBrowser.GetBrowser());
-        }
-
-        public ChromiumWebBrowser GetWebBrowser()
-        {
-            return _chromiumBrowser;
+            return _chromiumMouse;
         }
     }
 }

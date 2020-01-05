@@ -57,11 +57,6 @@ namespace w3bot.Core.Processor
 
         public void Activate()
         {
-            _botBrowser.DocumentReady += _botBrowser_DocumentReady;
-        }
-
-        private void _botBrowser_DocumentReady(object sender, DocumentReadyEventArgs e)
-        {
             Paint += WebProcessor_Paint;
             _timer.Start();
         }

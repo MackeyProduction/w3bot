@@ -47,6 +47,7 @@ namespace w3bot.Wrapper.Input
                     break;
                 case Keys.Event.DOWN:
                     down = true;
+                    up = false;
                     break;
                 case Keys.Event.UP:
                     up = true;
