@@ -12,6 +12,7 @@ namespace w3bot.GUI
     {
         private IExecutable _executable;
         private Action _start, _stop;
+        private int _runningExecutables;
 
         public Scriptmanager()
         {
@@ -26,12 +27,18 @@ namespace w3bot.GUI
             _executable = executable;
         }
 
+        public int GetRunningExecutable()
+        {
+            return _runningExecutables;
+        }
+
         private void buttonStart_Click(object sender, System.EventArgs e)
         {
             if (listViewScripts.SelectedItems.Count == 1)
             {
                 _executable.Bind(((ScriptItem)listViewScripts.SelectedItems[0]).script);
-                _executable.Execute(1);
+                _runningExecutables = _executable.GetExecutables<IScript>().Count;
+                _executable.Execute(_runningExecutables);
                 _start();
                 this.Close();
             }

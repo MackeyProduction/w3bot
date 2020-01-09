@@ -10,6 +10,7 @@ using System.Diagnostics;
 using w3bot.Core.Bot;
 using w3bot.Script;
 using w3bot.Event;
+using System.Collections.Generic;
 
 namespace w3bot.GUI
 {
@@ -32,7 +33,6 @@ namespace w3bot.GUI
             _executable = bot.GetDaemons();
             Bot._form = this;
             Status.AddConfiguration(bot.GetFormService());
-            //runningScript = _executable.GetExecutables<IScript>()[0];
             BotDirectories.CreateDirs();
         }
 
@@ -125,7 +125,7 @@ namespace w3bot.GUI
         private void blockToolStripMenuItem_Click(object sender, EventArgs e)
         {
             botMain._processor.BlockInput();
-            //botMain._processor.GetFocus();
+            botMain._processor.GetFocus();
 
             blockToolStripMenuItem.Checked = true;
             allowToolStripMenuItem.Checked = false;
@@ -136,7 +136,9 @@ namespace w3bot.GUI
         {
             if (runningScript == null)
             {
-                new Scriptmanager(new ScriptExecutor(null), Script_started, Script_stopped).ShowDialog();
+                var scriptManager = new Scriptmanager(new ScriptExecutor(new List<IScript>()), Script_started, Script_stopped);
+                scriptManager.ShowDialog();
+                //runningScript = _executable.GetExecutables<IScript>()[scriptManager.GetRunningExecutable()];
             }
             else
             {
@@ -164,7 +166,7 @@ namespace w3bot.GUI
             this.Text = title + " - Script running...";
             stopToolStripMenuItem.Enabled = true;
             blockToolStripMenuItem.PerformClick();
-            //botMain._processor.GetFocus(); //make sure botting is possible by focusing the view
+            botMain._processor.GetFocus(); //make sure botting is possible by focusing the view
         }
 
         private void Script_stopped()
@@ -264,22 +266,27 @@ namespace w3bot.GUI
         {
             try
             {
-                //if (runningScriptList != null)
-                //{
-                    //if (bot.botTab.SelectedIndex < runningScriptList.GetItems().Count && bot.botTab.SelectedIndex != -1)
-                    //{
+                if (_executable.GetExecutables<IScript>() != null)
+                {
+                    if (tabControlMain.SelectedIndex < _executable.GetExecutables<IScript>().Count && tabControlMain.SelectedIndex != -1)
+                    {
                         //runningScriptList.Execute((int)bot.botTab.SelectedIndex);
                         //runningScript = runningScriptList.GetItems()[bot.botTab.SelectedIndex];
                         //bot.botTab.Focus();
-                        //Script_started();
-                    //}
-                    //else
-                    //{
-                        //Script_stopped();
-                    //}
-                //}
+                        var tabId = tabControlMain.SelectedIndex;
+                        runningScript = _executable.GetExecutables<IScript>()[tabId];
+                        Script_started();
+                    }
+                    else
+                    {
+                        Script_stopped();
+                    }
+                }
             }
-            catch (Exception) { }
+            catch (Exception ex) 
+            {
+                throw ex;
+            }
         }
 
         private void settingsToolStripMenuItem_Click(object sender, EventArgs e)

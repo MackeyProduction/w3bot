@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using w3bot.Api;
 using w3bot.GUI;
 
 namespace w3bot
@@ -20,6 +21,11 @@ namespace w3bot
             {
                 Application.EnableVisualStyles();
                 Application.SetCompatibleTextRenderingDefault(false);
+
+                // resolving api
+                scope.Resolve<Browser>();
+                scope.Resolve<Frame>();
+
                 var mainForm = scope.Resolve<Main>();
                 Application.Run(mainForm);
             }

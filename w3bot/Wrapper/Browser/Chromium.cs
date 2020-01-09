@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CefSharp;
+using System;
 using System.Threading.Tasks;
 
 namespace w3bot.Wrapper.Browser
@@ -18,7 +19,7 @@ namespace w3bot.Wrapper.Browser
             {
                 if (!_browser.IsLoading)
                     return true;
-
+                
                 return false;
             }
         }
@@ -27,7 +28,7 @@ namespace w3bot.Wrapper.Browser
         {
             get
             {
-                throw new NotImplementedException();
+                return _browser.MainFrame.GetSourceAsync().Result;
             }
         }
 
@@ -39,9 +40,9 @@ namespace w3bot.Wrapper.Browser
             }
         }
 
-        public Task<object> ExecuteJavascript(string script)
+        public async Task<object> ExecuteJavascript(string script)
         {
-            throw new NotImplementedException();
+            return await _browser.MainFrame.EvaluateScriptAsync(script);
         }
 
         public void GoBack()
@@ -62,7 +63,9 @@ namespace w3bot.Wrapper.Browser
 
         public void Navigate(string url)
         {
-            throw new NotImplementedException();
+            if (!url.Contains("://"))
+                url = "http://" + url;
+            _browser.MainFrame.LoadUrl(url);
         }
 
         public void Refresh()

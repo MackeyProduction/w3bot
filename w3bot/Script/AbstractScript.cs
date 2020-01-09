@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading;
 using w3bot.Util;
@@ -11,6 +12,7 @@ namespace w3bot.Script
     public abstract class AbstractScript : Bot, IScript
     {
         private Thread _scriptThread;
+        private ScriptManifest _scriptManifest;
 
         /// <summary>
         /// Gets the name of the script.
@@ -19,7 +21,7 @@ namespace w3bot.Script
         {
             get
             {
-                return ScriptManifest.GetCustomAttributes(typeof(AbstractScript)).Single(t => t.GetType().Name == "name").GetType().Name;
+                return Manifest.name;
             }
         }
 
@@ -30,7 +32,7 @@ namespace w3bot.Script
         { 
             get 
             {
-                return ScriptManifest.GetCustomAttributes(typeof(AbstractScript)).Single(t => t.GetType().Name == "author").GetType().Name;
+                return Manifest.author;
             }
         }
 
@@ -41,7 +43,7 @@ namespace w3bot.Script
         {
             get
             {
-                return Double.Parse(ScriptManifest.GetCustomAttributes(typeof(AbstractScript)).Single(t => t.GetType().Name == "version").GetType().Name);
+                return Manifest.version;
             }
         }
 
@@ -52,7 +54,7 @@ namespace w3bot.Script
         {
             get
             {
-                return ScriptManifest.GetCustomAttributes(typeof(AbstractScript)).Single(t => t.GetType().Name == "description").GetType().Name;
+                return Manifest.description;
             }
         }
 
@@ -63,25 +65,54 @@ namespace w3bot.Script
         {
             get
             {
-                return ScriptManifest.GetCustomAttributes(typeof(AbstractScript)).Single(t => t.GetType().Name == "targetApp").GetType().Name;
+                return Manifest.targetApp;
             }
         }
 
+        /// <summary>
+        /// Gets the current state of the script.
+        /// </summary>
         public ScriptUtils.State CurrentState { get; set; }
-        public ScriptManifest Manifest { get; set; }
 
-        public Bot GetBot()
+        /// <summary>
+        /// Gets the script manifest of the app.
+        /// </summary>
+        public ScriptManifest Manifest
         {
-            return ContainerConfig.Configure().Resolve<Bot>();
+            get
+            {
+                return GetManifest();
+            }
+
+            set
+            {
+                _scriptManifest = value;
+            }
         }
 
         /// <summary>
         /// Gets the script manifest of the app.
         /// </summary>
-        /// <returns>Returns an array of attributes with ScriptManifest informations.</returns>
-        public Attribute[] GetManifest()
+        /// <returns>Returns the ScriptManifest with all relevant information.</returns>
+        private ScriptManifest GetManifest()
         {
-            return ScriptManifest.GetCustomAttributes(typeof(AbstractScript));
+            try
+            {
+                if (_scriptManifest != null)
+                {
+                    return _scriptManifest;
+                }
+
+                var assembly = Assembly.GetAssembly(this.GetType());
+                var attributes = Attribute.GetCustomAttributes(assembly.GetTypes().FirstOrDefault());
+                _scriptManifest = (ScriptManifest)attributes.FirstOrDefault();
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+
+            return _scriptManifest;
         }
 
         /// <summary>
@@ -189,6 +220,7 @@ namespace w3bot.Script
             // script thread
             _scriptThread = new Thread(new ThreadStart(delegate
             {
+                OnStart();
                 while (CurrentState.Equals(ScriptUtils.State.START))
                 {
                     delay = OnUpdate();

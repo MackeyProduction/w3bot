@@ -1,14 +1,16 @@
 ﻿using System;
 using System.Drawing;
+using System.Reflection;
 using System.Windows.Forms;
 using w3bot.Core.Utilities;
-using w3bot.Listener;
+using w3bot.Event;
 using w3bot.Wrapper;
 
 namespace w3bot.Core.Processor
 {
-    internal class WebProcessor : Panel, IProcessor
+    internal class WebProcessor : AbstractApiEvent, IProcessor
     {
+        private Panel _panel;
         private IBotBrowser _botBrowser;
         private bool _input;
         private Timer _timer;
@@ -39,14 +41,15 @@ namespace w3bot.Core.Processor
         {
             get
             {
-                return this;
+                return _panel;
             }
         }
 
-        public WebProcessor(IBotBrowser botBrowser)
+        public WebProcessor(Panel panel, IBotBrowser botBrowser)
         {
-            DoubleBuffered = true;
-            Size = new Size(994, 582);
+            _panel = panel;
+            typeof(Panel).InvokeMember("DoubleBuffered", BindingFlags.SetProperty | BindingFlags.Instance | BindingFlags.NonPublic, null, _panel, new object[] { true }); // activate double buffering
+            _panel.Size = new Size(994, 582);
             _botBrowser = botBrowser;
             _input = false;
             _timer = new Timer();
@@ -57,13 +60,14 @@ namespace w3bot.Core.Processor
 
         public void Activate()
         {
-            Paint += WebProcessor_Paint;
+            _panel.Paint += WebProcessor_Paint;
             _timer.Start();
         }
 
         private void WebProcessor_Paint(object sender, PaintEventArgs e)
         {
-            if (_botBrowser.Frame == null) return;
+            if (!IsFrameValid(_botBrowser.Frame))
+                return;
 
             Pen greenPen = new Pen(Color.Green);
 
@@ -78,17 +82,23 @@ namespace w3bot.Core.Processor
 
         private void Timer_Tick(object sender, EventArgs e)
         {
-            this.Invalidate();
+            this.Notify();
+            if (MethodProvider.BotBrowser != null)
+            {
+                _botBrowser = MethodProvider.BotBrowser;
+            }
+
+            _panel.Invalidate();
         }
 
         public void AllowInput()
         {
             if (!_input)
             {
-                this.MouseMove += _panel_MouseMove;
-                this.MouseUp += _panel_MouseUp;
-                this.MouseDown += _panel_MouseDown;
-                this.MouseWheel += _panel_MouseWheel;
+                _panel.MouseMove += _panel_MouseMove;
+                _panel.MouseUp += _panel_MouseUp;
+                _panel.MouseDown += _panel_MouseDown;
+                _panel.MouseWheel += _panel_MouseWheel;
                 w3bot.Script.Bot._form.KeyPress += _form_KeyPress;
                 _input = true;
             }
@@ -104,11 +114,11 @@ namespace w3bot.Core.Processor
             int deltaY = e.Delta;
             if (deltaY > 0)
             {
-                _botBrowser.GetMouse().Wheel(Util.Keys.Wheel.UP, 120);
+                _botBrowser.GetMouse().Wheel(Util.Keys.Wheel.DOWN, 120);
             }
             else
             {
-                _botBrowser.GetMouse().Wheel(Util.Keys.Wheel.DOWN, 120);
+                _botBrowser.GetMouse().Wheel(Util.Keys.Wheel.UP, 120);
             }
         }
 
@@ -132,10 +142,10 @@ namespace w3bot.Core.Processor
         {
             if (_input)
             {
-                this.MouseMove -= _panel_MouseMove;
-                this.MouseUp -= _panel_MouseUp;
-                this.MouseDown -= _panel_MouseDown;
-                this.MouseWheel -= _panel_MouseWheel;
+                _panel.MouseMove -= _panel_MouseMove;
+                _panel.MouseUp -= _panel_MouseUp;
+                _panel.MouseDown -= _panel_MouseDown;
+                _panel.MouseWheel -= _panel_MouseWheel;
                 w3bot.Script.Bot._form.KeyPress -= _form_KeyPress;
                 _input = false;
             }
@@ -153,7 +163,7 @@ namespace w3bot.Core.Processor
 
         public void GetFocus()
         {
-            this.Focus();
+            _panel.Focus();
         }
 
         private Util.Keys.Button MouseEvent(MouseEventArgs e)
@@ -178,6 +188,32 @@ namespace w3bot.Core.Processor
         public bool IsValidProcessor(ProcessorType type)
         {
             return type == ProcessorType.BrowserProcessor;
+        }
+
+        private bool IsFrameValid(Bitmap frame)
+        {
+            if (frame == null)
+                return false;
+
+            byte[] imageBytes;
+            try
+            {
+                ImageConverter converter = new ImageConverter();
+                imageBytes = (byte[])converter.ConvertTo(frame, typeof(byte[]));
+            } catch (Exception e)
+            {
+                throw e;
+            }
+
+            if (imageBytes.Length < 1)
+                return false;
+
+            return true;
+        }
+
+        public void Dispose()
+        {
+            _panel.Dispose();
         }
     }
 }

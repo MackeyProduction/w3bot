@@ -9,7 +9,7 @@ using System.Drawing;
 
 namespace w3bot.Wrapper
 {
-    class ChromiumBrowserAdapter : IBotBrowser
+    public class ChromiumBrowserAdapter : IBotBrowser
     {
         const string HOME_URL = "https://www.google.com/";
 

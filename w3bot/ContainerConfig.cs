@@ -8,6 +8,7 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using w3bot.Api;
 using w3bot.Core;
 using w3bot.Core.Database.Repository;
 using w3bot.Core.Processor;
@@ -31,6 +32,7 @@ namespace w3bot
             RegisterProcessors();
             RegisterLogger();
             RegisterBot();
+            RegisterApi();
             RegisterForms();
 
             return builder.Build();
@@ -55,10 +57,13 @@ namespace w3bot
 
         private static void RegisterProcessors()
         {
-            var assembly = Assembly.GetExecutingAssembly();
-            builder.RegisterAssemblyTypes(assembly)
-                .Where(type => type.IsSubclassOf(typeof(Panel)));
+            builder.RegisterType<Panel>();
             builder.RegisterType<WebProcessor>().As<IProcessor>()
+                .OnActivating(e => {
+                    var botBrowser = e.Context.Resolve<Browser>();
+                    
+                    e.Instance.Attach(botBrowser);
+                })
                 .FindConstructorsWith(new NonPublicConstructorFinder())
                 .AsSelf();
             //builder.RegisterType<AppletProcessor>().As<IProcessor>();
@@ -82,16 +87,33 @@ namespace w3bot
                 .FindConstructorsWith(new NonPublicConstructorFinder())
                 .AsSelf();
             builder.RegisterType<BotWindow>().As<IBotWindow>();
-            builder.RegisterType<ChromiumWebBrowser>();
+            //builder.RegisterType<ChromiumWebBrowser>();
             builder.RegisterType<ChromiumBrowserAdapter>().As<IBotBrowser>();
             builder.RegisterType<Bot>()
-                .OnActivating(e => {
+                .OnActivating(e =>
+                {
                     var formService = e.Context.Resolve<FormService>();
                     var coreService = e.Context.Resolve<CoreService>();
                     var executable = e.Context.Resolve<IExecutable>();
 
                     e.Instance.AddConfiguration(formService, coreService, executable);
                 });
+        }
+        
+        private static void RegisterApi()
+        {
+            builder.RegisterType<Browser>().OnActivating(e =>
+            {
+                var browser = e.Context.Resolve<IBotBrowser>();
+
+                e.Instance.AddConfiguration(browser);
+            });
+            builder.RegisterType<Frame>().OnActivating(e =>
+            {
+                var frame = e.Context.Resolve<IProcessor>();
+
+                e.Instance.AddConfiguration(frame);
+            });
         }
     }
 }
