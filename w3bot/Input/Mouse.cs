@@ -1,13 +1,15 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Drawing;
+using System.Threading;
 using w3bot.Util;
 using w3bot.Wrapper;
 
 namespace w3bot.Input
 {
-    public static class Mouse
+    public class Mouse
     {
-        private static IMouseInput _mouse = null;
+        private static IMouseInput _mouse;
 
         /// <summary>
         /// Injects a left mouse click in the bot window.
@@ -84,8 +86,30 @@ namespace w3bot.Input
         /// </summary>
         /// <param name="x">X coordinate where to move.</param>
         /// <param name="y">Y coordinate where to move.</param>
-        public static void Move(int x, int y)
+        public static void Move(int x, int y, bool generatePath = true, double speed = 2.0)
         {
+            if (x < 0 || y < 0)
+                return;
+
+            if (generatePath)
+            {
+                Point start = _mouse.Position;
+                Point path = new Point(x - start.X, y - start.Y);
+                double time = Math.Sqrt(Math.Pow(path.X, 2) + Math.Pow(path.Y, 2)) * speed; //pathlenght * speed
+
+                Stopwatch sw = new Stopwatch();
+                sw.Start();
+
+                double ratio = sw.ElapsedMilliseconds / time;
+                do
+                {
+                    _mouse.Move(start.X + (int)(path.X * ratio), start.Y + (int)(path.Y * ratio)); //follow the path
+                    ratio = sw.ElapsedMilliseconds / time;
+                    Thread.Sleep(1);
+                }
+                while (ratio <= 1.0);
+                sw.Stop();
+            }
             _mouse.Move(x, y);
         }
 

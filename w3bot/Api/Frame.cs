@@ -158,7 +158,7 @@ namespace w3bot.Api
             return new Rectangle();
         }
 
-        internal static void AddConfiguration(IProcessor processor)
+        internal void AddConfiguration(IProcessor processor)
         {
             _processor = processor;
         }

@@ -8,6 +8,7 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using w3bot.Api;
 using w3bot.Core;
 using w3bot.Core.Database.Repository;
 using w3bot.Core.Processor;
@@ -16,8 +17,11 @@ using w3bot.Core.Utilities;
 using w3bot.Event;
 using w3bot.GUI;
 using w3bot.GUI.Service;
+using w3bot.Input;
 using w3bot.Script;
 using w3bot.Wrapper;
+using w3bot.Wrapper.Browser;
+using w3bot.Wrapper.Input;
 
 namespace w3bot
 {
@@ -31,6 +35,7 @@ namespace w3bot
             RegisterProcessors();
             RegisterLogger();
             RegisterBot();
+            RegisterApi();
             RegisterForms();
 
             return builder.Build();
@@ -55,10 +60,29 @@ namespace w3bot
 
         private static void RegisterProcessors()
         {
-            var assembly = Assembly.GetExecutingAssembly();
-            builder.RegisterAssemblyTypes(assembly)
-                .Where(type => type.IsSubclassOf(typeof(Panel)));
+            builder.RegisterType<Panel>();
+            //builder.RegisterType<ChromiumBrowserAdapter>().As<IApiEventListener>()
+            //    .FindConstructorsWith(new NonPublicConstructorFinder())
+            //    .AsSelf();
+            //builder.RegisterType<Mouse>().As<IEventListener>()
+            //    .FindConstructorsWith(new NonPublicConstructorFinder())
+            //    .AsSelf();
+            //builder.RegisterType<Chromium>().As<IEventListener>()
+            //    .FindConstructorsWith(new NonPublicConstructorFinder())
+            //    .AsSelf();
             builder.RegisterType<WebProcessor>().As<IProcessor>()
+                .OnActivating(e => {
+                    //var botBrowser = e.Context.Resolve<IApiEventListener>();
+                    //var mouse = e.Context.Resolve<IEventListener>();
+                    //var browser = e.Context.Resolve<IEventListener>();
+
+                    //e.Instance.Attach(botBrowser);
+                    //e.Instance.Attach(mouse);
+                    //e.Instance.Attach(browser);
+                })
+                .FindConstructorsWith(new NonPublicConstructorFinder())
+                .AsSelf();
+            builder.RegisterType<WebProcessor>().As<IRenderProcessor>()
                 .FindConstructorsWith(new NonPublicConstructorFinder())
                 .AsSelf();
             //builder.RegisterType<AppletProcessor>().As<IProcessor>();
@@ -85,13 +109,24 @@ namespace w3bot
             builder.RegisterType<ChromiumWebBrowser>();
             builder.RegisterType<ChromiumBrowserAdapter>().As<IBotBrowser>();
             builder.RegisterType<Bot>()
-                .OnActivating(e => {
+                .OnActivating(e =>
+                {
                     var formService = e.Context.Resolve<FormService>();
                     var coreService = e.Context.Resolve<CoreService>();
                     var executable = e.Context.Resolve<IExecutable>();
 
                     e.Instance.AddConfiguration(formService, coreService, executable);
                 });
+        }
+        
+        private static void RegisterApi()
+        {
+            builder.RegisterType<Frame>().OnActivating(e =>
+            {
+                var frame = e.Context.Resolve<IProcessor>();
+
+                e.Instance.AddConfiguration(frame);
+            });
         }
     }
 }

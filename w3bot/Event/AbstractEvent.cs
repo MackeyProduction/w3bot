@@ -2,7 +2,7 @@
 
 namespace w3bot.Event
 {
-    public abstract class AbstractEvent : IEventListener
+    public abstract class AbstractEvent : IEventManager
     {
         private static List<IEventListener> _eventHandlers;
 
@@ -12,47 +12,33 @@ namespace w3bot.Event
         }
 
         /// <summary>
-        /// Binds an event to event handler. All events stored in a list and can be executed with Verify() method.
+        /// Attachs an event to event handler. All events stored in a list and can be executed with Notify() method.
         /// </summary>
-        /// <param name="eventHandler"></param>
-        public void Bind(IEventListener eventHandler)
+        /// <param name="listener">The instance of event listener which will be added to the event manager.</param>
+        public void Attach(IEventListener listener)
         {
-            _eventHandlers.Add(eventHandler);
+            _eventHandlers.Add(listener);
         }
 
         /// <summary>
-        /// Removes an item from event handler list.
+        /// Removes an listener from event handler list.
         /// </summary>
-        /// <param name="position">The position of list item.</param>
-        public void Remove(int position)
+        /// <param name="listener">The instance of event listener which will be removed.</param>
+        public void Detach(IEventListener listener)
         {
-            _eventHandlers.RemoveAt(position);
+            _eventHandlers.Remove(listener);
         }
 
         /// <summary>
-        /// In Bind() method stored events will be executed.
+        /// Notifies all observers.
         /// </summary>
-        public void Apply()
+        public void Notify()
         {
             foreach (var handler in _eventHandlers)
             {
                 if (handler is IEventListener)
                 {
-                    handler.Apply();
-                }
-            }
-        }
-
-        /// <summary>
-        /// Destroys all binded events.
-        /// </summary>
-        public void Destroy()
-        {
-            foreach (var handler in _eventHandlers)
-            {
-                if (handler is IEventListener)
-                {
-                    handler.Destroy();
+                    handler.Update(this);
                 }
             }
         }

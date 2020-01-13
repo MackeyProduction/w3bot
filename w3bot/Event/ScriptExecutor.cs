@@ -24,17 +24,25 @@ namespace w3bot.Event
         // TODO: Change parameter to script state?
         public void Execute(int id)
         {
-            if (id != -1 && id < _scripts.Count)
+            try
             {
-                var currentScript = _scripts[id];
-                
-                if (!(currentScript.CurrentState == ScriptUtils.State.START))
+                if (id != -1 && id <= _scripts.Count)
                 {
-                    var thread = currentScript.GetExecutable(ScriptUtils.State.START);
+                    var currentScript = _scripts[id - 1];
 
-                    thread.Start();
+                    if (currentScript.CurrentState == ScriptUtils.State.START)
+                    {
+                        var thread = currentScript.GetExecutable(ScriptUtils.State.START);
+
+                        thread.Start();
+                    }
                 }
+            } 
+            catch (Exception e)
+            {
+                throw e;
             }
+            
         }
 
         public void Destroy()

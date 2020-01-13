@@ -12,13 +12,9 @@ namespace w3bot.Event
     public interface IEventListener
     {
         /// <summary>
-        /// Executes event.
+        /// 
         /// </summary>
-        void Apply();
-
-        /// <summary>
-        /// Destroys an event.
-        /// </summary>
-        void Destroy();
+        /// <param name="manager"></param>
+        void Update(IEventManager manager);
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -12,6 +13,11 @@ namespace w3bot.Wrapper
     /// </summary>
     public interface IMouseInput
     {
+        /// <summary>
+        /// The current mouse position.
+        /// </summary>
+        Point Position { get; set; }
+
         /// <summary>
         /// Execute mouse click.
         /// </summary>

@@ -1,11 +1,15 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
+using w3bot.Core.Processor;
+using w3bot.Event;
+using w3bot.Script;
 using w3bot.Wrapper;
 
 namespace w3bot.Api
 {
-    public static class Browser
+    public class Browser
     {
-        private static IBotBrowser _browserAdapter = null;
+        private static IBotBrowser _browserAdapter;
 
         /// <summary>
         /// Returns true when the browser is finished loading.

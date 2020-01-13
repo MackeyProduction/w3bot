@@ -3,58 +3,55 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using w3bot.Bot;
-using w3bot.Interfaces;
 using w3bot.Listener;
-using System.Windows.Forms;
-using CefSharp;
-using CefSharp.OffScreen;
 using System.Drawing;
-using w3bot.Util;
+using w3bot.Script;
+using w3bot.Api;
+using w3bot.Input;
 
 namespace TestScript
 {
     [ScriptManifest("TestScript", "YouTube", "Test the bot functionality.", "NoChoice", 1.0)]
-    public class Class1 : Bot, IScript, IDocumentReadyListener, IPaintListener
+    public class Class1 : AbstractScript, IDocumentReadyListener, IPaintListener
     {
-        public void onFinish()
+        private Bitmap _bitmap;
+
+        public override void OnFinish()
         {
-            //Status.Log("Thank you for using my script.");
+            Status.Log("Thank you for using my script.");
         }
 
-        public bool onStart()
+        public override void OnStart()
         {
-            //Status.Log("Test Script has been started.");
+            Status.Log("Test Script has been started.");
 
             var browserWindow = CreateBrowserWindow();
-            Initialize(browserWindow);
             browserWindow.Open();
 
-            Browser.Navigate("google.com");
+            _bitmap = new Bitmap(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + @"/w3bot/compiled/Unbenannt.bmp");
 
-            return true;
+            Browser.Navigate("google.com");
         }
 
-        public int onUpdate()
+        public override int OnUpdate()
         {
             if (Browser.IsReady)
             {
-                //Mouse.Move(414, 402);
-                //Mouse.LeftClick(414, 402);
-                //var point = Frame.FindPixel(66, 133, 244, 255);
-                //var imagePoint = Frame.FindImage(new Bitmap("Unbenannt.bmp"));
-                //Status.Log($"X: {point.X}, Y: {point.Y}.");
-                //Status.Log($"X: {imagePoint.X}, Y: {imagePoint.Y}.");
-                //Status.Log("Executed.");
+                var point = Frame.FindPixel(66, 133, 244, 255);
+                var imagePoint = Frame.FindImage(_bitmap);
+                Mouse.Move(imagePoint.X, imagePoint.Y);
+                Mouse.LeftClick(imagePoint.X, imagePoint.Y);
+                Sleep(2000);
+                Keyboard.PressKeys("Hallo Welt!");
+                //Mouse.ScrollDown();
+                Status.Log($"X: {point.X}, Y: {point.Y}.");
+                Status.Log($"X: {imagePoint.X}, Y: {imagePoint.Y}.");
+                Status.Log("Executed.");
+                Browser.GoBack();
                 //return 0;
             }
 
-            return 1000;
-        }
-
-        public void DocumentReady(object sender, ChromiumBrowserEventArgs e)
-        {
-            //Status.Log("Finished loading.");
+            return 100;
         }
 
         public void OnPaint(Graphics g)
@@ -62,9 +59,9 @@ namespace TestScript
             g.DrawString("Hello World", new Font("Arial", 12, FontStyle.Regular), Brushes.Green, 100, 100);
         }
 
-        public void DocumentReady(object sender, FrameLoadEndEventArgs e)
+        public void DocumentReady(object sender, DocumentReadyEventArgs e)
         {
-            //Status.Log("Document is ready.");
+            Status.Log("Document loaded successfully.");
         }
     }
 }

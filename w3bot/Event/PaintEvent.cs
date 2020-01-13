@@ -5,28 +5,18 @@ namespace w3bot.Event
 {
     public class PaintEvent : IEventListener
     {
-        private Bot _bot;
         private IScript _script;
 
-        public PaintEvent(Bot bot, IScript script)
+        public PaintEvent(IScript script)
         {
-            _bot = bot;
             _script = script;
         }
 
-        public void Apply()
+        public void Update(IEventManager manager)
         {
             if (_script is IPaintListener)
             {
                 Bot.paintings += ((IPaintListener)_script).OnPaint;
-            }
-        }
-
-        public void Destroy()
-        {
-            if (_script is IPaintListener)
-            {
-                Bot.paintings -= ((IPaintListener)_script).OnPaint;
             }
         }
     }

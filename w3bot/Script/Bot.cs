@@ -27,10 +27,10 @@ namespace w3bot.Script
         internal Size ClientSize { get { return _form.Size; } }
         internal Size FrameSize { get; }
         internal static Form _form;
-        private CoreService _core;
+        private static CoreService _core;
         private static FormService _formService;
-        private IProcessorService _processorService;
-        private IExecutable _executable;
+        private static IProcessorService _processorService;
+        private static IExecutable _executable;
 
         public Bot()
         {

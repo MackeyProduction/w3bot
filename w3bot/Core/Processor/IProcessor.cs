@@ -9,7 +9,7 @@ using w3bot.Core.Utilities;
 
 namespace w3bot.Core.Processor
 {
-    interface IProcessor : IDisposable
+    interface IProcessor : IDisposable, IRenderProcessor
     {
         /// <summary>
         /// Activates the processor.

@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using w3bot.Core.Utilities;
 using w3bot.Util;
+using w3bot.Wrapper;
 
 namespace w3bot.Core.Processor
 {
@@ -56,6 +57,16 @@ namespace w3bot.Core.Processor
         public bool IsValidProcessor(ProcessorType type)
         {
             return type == ProcessorType.AppletProcessor;
+        }
+
+        public void OnChange(object[] arguments, Action action)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void OnChange(object[] arguments)
+        {
+            throw new NotImplementedException();
         }
     }
 }

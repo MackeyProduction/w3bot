@@ -3,34 +3,36 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using w3bot.Bot;
-using w3bot.Interfaces;
-using w3bot.Listener;
+using w3bot.Api;
+using w3bot.Input;
+using w3bot.Script;
 
 namespace SecondTestScript
 {
     [ScriptManifest("SecondTestScript", "Browser", "An another test script to test the scriptloader.", "NoChoice", 1.0)]
-    public class SecondTestScript : Bot, IScript
+    public class SecondTestScript : AbstractScript
     {
-        public void onFinish()
+        public override void OnFinish()
         {
-            //Status.Log("A second script test to test the scriptloader.");
+            Status.Log("A second script test to test the scriptloader.");
         }
 
-        public bool onStart()
+        public override void OnStart()
         {
-            //Status.Log("Script has been started.");
+            Status.Log("Script has been started.");
 
             var botWindow = CreateBrowserWindow();
-            Initialize(botWindow);
             botWindow.Open();
 
-            Browser.Navigate("github.com");
+            // test script manifest
+            Status.Log($"{Name} v{Version} by {Author}");
+            Status.Log($"{Description}");
+            Status.Log($"Target App: {TargetApp}");
 
-            return true;
+            Browser.Navigate("github.com");
         }
 
-        public int onUpdate()
+        public override int OnUpdate()
         {
             return 100;
         }

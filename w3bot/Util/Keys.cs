@@ -31,5 +31,12 @@ namespace w3bot.Util
             LEFT = 2,
             RIGHT = 3
         }
+
+        public enum Type : int
+        {
+            MOVE = 0,
+            CLICK = 1,
+            WHEEL = 2
+        }
     }
 }
