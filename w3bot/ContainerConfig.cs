@@ -17,8 +17,11 @@ using w3bot.Core.Utilities;
 using w3bot.Event;
 using w3bot.GUI;
 using w3bot.GUI.Service;
+using w3bot.Input;
 using w3bot.Script;
 using w3bot.Wrapper;
+using w3bot.Wrapper.Browser;
+using w3bot.Wrapper.Input;
 
 namespace w3bot
 {
@@ -58,12 +61,28 @@ namespace w3bot
         private static void RegisterProcessors()
         {
             builder.RegisterType<Panel>();
+            //builder.RegisterType<ChromiumBrowserAdapter>().As<IApiEventListener>()
+            //    .FindConstructorsWith(new NonPublicConstructorFinder())
+            //    .AsSelf();
+            //builder.RegisterType<Mouse>().As<IEventListener>()
+            //    .FindConstructorsWith(new NonPublicConstructorFinder())
+            //    .AsSelf();
+            //builder.RegisterType<Chromium>().As<IEventListener>()
+            //    .FindConstructorsWith(new NonPublicConstructorFinder())
+            //    .AsSelf();
             builder.RegisterType<WebProcessor>().As<IProcessor>()
                 .OnActivating(e => {
-                    var botBrowser = e.Context.Resolve<Browser>();
-                    
-                    e.Instance.Attach(botBrowser);
+                    //var botBrowser = e.Context.Resolve<IApiEventListener>();
+                    //var mouse = e.Context.Resolve<IEventListener>();
+                    //var browser = e.Context.Resolve<IEventListener>();
+
+                    //e.Instance.Attach(botBrowser);
+                    //e.Instance.Attach(mouse);
+                    //e.Instance.Attach(browser);
                 })
+                .FindConstructorsWith(new NonPublicConstructorFinder())
+                .AsSelf();
+            builder.RegisterType<WebProcessor>().As<IRenderProcessor>()
                 .FindConstructorsWith(new NonPublicConstructorFinder())
                 .AsSelf();
             //builder.RegisterType<AppletProcessor>().As<IProcessor>();
@@ -87,7 +106,7 @@ namespace w3bot
                 .FindConstructorsWith(new NonPublicConstructorFinder())
                 .AsSelf();
             builder.RegisterType<BotWindow>().As<IBotWindow>();
-            //builder.RegisterType<ChromiumWebBrowser>();
+            builder.RegisterType<ChromiumWebBrowser>();
             builder.RegisterType<ChromiumBrowserAdapter>().As<IBotBrowser>();
             builder.RegisterType<Bot>()
                 .OnActivating(e =>
@@ -102,12 +121,6 @@ namespace w3bot
         
         private static void RegisterApi()
         {
-            builder.RegisterType<Browser>().OnActivating(e =>
-            {
-                var browser = e.Context.Resolve<IBotBrowser>();
-
-                e.Instance.AddConfiguration(browser);
-            });
             builder.RegisterType<Frame>().OnActivating(e =>
             {
                 var frame = e.Context.Resolve<IProcessor>();

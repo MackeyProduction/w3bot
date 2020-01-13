@@ -24,5 +24,7 @@ namespace w3bot.Script
         /// The wrapper of the bot browser.
         /// </summary>
         internal IBotBrowser BotBrowser { get; set; }
+
+        internal IMouseInput MouseInput { get; set; }
     }
 }

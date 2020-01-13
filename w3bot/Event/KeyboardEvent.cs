@@ -17,15 +17,7 @@ namespace w3bot.Event
             _script = script;
         }
 
-        public void Apply()
-        {
-            if (_script is IKeyPressListener)
-            {
-
-            }
-        }
-
-        public void Destroy()
+        public void Update(IEventManager manager)
         {
             if (_script is IKeyPressListener)
             {

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -11,6 +12,11 @@ namespace w3bot.Wrapper
     /// </summary>
     public interface IBrowser : IDisposable
     {
+        /// <summary>
+        /// Gets the current frame.
+        /// </summary>
+        Bitmap Frame { get; }
+
         /// <summary>
         /// Open source code from current web page.
         /// </summary>

@@ -5,6 +5,7 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading;
+using w3bot.Input;
 using w3bot.Util;
 
 namespace w3bot.Script
@@ -139,7 +140,7 @@ namespace w3bot.Script
         public virtual int OnUpdate()
         {
             // script thread
-            GetExecutable(CurrentState).Start();
+            //GetExecutable(CurrentState).Start();
 
             return 100;
         }
@@ -217,24 +218,30 @@ namespace w3bot.Script
                 return _scriptThread;
             }
 
-            // script thread
-            _scriptThread = new Thread(new ThreadStart(delegate
+            try
             {
-                OnStart();
-                while (CurrentState.Equals(ScriptUtils.State.START))
+                // script thread
+                _scriptThread = new Thread(new ThreadStart(delegate
                 {
-                    delay = OnUpdate();
+                    OnStart();
+                    while (CurrentState.Equals(ScriptUtils.State.START))
+                    {
+                        delay = OnUpdate();
 
-                    while (CurrentState.Equals(ScriptUtils.State.PAUSING))
-                        Thread.Sleep(100);
+                        while (CurrentState.Equals(ScriptUtils.State.PAUSING))
+                            Thread.Sleep(100);
 
-                    if (delay < 1)
-                        OnFinish();
+                        if (delay < 1)
+                            OnFinish();
 
-                    Thread.Sleep(delay);
-                }
-                //_bot.core.mainWindow.Invoke((MethodInvoker)delegate { _scriptStopped(); }); //let upper instances know that the script is now stopped
-            }));
+                        Thread.Sleep(delay);
+                    }
+                    //_bot.core.mainWindow.Invoke((MethodInvoker)delegate { _scriptStopped(); }); //let upper instances know that the script is now stopped
+                }));
+            } catch (Exception e)
+            {
+                Status.Warning(e.Message);
+            }
 
             return _scriptThread;
         }

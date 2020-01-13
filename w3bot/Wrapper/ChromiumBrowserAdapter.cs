@@ -6,10 +6,13 @@ using w3bot.Wrapper.Input;
 using w3bot.Core.Database.Entity;
 using w3bot.Listener;
 using System.Drawing;
+using w3bot.Core.Processor;
+using w3bot.Script;
+using w3bot.Event;
 
 namespace w3bot.Wrapper
 {
-    public class ChromiumBrowserAdapter : IBotBrowser
+    class ChromiumBrowserAdapter : IBotBrowser, w3bot.Event.IEventListener
     {
         const string HOME_URL = "https://www.google.com/";
 
@@ -26,7 +29,7 @@ namespace w3bot.Wrapper
             {
                 _chromiumBrowser.FrameLoadEnd += (evt, args) => 
                 {
-                    var adaptedBrowser = new Chromium(args.Browser);
+                    var adaptedBrowser = new Chromium(_chromiumBrowser);
                     value.Invoke(this, new DocumentReadyEventArgs(adaptedBrowser, args.HttpStatusCode, args.Url));
                 };
             }
@@ -34,7 +37,7 @@ namespace w3bot.Wrapper
             {
                 _chromiumBrowser.FrameLoadEnd -= (evt, args) =>
                 {
-                    var adaptedBrowser = new Chromium(args.Browser);
+                    var adaptedBrowser = new Chromium(_chromiumBrowser);
                     value.Invoke(this, new DocumentReadyEventArgs(adaptedBrowser, args.HttpStatusCode, args.Url));
                 };
             }
@@ -46,7 +49,7 @@ namespace w3bot.Wrapper
             {
                 _chromiumBrowser.FrameLoadStart += (evt, args) =>
                 {
-                    var adaptedBrowser = new Chromium(args.Browser);
+                    var adaptedBrowser = new Chromium(_chromiumBrowser);
                     value.Invoke(this, new DocumentLoadEventArgs(adaptedBrowser, args.Url));
                 };
             }
@@ -54,7 +57,7 @@ namespace w3bot.Wrapper
             {
                 _chromiumBrowser.FrameLoadStart -= (evt, args) =>
                 {
-                    var adaptedBrowser = new Chromium(args.Browser);
+                    var adaptedBrowser = new Chromium(_chromiumBrowser);
                     value.Invoke(this, new DocumentLoadEventArgs(adaptedBrowser, args.Url));
                 };
             }
@@ -66,7 +69,7 @@ namespace w3bot.Wrapper
             {
                 _chromiumBrowser.AddressChanged += (evt, args) =>
                 {
-                    var adaptedBrowser = new Chromium(args.Browser);
+                    var adaptedBrowser = new Chromium(_chromiumBrowser);
                     value.Invoke(this, new DocumentAddressChangedEventArgs(adaptedBrowser, args.Address));
                 };
             }
@@ -74,7 +77,7 @@ namespace w3bot.Wrapper
             {
                 _chromiumBrowser.AddressChanged -= (evt, args) =>
                 {
-                    var adaptedBrowser = new Chromium(args.Browser);
+                    var adaptedBrowser = new Chromium(_chromiumBrowser);
                     value.Invoke(this, new DocumentAddressChangedEventArgs(adaptedBrowser, args.Address));
                 };
             }
@@ -170,7 +173,7 @@ namespace w3bot.Wrapper
 
         public IBrowser GetBrowser()
         {
-            return (_browser == null) ? _browser = new Chromium(_chromiumBrowser.GetBrowser()) : _browser;
+            return (_browser == null) ? _browser = new Chromium(_chromiumBrowser) : _browser;
         }
 
         public void Dispose()
@@ -183,12 +186,31 @@ namespace w3bot.Wrapper
 
         public IKeyboardInput GetKeyboard()
         {
-            return (_chromiumKeyboard == null) ? _chromiumKeyboard = new ChromiumKeyboard(_chromiumBrowser.GetBrowser()) : _chromiumKeyboard;
+            return (_chromiumKeyboard == null && _chromiumBrowser.IsBrowserInitialized) ? _chromiumKeyboard = new ChromiumKeyboard(_chromiumBrowser.GetBrowser()) : _chromiumKeyboard;
         }
 
         public IMouseInput GetMouse()
         {
-            return (_chromiumMouse == null) ? _chromiumMouse = new ChromiumMouse(_chromiumBrowser.GetBrowser()) : _chromiumMouse;
+            return (_chromiumMouse == null && _chromiumBrowser.IsBrowserInitialized) ? _chromiumMouse = new ChromiumMouse(_chromiumBrowser) : _chromiumMouse;
+        }
+
+        public void Update(IEventManager manager)
+        {
+            if (!(manager is IProcessor))
+                return;
+
+            var processor = (IProcessor)manager;
+            var browser = Chromium.Browser as Chromium;
+            if (browser != null)
+            {
+                processor.OnChange(new object[] { this });
+            }
+
+            var mouse = ChromiumMouse.MouseInput as ChromiumMouse;
+            if (mouse != null)
+            {
+                processor.OnChange(new object[] { mouse });
+            }
         }
     }
 }

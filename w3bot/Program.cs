@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using w3bot.Api;
 using w3bot.GUI;
+using w3bot.Input;
 
 namespace w3bot
 {
@@ -23,7 +24,6 @@ namespace w3bot
                 Application.SetCompatibleTextRenderingDefault(false);
 
                 // resolving api
-                scope.Resolve<Browser>();
                 scope.Resolve<Frame>();
 
                 var mainForm = scope.Resolve<Main>();

@@ -14,6 +14,8 @@ namespace TestScript
     [ScriptManifest("TestScript", "YouTube", "Test the bot functionality.", "NoChoice", 1.0)]
     public class Class1 : AbstractScript, IDocumentReadyListener, IPaintListener
     {
+        private Bitmap _bitmap;
+
         public override void OnFinish()
         {
             Status.Log("Thank you for using my script.");
@@ -26,6 +28,8 @@ namespace TestScript
             var browserWindow = CreateBrowserWindow();
             browserWindow.Open();
 
+            _bitmap = new Bitmap(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + @"/w3bot/compiled/Unbenannt.bmp");
+
             Browser.Navigate("google.com");
         }
 
@@ -33,13 +37,17 @@ namespace TestScript
         {
             if (Browser.IsReady)
             {
-                Mouse.Move(414, 402);
-                Mouse.LeftClick(414, 402);
                 var point = Frame.FindPixel(66, 133, 244, 255);
-                var imagePoint = Frame.FindImage(new Bitmap("Unbenannt.bmp"));
+                var imagePoint = Frame.FindImage(_bitmap);
+                Mouse.Move(imagePoint.X, imagePoint.Y);
+                Mouse.LeftClick(imagePoint.X, imagePoint.Y);
+                Sleep(2000);
+                Keyboard.PressKeys("Hallo Welt!");
+                //Mouse.ScrollDown();
                 Status.Log($"X: {point.X}, Y: {point.Y}.");
                 Status.Log($"X: {imagePoint.X}, Y: {imagePoint.Y}.");
                 Status.Log("Executed.");
+                Browser.GoBack();
                 //return 0;
             }
 

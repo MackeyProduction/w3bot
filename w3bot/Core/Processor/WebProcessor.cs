@@ -1,20 +1,27 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Reflection;
 using System.Windows.Forms;
+using w3bot.Api;
 using w3bot.Core.Utilities;
 using w3bot.Event;
+using w3bot.Input;
+using w3bot.Script;
 using w3bot.Wrapper;
 
 namespace w3bot.Core.Processor
 {
-    internal class WebProcessor : AbstractApiEvent, IProcessor
+    internal class WebProcessor : AbstractEvent, IProcessor
     {
         private Panel _panel;
         private IBotBrowser _botBrowser;
+        private IMouseInput _mouseInput;
+        private IBrowser _browser;
         private bool _input;
         private Timer _timer;
         private Point _mouse;
+        private Font font = new Font("Arial", 8);
 
         public Bitmap Frame
         {
@@ -61,33 +68,37 @@ namespace w3bot.Core.Processor
         public void Activate()
         {
             _panel.Paint += WebProcessor_Paint;
+
+            // initialize browser, mouse and keyboard
+            Browser.AddConfiguration(_botBrowser);
+            Mouse.AddConfiguration(_botBrowser.GetMouse());
+            Keyboard.AddConfiguration(_botBrowser.GetKeyboard());
+
             _timer.Start();
         }
 
         private void WebProcessor_Paint(object sender, PaintEventArgs e)
         {
-            if (!IsFrameValid(_botBrowser.Frame))
+            //if (_browser == null) return;
+            if (!IsFrameValid(Frame))
                 return;
 
             Pen greenPen = new Pen(Color.Green);
 
             var g = e.Graphics;
-            g.DrawImage(_botBrowser.Frame, 0, 0);
+            g.DrawImage(Frame, 0, 0);
 
             // draw mouse
             Point m = _mouse;
             e.Graphics.DrawLine(greenPen, new Point(m.X - 5, m.Y - 5), new Point(m.X + 5, m.Y + 5));
             e.Graphics.DrawLine(greenPen, new Point(m.X - 5, m.Y + 5), new Point(m.X + 5, m.Y - 5));
+
+            g.DrawString("Mouse: " + _mouse.X + ", " + _mouse.Y, font, Brushes.Green, 5, 13);
         }
 
         private void Timer_Tick(object sender, EventArgs e)
         {
             this.Notify();
-            if (MethodProvider.BotBrowser != null)
-            {
-                _botBrowser = MethodProvider.BotBrowser;
-            }
-
             _panel.Invalidate();
         }
 
@@ -158,12 +169,15 @@ namespace w3bot.Core.Processor
 
         public void DropFocus()
         {
-            throw new NotImplementedException();
+            
         }
 
         public void GetFocus()
         {
-            _panel.Focus();
+            w3bot.Script.Bot.ExeThreadSafe(delegate
+            {
+                _panel.Focus();
+            });
         }
 
         private Util.Keys.Button MouseEvent(MouseEventArgs e)
@@ -214,6 +228,36 @@ namespace w3bot.Core.Processor
         public void Dispose()
         {
             _panel.Dispose();
+        }
+
+        //public void OnMouseChange(IMouseInput mouse, Util.Keys.Type type, object[] args)
+        //{
+        //    switch (type)
+        //    {
+        //        case Util.Keys.Type.MOVE:
+                    
+        //            break;
+        //        case Util.Keys.Type.CLICK:
+        //            var mouseBtn = (Util.Keys.Button)args[0];
+        //            var mouseEvt = (Util.Keys.Event)args[1];
+        //            mouse.Click(mouseBtn, mouseEvt);
+        //            break;
+        //        case Util.Keys.Type.WHEEL:
+        //            break;
+        //        default:
+        //            break;
+        //    }
+        //}
+
+        public void OnChange(object[] arguments)
+        {
+            foreach (var arg in arguments)
+            {
+                if (arg is IBrowser)
+                {
+                    _browser = (IBrowser)arg;
+                }
+            }
         }
     }
 }

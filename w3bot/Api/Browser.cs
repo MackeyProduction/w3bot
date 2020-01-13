@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Threading.Tasks;
+using w3bot.Core.Processor;
 using w3bot.Event;
 using w3bot.Script;
 using w3bot.Wrapper;
 
 namespace w3bot.Api
 {
-    public class Browser : IApiEventListener
+    public class Browser
     {
         private static IBotBrowser _browserAdapter;
 
@@ -117,17 +118,9 @@ namespace w3bot.Api
         /// Add configuration to Browser instance.
         /// </summary>
         /// <param name="browser">The browser instance.</param>
-        internal void AddConfiguration(IBotBrowser browser)
+        internal static void AddConfiguration(IBotBrowser browser)
         {
             _browserAdapter = browser;
-        }
-
-        public T Update<T>(AbstractApiEvent api)
-        {
-            api.MethodProvider.Browser = this;
-            api.MethodProvider.BotBrowser = _browserAdapter;
-
-            return (T)Convert.ChangeType(api.MethodProvider, typeof(MethodProvider)); ;
         }
     }
 }

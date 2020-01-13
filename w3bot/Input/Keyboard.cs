@@ -6,7 +6,7 @@ namespace w3bot.Input
 {
     public static class Keyboard
     {
-        private static IKeyboardInput _keyboard = null;
+        private static IKeyboardInput _keyboard;
 
         /// <summary>
         /// Injects a key press in the bot window.
