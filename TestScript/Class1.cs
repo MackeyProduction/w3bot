@@ -37,6 +37,7 @@ namespace TestScript
         {
             if (Browser.IsReady)
             {
+                Frame.FindText("Bilder");
                 var point = Frame.FindPixel(66, 133, 244, 255);
                 var imagePoint = Frame.FindImage(_bitmap);
                 Mouse.Move(imagePoint.X, imagePoint.Y);

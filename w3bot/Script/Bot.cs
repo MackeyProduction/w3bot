@@ -32,6 +32,8 @@ namespace w3bot.Script
         private static IProcessorService _processorService;
         private static IExecutable _executable;
 
+        public MethodProvider Methods { get; set; }
+
         public Bot()
         {
 

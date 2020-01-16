@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Drawing;
 using System.Threading.Tasks;
 using w3bot.Core.Processor;
 using w3bot.Event;
+using w3bot.Listener;
 using w3bot.Script;
 using w3bot.Wrapper;
 
@@ -10,6 +12,83 @@ namespace w3bot.Api
     public class Browser
     {
         private static IBotBrowser _browserAdapter;
+
+        /// <summary>
+        /// Gets the current frame.
+        /// </summary>
+        public Bitmap Frame
+        {
+            get
+            {
+                return _browserAdapter.Frame;
+            }
+        }
+
+        /// <summary>
+        /// Event handler that will get called when the browser is done loading a frame.
+        /// </summary>
+        event EventHandler<DocumentReadyEventArgs> DocumentReady
+        {
+            add
+            {
+                _browserAdapter.DocumentReady += (evt, args) =>
+                {
+                    value.Invoke(evt, args);
+                };
+            }
+
+            remove
+            {
+                _browserAdapter.DocumentReady -= (evt, args) =>
+                {
+                    value.Invoke(evt, args);
+                };
+            }
+        }
+
+        /// <summary>
+        /// Event handler that will get called when the browser begins loading a frame.
+        /// </summary>
+        event EventHandler<DocumentLoadEventArgs> DocumentLoad
+        {
+            add
+            {
+                _browserAdapter.DocumentLoad += (evt, args) =>
+                {
+                    value.Invoke(evt, args);
+                };
+            }
+
+            remove
+            {
+                _browserAdapter.DocumentLoad -= (evt, args) =>
+                {
+                    value.Invoke(evt, args);
+                };
+            }
+        }
+
+        /// <summary>
+        /// Event handler that will get called when the browser is changing the address.
+        /// </summary>
+        event EventHandler<DocumentAddressChangedEventArgs> AddressChanged
+        {
+            add
+            {
+                _browserAdapter.AddressChanged += (evt, args) =>
+                {
+                    value.Invoke(evt, args);
+                };
+            }
+
+            remove
+            {
+                _browserAdapter.AddressChanged -= (evt, args) =>
+                {
+                    value.Invoke(evt, args);
+                };
+            }
+        }
 
         /// <summary>
         /// Returns true when the browser is finished loading.

@@ -1,7 +1,9 @@
 ﻿using CefSharp.OffScreen;
 using Emgu.CV;
 using Emgu.CV.CvEnum;
+using Emgu.CV.OCR;
 using Emgu.CV.Structure;
+using Emgu.CV.Util;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -155,7 +157,76 @@ namespace w3bot.Api
         /// <returns>Returns the position by the text.</returns>
         public static Rectangle FindText(string text)
         {
-            return new Rectangle();
+            Rectangle rectangle = new Rectangle();
+            Dictionary<string, Rectangle> rectangleResultList = new Dictionary<string, Rectangle>();
+
+            Bot.ExeThreadSafe(delegate
+            {
+                Image<Bgr, byte> bImage;
+                Tesseract ocr;
+                _browserBitmap = _processor.Frame;
+
+                if (_browserBitmap == null)
+                    return;
+
+                try
+                {
+                    bImage = new Image<Bgr, byte>(_browserBitmap);
+                }
+                catch (Exception ex)
+                {
+                    throw ex;
+                }
+
+                Image<Gray, byte> resultImage = bImage.Convert<Gray, byte>().Not().ThresholdBinary(new Gray(220), new Gray(255));
+                VectorOfVectorOfPoint contours = new VectorOfVectorOfPoint();
+                Mat mat = new Mat();
+
+                try
+                {
+                    string folderPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + @"\w3bot\bin\tessdata";
+                    ocr = new Tesseract(folderPath, "eng", OcrEngineMode.TesseractOnly);
+                } 
+                catch (Exception ex)
+                {
+                    throw ex;
+                }
+
+                CvInvoke.FindContours(resultImage, contours, mat, RetrType.External, ChainApproxMethod.ChainApproxSimple);
+
+                Rectangle[] positions = new Rectangle[contours.Size];
+                if (contours.Size > 0)
+                {
+                    for (int i = 0; i < contours.Size; i++)
+                    {
+                        positions[i] = CvInvoke.BoundingRectangle(contours[i]);
+                    }
+
+                    for (int i = 0; i < positions.Length; i++)
+                    {
+                        Image<Bgr, byte> image = new Image<Bgr, byte>(bImage.Copy().Bitmap);
+                        Image<Gray, byte> rImage = image.Convert<Gray, byte>();
+
+                        ocr.SetImage(rImage);
+
+                        if (ocr.Recognize() != 0)
+                        {
+                            throw new Exception("Failed to recognize image");
+                        }
+
+                        var result = ocr.GetUTF8Text();
+
+                        if (!rectangleResultList.ContainsKey(result))
+                        {
+                            rectangleResultList.Add(result, positions[i]);
+                        }
+                    }
+                }
+
+                rectangleResultList.TryGetValue(text, out rectangle);
+            });
+
+            return rectangle;
         }
 
         internal void AddConfiguration(IProcessor processor)
