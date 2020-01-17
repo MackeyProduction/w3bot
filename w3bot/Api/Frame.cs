@@ -127,6 +127,10 @@ namespace w3bot.Api
             Bot.ExeThreadSafe(delegate
             {
                 _browserBitmap = _processor.Frame;
+
+                if (_browserBitmap == null)
+                    return;
+
                 Image<Bgr, byte> bImage = new Image<Bgr, byte>(_browserBitmap);
                 Image<Bgr, byte> comparedImage = new Image<Bgr, byte>(bitmap);
 
@@ -172,53 +176,36 @@ namespace w3bot.Api
                 try
                 {
                     bImage = new Image<Bgr, byte>(_browserBitmap);
-                }
-                catch (Exception ex)
-                {
-                    throw ex;
-                }
-
-                Image<Gray, byte> resultImage = bImage.Convert<Gray, byte>().Not().ThresholdBinary(new Gray(220), new Gray(255));
-                VectorOfVectorOfPoint contours = new VectorOfVectorOfPoint();
-                Mat mat = new Mat();
-
-                try
-                {
                     string folderPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + @"\w3bot\bin\tessdata";
                     ocr = new Tesseract(folderPath, "eng", OcrEngineMode.TesseractOnly);
-                } 
+                }
                 catch (Exception ex)
                 {
                     throw ex;
                 }
 
-                CvInvoke.FindContours(resultImage, contours, mat, RetrType.External, ChainApproxMethod.ChainApproxSimple);
+                Image<Gray, byte> rImage = bImage.Convert<Gray, byte>();
 
-                Rectangle[] positions = new Rectangle[contours.Size];
-                if (contours.Size > 0)
+                ocr.SetImage(rImage);
+
+                if (ocr.Recognize() != 0)
                 {
-                    for (int i = 0; i < contours.Size; i++)
+                    throw new Exception("Failed to recognize image");
+                }
+
+                var characters = ocr.GetCharacters();
+
+                string resultText = "";
+                for (int i = 0; i < characters.Length; i++)
+                {
+                    resultText += characters[i].Text;
+                    var splittedText = resultText.Split(' ');
+
+                    for (int j = 0; j < splittedText.Length; j++)
                     {
-                        positions[i] = CvInvoke.BoundingRectangle(contours[i]);
-                    }
-
-                    for (int i = 0; i < positions.Length; i++)
-                    {
-                        Image<Bgr, byte> image = new Image<Bgr, byte>(bImage.Copy().Bitmap);
-                        Image<Gray, byte> rImage = image.Convert<Gray, byte>();
-
-                        ocr.SetImage(rImage);
-
-                        if (ocr.Recognize() != 0)
+                        if (!rectangleResultList.ContainsKey(splittedText[j]))
                         {
-                            throw new Exception("Failed to recognize image");
-                        }
-
-                        var result = ocr.GetUTF8Text();
-
-                        if (!rectangleResultList.ContainsKey(result))
-                        {
-                            rectangleResultList.Add(result, positions[i]);
+                            rectangleResultList.Add(splittedText[j], characters[i].Region);
                         }
                     }
                 }
