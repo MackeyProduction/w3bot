@@ -1,7 +1,9 @@
 ﻿using CefSharp.OffScreen;
 using Emgu.CV;
 using Emgu.CV.CvEnum;
+using Emgu.CV.OCR;
 using Emgu.CV.Structure;
+using Emgu.CV.Util;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -125,6 +127,10 @@ namespace w3bot.Api
             Bot.ExeThreadSafe(delegate
             {
                 _browserBitmap = _processor.Frame;
+
+                if (_browserBitmap == null)
+                    return;
+
                 Image<Bgr, byte> bImage = new Image<Bgr, byte>(_browserBitmap);
                 Image<Bgr, byte> comparedImage = new Image<Bgr, byte>(bitmap);
 
@@ -155,7 +161,59 @@ namespace w3bot.Api
         /// <returns>Returns the position by the text.</returns>
         public static Rectangle FindText(string text)
         {
-            return new Rectangle();
+            Rectangle rectangle = new Rectangle();
+            Dictionary<string, Rectangle> rectangleResultList = new Dictionary<string, Rectangle>();
+
+            Bot.ExeThreadSafe(delegate
+            {
+                Image<Bgr, byte> bImage;
+                Tesseract ocr;
+                _browserBitmap = _processor.Frame;
+
+                if (_browserBitmap == null)
+                    return;
+
+                try
+                {
+                    bImage = new Image<Bgr, byte>(_browserBitmap);
+                    string folderPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + @"\w3bot\bin\tessdata";
+                    ocr = new Tesseract(folderPath, "eng", OcrEngineMode.TesseractOnly);
+                }
+                catch (Exception ex)
+                {
+                    throw ex;
+                }
+
+                Image<Gray, byte> rImage = bImage.Convert<Gray, byte>();
+
+                ocr.SetImage(rImage);
+
+                if (ocr.Recognize() != 0)
+                {
+                    throw new Exception("Failed to recognize image");
+                }
+
+                var characters = ocr.GetCharacters();
+
+                string resultText = "";
+                for (int i = 0; i < characters.Length; i++)
+                {
+                    resultText += characters[i].Text;
+                    var splittedText = resultText.Split(' ');
+
+                    for (int j = 0; j < splittedText.Length; j++)
+                    {
+                        if (!rectangleResultList.ContainsKey(splittedText[j]))
+                        {
+                            rectangleResultList.Add(splittedText[j], characters[i].Region);
+                        }
+                    }
+                }
+
+                rectangleResultList.TryGetValue(text, out rectangle);
+            });
+
+            return rectangle;
         }
 
         internal void AddConfiguration(IProcessor processor)

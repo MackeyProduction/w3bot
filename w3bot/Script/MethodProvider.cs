@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using w3bot.Api;
+using w3bot.Core;
 using w3bot.Wrapper;
 
 namespace w3bot.Script
@@ -20,11 +21,9 @@ namespace w3bot.Script
         /// </summary>
         public Frame Frame { get; set; }
 
-        /// <summary>
-        /// The wrapper of the bot browser.
-        /// </summary>
-        internal IBotBrowser BotBrowser { get; set; }
+        internal MethodProvider(IBotBrowser botBrowser, CoreService coreService)
+        {
 
-        internal IMouseInput MouseInput { get; set; }
+        }
     }
 }
