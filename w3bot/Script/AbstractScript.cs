@@ -15,6 +15,11 @@ namespace w3bot.Script
         private Thread _scriptThread;
         private ScriptManifest _scriptManifest;
 
+        public AbstractScript()
+        {
+
+        }
+
         /// <summary>
         /// Gets the name of the script.
         /// </summary>

@@ -6,52 +6,62 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using w3bot.Core.Utilities;
+using w3bot.Event;
 using w3bot.Util;
 using w3bot.Wrapper;
 
 namespace w3bot.Core.Processor
 {
-    class AppletProcessor : IProcessor
+    class AppletProcessor : Panel, IProcessor
     {
-        public Bitmap Frame => throw new NotImplementedException();
+        public Bitmap Frame { get; }
 
-        public Point MousePos { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        public Point MousePos { get; set; }
 
-        public Panel Panel => throw new NotImplementedException();
+        public Panel Panel { get; set; }
+
+        public IMouseEvent MouseHandler { get; set; }
+        public IKeyboardEvent KeyboardHandler { get; set; }
+        public IPaintEvent PaintHandler { get; set; }
+
+        public AppletProcessor()
+        {
+
+        }
 
         public void Activate()
         {
-            throw new NotImplementedException();
+            
         }
 
         public void AllowInput()
         {
-            throw new NotImplementedException();
+            
         }
 
         public void BlockInput()
         {
-            throw new NotImplementedException();
+            
+        }
+
+        public object Clone()
+        {
+            return (AppletProcessor)MemberwiseClone();
         }
 
         public void Destroy()
         {
-            throw new NotImplementedException();
-        }
-
-        public void Dispose()
-        {
-            throw new NotImplementedException();
+            
         }
 
         public void DropFocus()
         {
-            throw new NotImplementedException();
+            
         }
 
         public void GetFocus()
         {
-            throw new NotImplementedException();
+            this.Focus();
         }
 
         public bool IsValidProcessor(ProcessorType type)
@@ -59,14 +69,24 @@ namespace w3bot.Core.Processor
             return type == ProcessorType.AppletProcessor;
         }
 
-        public void OnChange(object[] arguments, Action action)
-        {
-            throw new NotImplementedException();
-        }
-
         public void OnChange(object[] arguments)
         {
-            throw new NotImplementedException();
+            
+        }
+
+        public void OnKeyPress(object sender, KeyPressEventArgs e)
+        {
+            
+        }
+
+        public void OnPaint(Graphics g)
+        {
+            
+        }
+
+        public void OnRender(EventHandler<Graphics> handler)
+        {
+            
         }
     }
 }

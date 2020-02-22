@@ -12,7 +12,7 @@ using w3bot.Event;
 
 namespace w3bot.Wrapper
 {
-    class ChromiumBrowserAdapter : IBotBrowser, w3bot.Event.IEventListener
+    class ChromiumBrowserAdapter : IBotBrowser
     {
         const string HOME_URL = "https://www.google.com/";
 
@@ -192,25 +192,6 @@ namespace w3bot.Wrapper
         public IMouseInput GetMouse()
         {
             return (_chromiumMouse == null && _chromiumBrowser.IsBrowserInitialized) ? _chromiumMouse = new ChromiumMouse(_chromiumBrowser) : _chromiumMouse;
-        }
-
-        public void Update(IEventManager manager)
-        {
-            if (!(manager is IProcessor))
-                return;
-
-            var processor = (IProcessor)manager;
-            var browser = Chromium.Browser as Chromium;
-            if (browser != null)
-            {
-                processor.OnChange(new object[] { this });
-            }
-
-            var mouse = ChromiumMouse.MouseInput as ChromiumMouse;
-            if (mouse != null)
-            {
-                processor.OnChange(new object[] { mouse });
-            }
         }
     }
 }

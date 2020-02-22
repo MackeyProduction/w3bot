@@ -6,10 +6,11 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using w3bot.Core.Utilities;
+using w3bot.Event;
 
 namespace w3bot.Core.Processor
 {
-    interface IProcessor : IDisposable, IRenderProcessor
+    interface IProcessor : IDisposable, IRenderProcessor, ICloneable
     {
         /// <summary>
         /// Activates the processor.
@@ -62,5 +63,20 @@ namespace w3bot.Core.Processor
         /// <param name="type">The type of the processor.</param>
         /// <returns>Returns an instance of processor.</returns>
         bool IsValidProcessor(ProcessorType type);
+
+        /// <summary>
+        /// Mouse event handler.
+        /// </summary>
+        IMouseEvent MouseHandler { get; set; }
+        
+        /// <summary>
+        /// Keyboard event handler.
+        /// </summary>
+        IKeyboardEvent KeyboardHandler { get; set; }
+        
+        /// <summary>
+        /// Paint event handler.
+        /// </summary>
+        IPaintEvent PaintHandler { get; set; }
     }
 }

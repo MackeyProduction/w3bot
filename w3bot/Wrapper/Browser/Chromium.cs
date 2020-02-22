@@ -9,7 +9,7 @@ using w3bot.Script;
 
 namespace w3bot.Wrapper.Browser
 {
-    class Chromium : IBrowser, IEventListener
+    class Chromium : IBrowser
     {
         private ChromiumWebBrowser _browser;
         private Bitmap _browserBitmap;
@@ -91,15 +91,6 @@ namespace w3bot.Wrapper.Browser
         public void Refresh()
         {
             _browser.Reload();
-        }
-
-        public void Update(IEventManager manager)
-        {
-            if (!(manager is IProcessor))
-                return;
-
-            processor = (IProcessor)manager;
-            processor.OnChange(new object[] { this });
         }
     }
 }

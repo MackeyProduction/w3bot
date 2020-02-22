@@ -30,21 +30,28 @@ namespace w3bot.Script
         private static CoreService _core;
         private static FormService _formService;
         private static IProcessorService _processorService;
+        private static IProcessorService _clonedProcessorService;
         private static IExecutable _executable;
+        private static IList<IProcessor> _processorList;
+        private IProcessor _processor;
 
-        public MethodProvider Methods { get; set; }
+        public static MethodProvider Methods { get; private set; }
 
         public Bot()
         {
 
         }
 
-        internal void AddConfiguration(FormService formService, CoreService core, IExecutable executable)
+        internal void AddConfiguration(FormService formService, CoreService core, IExecutable executable, MethodProvider methodProvider)
         {
             _core = core;
             _formService = formService;
             _executable = executable;
             _processorService = _core.GetProcessors();
+            _clonedProcessorService = (IProcessorService)_processorService.Clone();
+            _processorList = new List<IProcessor>();
+            _processorService.GetAll().Clear();
+            Methods = methodProvider;
         }
 
         /// <summary>
@@ -102,14 +109,31 @@ namespace w3bot.Script
         /// <returns>Returns an instance of BotWindow.</returns>
         private IBotWindow CreateWindow(string name, ProcessorType type)
         {
-            return new BotWindow(name, _processorService.GetProcessor(type), _formService);
+            // TODO: Find a way to avoid cloning.
+            if (_clonedProcessorService.GetAll().Count == 0)
+                throw new InvalidOperationException("The processor list isn't initialized. Please initialize first the list.");
+
+            if (_clonedProcessorService.GetProcessor(type) == null)
+                throw new InvalidOperationException(String.Format("The processor by the type {0} could not be found.", type.ToString()));
+
+            try
+            {
+                _processor = (IProcessor)_clonedProcessorService.GetProcessor(type).Clone();
+                _processorService.GetAll().Add(_processor);
+            }
+            catch (InvalidCastException e)
+            {
+                throw new InvalidCastException(e.Message);
+            }
+
+            return new BotWindow(name, _processor, _formService);
         }
 
         /// <summary>
         /// Refreshs the paint of the current bot window.
         /// </summary>
         /// <param name="g"></param>
-        internal void RefreshPaints(Graphics g)
+        internal static void RefreshPaints(Graphics g)
         {
             paintings(g);
         }

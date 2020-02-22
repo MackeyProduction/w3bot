@@ -15,6 +15,7 @@ namespace TestScript
     public class Class1 : AbstractScript, IDocumentReadyListener, IPaintListener
     {
         private Bitmap _bitmap;
+        private Frame _frame;
 
         public override void OnFinish()
         {
@@ -29,6 +30,7 @@ namespace TestScript
             browserWindow.Open();
 
             _bitmap = new Bitmap(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + @"/w3bot/compiled/Unbenannt.bmp");
+            _frame = Methods.Frame;
 
             Browser.Navigate("google.com");
         }
@@ -37,9 +39,9 @@ namespace TestScript
         {
             if (Browser.IsReady)
             {
-                Frame.FindText("Bilder");
-                var point = Frame.FindPixel(66, 133, 244, 255);
-                var imagePoint = Frame.FindImage(_bitmap);
+                _frame.FindText("Bilder");
+                var point = _frame.FindPixel(66, 133, 244, 255);
+                var imagePoint = _frame.FindImage(_bitmap);
                 Mouse.Move(imagePoint.X, imagePoint.Y);
                 Mouse.LeftClick(imagePoint.X, imagePoint.Y);
                 Sleep(2000);
@@ -55,7 +57,7 @@ namespace TestScript
             return 100;
         }
 
-        public void OnPaint(Graphics g)
+        public void OnPaint(object sender, Graphics g)
         {
             g.DrawString("Hello World", new Font("Arial", 12, FontStyle.Regular), Brushes.Green, 100, 100);
         }

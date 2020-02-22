@@ -14,7 +14,8 @@ namespace w3bot.Listener
         /// <summary>
         /// Called each time the bot needs to redraw.
         /// </summary>
+        /// <param name="sender">The sender.</param>
         /// <param name="g">Used to draw on.</param>
-        void OnPaint(Graphics g);
+        void OnPaint(object sender, Graphics g);
     }
 }

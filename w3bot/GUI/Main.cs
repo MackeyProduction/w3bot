@@ -11,17 +11,24 @@ using w3bot.Core.Bot;
 using w3bot.Script;
 using w3bot.Event;
 using System.Collections.Generic;
+using w3bot.Core.Processor;
+using w3bot.Listener;
 
 namespace w3bot.GUI
 {
     public partial class Main : Form
     {
-        string title = "w3bot.org " + CoreInformation.programVersion.ToString("0.0", CultureInfo.InvariantCulture);
+        string title = "w3bot.org " + CoreInformation.programVersion.ToString("0.0", CultureInfo.InvariantCulture) + " (Alpha)";
         private bool nextKill = false;  // flag to tell the next time the script will be killed without question
         private BotWindow botMain;
         private IExecutable _executable;
+        private IProcessor _processor;
         private IScript runningScript;
+        private Core.Debug _debug;
         private Bot _bot;
+        private TabPage _tabPage;
+        internal delegate void Drawable(Graphics g);
+        internal static event Drawable paintings = delegate { };
 
         public Main(Bot bot)
         {
@@ -38,20 +45,58 @@ namespace w3bot.GUI
 
         private void Main_Load(object sender, EventArgs e)
         {
-            //_login.ShowDialog();
+            //Login();
 
-            //if (!_login.StatusOk)
-            //{
-            //    this.Close();
-            //    Application.Exit();
-            //    return;
-            //}
-            
             Status.Log("Welcome to " + title);
             botMain = (BotWindow)_bot.CreateBrowserWindow("View");
             botMain.Open();
 
+            _tabPage = CreateEmptyTabPage("addingTabPage");
+            tabControlMain.TabPages.Add(_tabPage);
+
+            _processor = _bot.GetCoreService().GetProcessors().GetProcessor(Core.Utilities.ProcessorType.BrowserProcessor);
+            _debug = new Core.Debug(_processor);
+
+            KeyPress += Main_KeyPress;
+
             blockToolStripMenuItem.PerformClick();
+        }
+
+        private void Login()
+        {
+            var login = new Login(_bot.GetCoreService().GetRepositories());
+            login.ShowDialog();
+
+            if (!login.StatusOk)
+            {
+                this.Close();
+                Application.Exit();
+                return;
+            }
+        }
+
+        private void Draw(IScript script, IProcessor processor)
+        {
+            if (script is IPaintListener)
+            {
+                processor.PaintHandler.Paint += ((IPaintListener)script).OnPaint;
+            }
+        }
+
+        private void Main_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            _processor.OnKeyPress(sender, e);
+        }
+
+        private TabPage CreateEmptyTabPage(string name)
+        {
+            var tabPage = new TabPage
+            {
+                Text = "+",
+                Name = name
+            };
+
+            return tabPage;
         }
 
         private void Main_FormClosing(object sender, FormClosingEventArgs e)
@@ -136,9 +181,13 @@ namespace w3bot.GUI
         {
             if (runningScript == null)
             {
-                var scriptManager = new Scriptmanager(new ScriptExecutor(new List<IScript>()), Script_started, Script_stopped);
+                var scriptManager = new Scriptmanager(_executable, Script_started, Script_stopped);
                 scriptManager.ShowDialog();
-                //runningScript = _executable.GetExecutables<IScript>()[scriptManager.GetRunningExecutable()];
+                //runningScript = _executable.GetExecutables<IScript>()[scriptManager.GetRunningExecutable() - 1];
+
+                //Draw(runningScript, _processor);
+
+                //Script_started();
             }
             else
             {
@@ -181,7 +230,8 @@ namespace w3bot.GUI
 
         private void mousePositionToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            mousePositionToolStripMenuItem.Checked = Core.Debug.toggle(Core.Debug.MousePosition);
+            mousePositionToolStripMenuItem.Checked = Core.Debug.Toggle(Core.Debug.MousePosition);
+            _processor.OnRender(_debug.OnDebugPaint);
         }
 
         private void addToolStripMenuItem_Click(object sender, EventArgs e)
@@ -200,15 +250,15 @@ namespace w3bot.GUI
                     return;
                 }
 
-                //if (MessageBox.Show("Are you sure you want to stop the running script?", "Stop Script?", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
-                //{
-                //    runningScript.onFinish();
-                //    runningScript.onResume(); //resume script to make sure it doest stuck in the sleep loop
-                //    nextKill = true;
-                //    runningScriptList.Remove((int)bot.botTab.SelectedIndex);
-                //    stopToolStripMenuItem.Text = "Stopping...";
-                //    this.Text = title + " - Script stopping...";
-                //}
+                if (MessageBox.Show("Are you sure you want to stop the running script?", "Stop Script?", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+                {
+                    runningScript.CurrentState = Util.ScriptUtils.State.STOP;
+                    runningScript.CurrentState = Util.ScriptUtils.State.RESUME;
+                    nextKill = true;
+                    _executable.GetExecutables<IScript>().Remove(runningScript);
+                    stopToolStripMenuItem.Text = "Stopping...";
+                    this.Text = title + " - Script stopping...";
+                }
             }
         }
 
@@ -219,12 +269,14 @@ namespace w3bot.GUI
 
         private void pixelColorToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            pixelColorToolStripMenuItem.Checked = Core.Debug.toggle(Core.Debug.PixelColor);
+            pixelColorToolStripMenuItem.Checked = Core.Debug.Toggle(Core.Debug.PixelColor);
+            _processor.OnRender(_debug.OnDebugPaint);
         }
 
         private void mouseToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            mouseToolStripMenuItem.Checked = Core.Debug.toggle(Core.Debug.Mouse);
+            mouseToolStripMenuItem.Checked = Core.Debug.Toggle(Core.Debug.Mouse);
+            _processor.OnRender(_debug.OnDebugPaint);
         }
 
         private void edgesToolStripMenuItem_Click(object sender, EventArgs e)
@@ -233,17 +285,20 @@ namespace w3bot.GUI
 
         private void cannyToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            cannyToolStripMenuItem.Checked = Core.Debug.toggle(Core.Debug.CannyEdges);
+            cannyToolStripMenuItem.Checked = Core.Debug.Toggle(Core.Debug.CannyEdges);
+            _processor.OnRender(_debug.OnDebugPaint);
         }
 
         private void sobelToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            sobelToolStripMenuItem.Checked = Core.Debug.toggle(Core.Debug.SobelEdges);
+            sobelToolStripMenuItem.Checked = Core.Debug.Toggle(Core.Debug.SobelEdges);
+            _processor.OnRender(_debug.OnDebugPaint);
         }
 
         private void laplacianToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            laplacianToolStripMenuItem.Checked = Core.Debug.toggle(Core.Debug.LaplacianEdges);
+            laplacianToolStripMenuItem.Checked = Core.Debug.Toggle(Core.Debug.LaplacianEdges);
+            _processor.OnRender(_debug.OnDebugPaint);
         }
 
         private void devToolsToolStripMenuItem_Click(object sender, EventArgs e)
@@ -253,19 +308,30 @@ namespace w3bot.GUI
 
         private void magnifierToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            magnifierToolStripMenuItem.Checked = Core.Debug.toggle(Core.Debug.Magnifier);
+            magnifierToolStripMenuItem.Checked = Core.Debug.Toggle(Core.Debug.Magnifier);
         }
 
         private void updatesToolStripMenuItem_Click(object sender, EventArgs e)
         {
             //bot.botWindow._doubleBuffered = false;
-            updatesToolStripMenuItem.Checked = Core.Debug.toggle(Core.Debug.NoDoubleBuffer);
+            updatesToolStripMenuItem.Checked = Core.Debug.Toggle(Core.Debug.NoDoubleBuffer);
         }
 
         private void tabControlMain_SelectedIndexChanged(object sender, EventArgs e)
         {
             try
             {
+                if (tabControlMain.SelectedTab == _tabPage)
+                {
+                    _bot.CreateBrowserWindow("View").Open();
+
+                    for (int i = 0; i < tabControlMain.TabPages.Count; i++)
+                    {
+                        SwapTabPages(_tabPage, tabControlMain.TabPages[i]);
+                    }
+                    tabControlMain.SelectedTab = tabControlMain.TabPages[tabControlMain.TabPages.Count - 2];
+                }
+
                 if (_executable.GetExecutables<IScript>() != null)
                 {
                     if (tabControlMain.SelectedIndex < _executable.GetExecutables<IScript>().Count && tabControlMain.SelectedIndex != -1)
@@ -275,6 +341,9 @@ namespace w3bot.GUI
                         //bot.botTab.Focus();
                         var tabId = tabControlMain.SelectedIndex;
                         runningScript = _executable.GetExecutables<IScript>()[tabId];
+
+                        Draw(runningScript, _processor);
+
                         Script_started();
                     }
                     else
@@ -292,6 +361,14 @@ namespace w3bot.GUI
         private void settingsToolStripMenuItem_Click(object sender, EventArgs e)
         {
             new Settings().ShowDialog();
+        }
+
+        private void SwapTabPages(TabPage tabPageOne, TabPage tabPageTwo)
+        {
+            int tp1Index = tabControlMain.TabPages.IndexOf(tabPageOne);
+            int tp2Index = tabControlMain.TabPages.IndexOf(tabPageTwo);
+            tabControlMain.TabPages[tp1Index] = tabPageTwo;
+            tabControlMain.TabPages[tp2Index] = tabPageOne;
         }
     }
 }

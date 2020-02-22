@@ -7,8 +7,11 @@ using w3bot.Core.Utilities;
 
 namespace w3bot.Core.Processor
 {
-    interface IProcessorService
+    interface IProcessorService : ICloneable
     {
+        IList<IProcessor> GetAll();
+        IList<IProcessor> GetAllByType(ProcessorType processorType);
+        IProcessor GetById(int id);
         IProcessor GetProcessor(ProcessorType processorType);
     }
 }

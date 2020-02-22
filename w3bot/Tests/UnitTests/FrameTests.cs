@@ -18,11 +18,10 @@ namespace w3bot.Tests.UnitTests
         public void FindText_Frame_ReturnsRectangleWithTextPosition()
         {
             IBotBrowser botBrowser = new ChromiumBrowserAdapter();
-            WebProcessor processor = new WebProcessor(new Panel(), botBrowser);
-            Frame f = new Frame();
-            f.AddConfiguration(processor);
+            WebProcessor processor = new WebProcessor(botBrowser);
+            Frame f = new Frame(processor);
 
-            Frame.FindText("foo");
+            f.FindText("foo");
         }
     }
 }

@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using w3bot.Api;
 using w3bot.Core;
+using w3bot.Core.Processor;
 using w3bot.Wrapper;
 
 namespace w3bot.Script
@@ -21,9 +22,9 @@ namespace w3bot.Script
         /// </summary>
         public Frame Frame { get; set; }
 
-        internal MethodProvider(IBotBrowser botBrowser, CoreService coreService)
-        {
-
-        }
+        /// <summary>
+        /// The running captcha instance.
+        /// </summary>
+        public Captcha Captcha { get; set; }
     }
 }

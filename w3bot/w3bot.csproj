@@ -117,7 +117,9 @@
     <Compile Include="Api\Frame.cs" />
     <Compile Include="Core\Processor\IRenderProcessor.cs" />
     <Compile Include="Core\Reflection\NonPublicConstructorFinder.cs" />
-    <Compile Include="Event\IEventManager.cs" />
+    <Compile Include="Event\IKeyboardEvent.cs" />
+    <Compile Include="Event\IMouseEvent.cs" />
+    <Compile Include="Event\IPaintEvent.cs" />
     <Compile Include="Event\KeyboardEvent.cs" />
     <Compile Include="GUI\Service\FormService.cs" />
     <Compile Include="Script\Bot.cs" />
@@ -126,7 +128,9 @@
     <Compile Include="Core\Processor\IProcessorService.cs" />
     <Compile Include="Core\Processor\ProcessorService.cs" />
     <Compile Include="Core\Utilities\IValidator.cs" />
-    <Compile Include="Core\Processor\AppletProcessor.cs" />
+    <Compile Include="Core\Processor\AppletProcessor.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Core\Bot\BotDirectories.cs" />
     <Compile Include="Script\BotWindow.cs">
       <SubType>Component</SubType>
@@ -141,7 +145,9 @@
     <Compile Include="Script\MethodProvider.cs" />
     <Compile Include="Script\ScriptItem.cs" />
     <Compile Include="Core\Script\Scriptloader.cs" />
-    <Compile Include="Core\Processor\WebProcessor.cs" />
+    <Compile Include="Core\Processor\WebProcessor.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Core\Database\Connection.cs" />
     <Compile Include="Core\Database\RepositoryService.cs" />
     <Compile Include="Core\Database\Entity\Group.cs" />
@@ -267,7 +273,6 @@
       <DependentUpon>UserAgentSettings.cs</DependentUpon>
     </Compile>
     <Compile Include="Event\BrowserEvent.cs" />
-    <Compile Include="Event\AbstractEvent.cs" />
     <Compile Include="Event\MouseEvent.cs" />
     <Compile Include="Event\PaintEvent.cs" />
     <Compile Include="Event\ScriptExecutor.cs" />
@@ -275,7 +280,6 @@
     <Compile Include="Core\Utilities\ProcessorType.cs" />
     <Compile Include="Util\ScriptUtils.cs" />
     <Compile Include="Wrapper\IBrowser.cs" />
-    <Compile Include="Event\IEventListener.cs" />
     <Compile Include="Wrapper\IKeyboardInput.cs" />
     <Compile Include="Wrapper\IMouseInput.cs" />
     <Compile Include="Script\IScript.cs" />

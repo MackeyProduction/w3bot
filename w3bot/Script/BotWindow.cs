@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
 using w3bot.Core.Processor;
@@ -27,11 +28,11 @@ namespace w3bot.Script
             _name = name;
             _processor = processor;
             _formService = formService;
+            _botTab = (TabControl)_formService.GetFormControlByType(typeof(TabControl));
             Bot.ExeThreadSafe(delegate
             {
                 this.Controls.Add(_processor.Panel);
             });
-            _botTab = (TabControl)_formService.GetFormControlByType(typeof(TabControl));
             Activate();
         }
 
@@ -40,6 +41,18 @@ namespace w3bot.Script
         /// </summary>
         public void Open()
         {
+            //if (_botTab.TabCount >= 1)
+            //{
+            //    Bot.ExeThreadSafe(delegate
+            //    {
+            //        _botTab.SelectedTab = _botTab.TabPages[_botTab.TabCount - 2];
+            //        _processor.Activate();
+            //        _botTab.Focus();
+            //        _botTab.Invalidate();
+            //    });
+            //    return;
+            //}
+
             if (isClosed) throw new InvalidOperationException("The Botwindow is already destroyed. It can't be reopen.");
             Bot.ExeThreadSafe(delegate
             {
@@ -48,6 +61,7 @@ namespace w3bot.Script
                 _botTab.SelectedTab = this;
                 _botTab.SelectedTab.Text = _name;
                 _botTab.Invalidate();
+                //Activate();
             });
         }
 
