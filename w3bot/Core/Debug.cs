@@ -6,14 +6,16 @@ using Emgu.CV;
 using Emgu.CV.Structure;
 using w3bot.GUI;
 using w3bot.Core.Processor;
+using System.Windows.Forms;
 
 namespace w3bot.Core
 {
     class Debug
     {
+        internal delegate void Drawable(Graphics g);
+        internal static event Drawable paintings = delegate { };
         private static List<w3bot.Script.Bot.Drawable> debugs = new List<w3bot.Script.Bot.Drawable>();
 
-        internal static w3bot.Script.Bot _bot;
         internal static int paintPos = 0;
         private static Font font = new Font("Arial", 8);
         private static int height = 13;
@@ -32,22 +34,29 @@ namespace w3bot.Core
             _processor = processor;
         }
 
-        internal static bool toggle(w3bot.Script.Bot.Drawable drawable)
+        internal static bool Toggle(w3bot.Script.Bot.Drawable drawable)
         {
             bool added = true;
             if (debugs.Contains(drawable))
             {
+                paintPos = 0;
                 debugs.Remove(drawable);
-                w3bot.Script.Bot.paintings -= drawable;
                 added = false;
             }
             else
             {
                 debugs.Add(drawable);
-                w3bot.Script.Bot.paintings += drawable;
             }
-            //_bot.core.Invalidate(); //causes repaint
+
             return added;
+        }
+
+        public void OnDebugPaint(object sender, Graphics g)
+        {
+            foreach (var debug in debugs)
+            {
+                debug.Invoke(g);
+            }
         }
 
         internal static void Mouse(Graphics g)
@@ -60,24 +69,13 @@ namespace w3bot.Core
 
         internal static void MousePosition(Graphics g)
         {
-            paintPos++;
+            paintPos = GetIndex("MousePosition");
             g.DrawString("Mouse: " + _processor.MousePos.X + ", " + _processor.MousePos.Y, font, Brushes.Green, 5, paintPos * height);
-        }
-
-        internal static void ResetHeight(Graphics g)
-        {
-            paintPos = 0;
-        }
-
-        internal static void AddConfiguration(w3bot.Script.Bot bot)
-        {
-            _bot = bot;
-            w3bot.Script.Bot.paintings += ResetHeight;
         }
 
         internal static void PixelColor(Graphics g)
         {
-            paintPos++;
+            paintPos = GetIndex("PixelColor");
             Color p = Frame.MainFrame.GetPixel(_processor.MousePos.X, _processor.MousePos.Y);
             g.FillRectangle(new SolidBrush(Color.FromArgb(p.R, p.G, p.B)), 5, (paintPos * height) + 2, 10, 8);
             g.DrawRectangle(Pens.Black, 5, (paintPos * height) + 2, 10, 8);
@@ -99,6 +97,7 @@ namespace w3bot.Core
                 canny.ShowDialog();
             }
 
+            paintPos = 0;
             _imgCanny = _imgInput.Canny(_threshold, _thresholdLink);
             g.DrawImage(_imgCanny.ToBitmap(_imgInput.Width, _imgInput.Height), new Rectangle(0, 0, _imgInput.Width, _imgInput.Height));
             g.DrawString($"Threshold: {_threshold}, Threshold Link: {_thresholdLink}", font, Brushes.Green, 5, paintPos * height);
@@ -121,6 +120,7 @@ namespace w3bot.Core
                     sobel.ShowDialog();
                 }
 
+                paintPos = 0;
                 _imgSobel = _imgGray.Sobel(_xorder, _yorder, _apertureSize);
                 g.DrawImage(_imgSobel.ToBitmap(_imgInput.Width, _imgInput.Height), new Rectangle(0, 0, _imgInput.Width, _imgInput.Height));
                 g.DrawString($"X: {_xorder}, Y: {_yorder}, Aperture size: {_apertureSize}", font, Brushes.Green, 5, paintPos * height);
@@ -145,6 +145,7 @@ namespace w3bot.Core
                     laplacian.ShowDialog();
                 }
 
+                paintPos = 0;
                 _imgLaplacian = _imgGray.Laplace(_apertureSizeLaplacian);
                 g.DrawImage(_imgLaplacian.ToBitmap(_imgInput.Width, _imgInput.Height), new Rectangle(0, 0, _imgInput.Width, _imgInput.Height));
                 g.DrawString($"Aperture size: {_apertureSizeLaplacian}", font, Brushes.Green, 5, paintPos * height);
@@ -177,6 +178,11 @@ namespace w3bot.Core
         internal static void ApplyLaplacian(int apertureSize = 7)
         {
             _apertureSizeLaplacian = apertureSize;
+        }
+
+        private static int GetIndex(string name)
+        {
+            return debugs.FindIndex(t => t.Method.Name.Contains(name));
         }
     }
 }

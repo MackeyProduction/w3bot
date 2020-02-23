@@ -9,6 +9,8 @@ namespace w3bot.Core.Processor
 {
     interface IProcessorService
     {
+        IList<IProcessor> GetAllByType(ProcessorType processorType);
+        IProcessor GetById(int id);
         IProcessor GetProcessor(ProcessorType processorType);
     }
 }

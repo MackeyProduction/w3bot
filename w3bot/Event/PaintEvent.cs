@@ -1,23 +1,21 @@
-﻿using w3bot.Listener;
+﻿using System;
+using System.Drawing;
+using w3bot.Listener;
 using w3bot.Script;
 
 namespace w3bot.Event
 {
-    public class PaintEvent : IEventListener
+    public class PaintEvent : IPaintEvent
     {
-        private IScript _script;
+        public EventHandler<Graphics> Paint { get; set; }
 
-        public PaintEvent(IScript script)
+        public PaintEvent()
         {
-            _script = script;
         }
 
-        public void Update(IEventManager manager)
+        protected virtual void OnPaint(object sender, Graphics g)
         {
-            if (_script is IPaintListener)
-            {
-                Bot.paintings += ((IPaintListener)_script).OnPaint;
-            }
+            Paint?.Invoke(sender, g);
         }
     }
 }

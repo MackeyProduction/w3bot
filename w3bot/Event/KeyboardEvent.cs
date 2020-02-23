@@ -3,26 +3,23 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 using w3bot.Listener;
 using w3bot.Script;
 
 namespace w3bot.Event
 {
-    public class KeyboardEvent : IEventListener
+    public class KeyboardEvent : IKeyboardEvent
     {
-        private IScript _script;
+        public KeyPressEventHandler KeyPress { get; set; }
 
-        public KeyboardEvent(IScript script)
+        public KeyboardEvent()
         {
-            _script = script;
         }
 
-        public void Update(IEventManager manager)
+        protected virtual void OnKeyPress(char keyChar)
         {
-            if (_script is IKeyPressListener)
-            {
-
-            }
+            KeyPress?.Invoke(this, new KeyPressEventArgs(keyChar));
         }
     }
 }

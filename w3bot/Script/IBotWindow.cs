@@ -12,7 +12,12 @@ namespace w3bot.Script
     public interface IBotWindow
     {
         /// <summary>
-        /// Open a new window.
+        /// Loads the content in the current window.
+        /// </summary>
+        void Load();
+
+        /// <summary>
+        /// Opens a new window.
         /// </summary>
         void Open();
 

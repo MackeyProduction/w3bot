@@ -11,16 +11,18 @@ namespace w3bot.Core
         internal CoreInformation Information { get { return new CoreInformation(); } }
         private readonly IRepositoryService _repositoryService;
         private readonly IProcessorService _processorService;
+        private readonly IProcessorCreateService _processorCreateService;
         private readonly ILogger _logger;
 
         /// <summary>
         /// Initializes the core.
         /// </summary>
         /// <param name="form">The form instance.</param>
-        internal CoreService(IRepositoryService repositoryService, IProcessorService processorService, ILogger logger)
+        internal CoreService(IRepositoryService repositoryService, IProcessorService processorService, IProcessorCreateService processorCreateService, ILogger logger)
         {
             _repositoryService = repositoryService;
             _processorService = processorService;
+            _processorCreateService = processorCreateService;
             _logger = logger;
         }
 
@@ -40,6 +42,15 @@ namespace w3bot.Core
         internal IProcessorService GetProcessors()
         {
             return _processorService;
+        }
+
+        /// <summary>
+        /// Gets the create service for create new instances of processors.
+        /// </summary>
+        /// <returns>Returns a service which creates new instances and add to the processor list.</returns>
+        internal IProcessorCreateService GetCreateService()
+        {
+            return _processorCreateService;
         }
 
         /// <summary>

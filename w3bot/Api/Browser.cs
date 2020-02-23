@@ -1,10 +1,7 @@
 ﻿using System;
 using System.Drawing;
 using System.Threading.Tasks;
-using w3bot.Core.Processor;
-using w3bot.Event;
 using w3bot.Listener;
-using w3bot.Script;
 using w3bot.Wrapper;
 
 namespace w3bot.Api
@@ -27,7 +24,7 @@ namespace w3bot.Api
         /// <summary>
         /// Event handler that will get called when the browser is done loading a frame.
         /// </summary>
-        event EventHandler<DocumentReadyEventArgs> DocumentReady
+        public static event EventHandler<DocumentReadyEventArgs> DocumentReady
         {
             add
             {
@@ -49,7 +46,7 @@ namespace w3bot.Api
         /// <summary>
         /// Event handler that will get called when the browser begins loading a frame.
         /// </summary>
-        event EventHandler<DocumentLoadEventArgs> DocumentLoad
+        public static event EventHandler<DocumentLoadEventArgs> DocumentLoad
         {
             add
             {
@@ -71,7 +68,7 @@ namespace w3bot.Api
         /// <summary>
         /// Event handler that will get called when the browser is changing the address.
         /// </summary>
-        event EventHandler<DocumentAddressChangedEventArgs> AddressChanged
+        public static event EventHandler<DocumentAddressChangedEventArgs> AddressChanged
         {
             add
             {

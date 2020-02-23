@@ -7,21 +7,22 @@ using w3bot.Api;
 using w3bot.Core.Utilities;
 using w3bot.Event;
 using w3bot.Input;
+using w3bot.Listener;
 using w3bot.Script;
 using w3bot.Wrapper;
 
 namespace w3bot.Core.Processor
 {
-    internal class WebProcessor : AbstractEvent, IProcessor
+    internal class WebProcessor : Panel, IProcessor
     {
-        private Panel _panel;
         private IBotBrowser _botBrowser;
         private IMouseInput _mouseInput;
         private IBrowser _browser;
         private bool _input;
         private Timer _timer;
         private Point _mouse;
-        private Font font = new Font("Arial", 8);
+        public event EventHandler<Graphics> Draw;
+        public event KeyPressEventHandler KeyPressed;
 
         public Bitmap Frame
         {
@@ -48,15 +49,19 @@ namespace w3bot.Core.Processor
         {
             get
             {
-                return _panel;
+                return this;
             }
         }
 
-        public WebProcessor(Panel panel, IBotBrowser botBrowser)
+        public IMouseEvent MouseHandler { get; set; }
+        public IKeyboardEvent KeyboardHandler { get; set; }
+        public IPaintEvent PaintHandler { get; set; }
+
+        public WebProcessor(IBotBrowser botBrowser)
         {
-            _panel = panel;
-            typeof(Panel).InvokeMember("DoubleBuffered", BindingFlags.SetProperty | BindingFlags.Instance | BindingFlags.NonPublic, null, _panel, new object[] { true }); // activate double buffering
-            _panel.Size = new Size(994, 582);
+            //typeof(Panel).InvokeMember("DoubleBuffered", BindingFlags.SetProperty | BindingFlags.Instance | BindingFlags.NonPublic, null, _panel, new object[] { true }); // activate double buffering
+            DoubleBuffered = true;
+            Size = new Size(994, 582);
             _botBrowser = botBrowser;
             _input = false;
             _timer = new Timer();
@@ -67,7 +72,7 @@ namespace w3bot.Core.Processor
 
         public void Activate()
         {
-            _panel.Paint += WebProcessor_Paint;
+            this.Paint += WebProcessor_Paint;
 
             // initialize browser, mouse and keyboard
             Browser.AddConfiguration(_botBrowser);
@@ -77,40 +82,51 @@ namespace w3bot.Core.Processor
             _timer.Start();
         }
 
+        private void WebProcessor_MouseLeave(object sender, EventArgs e)
+        {
+            MouseHandler.MouseLeave?.Invoke(sender, e);
+        }
+
+        private void WebProcessor_MouseEnter(object sender, EventArgs e)
+        {
+            MouseHandler.MouseEnter?.Invoke(sender, e);
+        }
+
+        private void WebProcessor_MouseClick(object sender, MouseEventArgs e)
+        {
+            MouseHandler.MouseClick?.Invoke(sender, e);
+        }
+
         private void WebProcessor_Paint(object sender, PaintEventArgs e)
         {
             //if (_browser == null) return;
             if (!IsFrameValid(Frame))
                 return;
 
-            Pen greenPen = new Pen(Color.Green);
-
             var g = e.Graphics;
             g.DrawImage(Frame, 0, 0);
 
-            // draw mouse
-            Point m = _mouse;
-            e.Graphics.DrawLine(greenPen, new Point(m.X - 5, m.Y - 5), new Point(m.X + 5, m.Y + 5));
-            e.Graphics.DrawLine(greenPen, new Point(m.X - 5, m.Y + 5), new Point(m.X + 5, m.Y - 5));
-
-            g.DrawString("Mouse: " + _mouse.X + ", " + _mouse.Y, font, Brushes.Green, 5, 13);
+            OnPaint(g);
+            PaintHandler.Paint?.Invoke(sender, e.Graphics);
         }
 
         private void Timer_Tick(object sender, EventArgs e)
         {
-            this.Notify();
-            _panel.Invalidate();
+            this.Invalidate();
         }
 
         public void AllowInput()
         {
             if (!_input)
             {
-                _panel.MouseMove += _panel_MouseMove;
-                _panel.MouseUp += _panel_MouseUp;
-                _panel.MouseDown += _panel_MouseDown;
-                _panel.MouseWheel += _panel_MouseWheel;
-                w3bot.Script.Bot._form.KeyPress += _form_KeyPress;
+                this.MouseMove += WebProcessor_MouseMove;
+                this.MouseUp += WebProcessor_MouseUp;
+                this.MouseDown += WebProcessor_MouseDown;
+                this.MouseWheel += WebProcessor_MouseWheel;
+                this.MouseClick += WebProcessor_MouseClick;
+                this.MouseEnter += WebProcessor_MouseEnter;
+                this.MouseLeave += WebProcessor_MouseLeave;
+                KeyPress += _form_KeyPress;
                 _input = true;
             }
         }
@@ -120,7 +136,7 @@ namespace w3bot.Core.Processor
             _botBrowser.GetKeyboard().KeyEvent(e.KeyChar);
         }
 
-        private void _panel_MouseWheel(object sender, MouseEventArgs e)
+        private void WebProcessor_MouseWheel(object sender, MouseEventArgs e)
         {
             int deltaY = e.Delta;
             if (deltaY > 0)
@@ -133,31 +149,35 @@ namespace w3bot.Core.Processor
             }
         }
 
-        private void _panel_MouseDown(object sender, MouseEventArgs e)
+        private void WebProcessor_MouseDown(object sender, MouseEventArgs e)
         {
             _botBrowser.GetMouse().Click(MouseEvent(e), Util.Keys.Event.DOWN);
         }
 
-        private void _panel_MouseUp(object sender, MouseEventArgs e)
+        private void WebProcessor_MouseUp(object sender, MouseEventArgs e)
         {
             _botBrowser.GetMouse().Click(MouseEvent(e), Util.Keys.Event.UP);
         }
 
-        private void _panel_MouseMove(object sender, MouseEventArgs e)
+        private void WebProcessor_MouseMove(object sender, MouseEventArgs e)
         {
             _mouse = new Point(e.X, e.Y);
             _botBrowser.GetMouse().Move(e.X, e.Y);
+            MouseHandler.MouseMove?.Invoke(sender, e);
         }
 
         public void BlockInput()
         {
             if (_input)
             {
-                _panel.MouseMove -= _panel_MouseMove;
-                _panel.MouseUp -= _panel_MouseUp;
-                _panel.MouseDown -= _panel_MouseDown;
-                _panel.MouseWheel -= _panel_MouseWheel;
-                w3bot.Script.Bot._form.KeyPress -= _form_KeyPress;
+                this.MouseMove -= WebProcessor_MouseMove;
+                this.MouseUp -= WebProcessor_MouseUp;
+                this.MouseDown -= WebProcessor_MouseDown;
+                this.MouseWheel -= WebProcessor_MouseWheel;
+                this.MouseClick -= WebProcessor_MouseClick;
+                this.MouseEnter -= WebProcessor_MouseEnter;
+                this.MouseLeave -= WebProcessor_MouseLeave;
+                KeyPress -= _form_KeyPress;
                 _input = false;
             }
         }
@@ -176,7 +196,7 @@ namespace w3bot.Core.Processor
         {
             w3bot.Script.Bot.ExeThreadSafe(delegate
             {
-                _panel.Focus();
+                this.Focus();
             });
         }
 
@@ -225,30 +245,6 @@ namespace w3bot.Core.Processor
             return true;
         }
 
-        public void Dispose()
-        {
-            _panel.Dispose();
-        }
-
-        //public void OnMouseChange(IMouseInput mouse, Util.Keys.Type type, object[] args)
-        //{
-        //    switch (type)
-        //    {
-        //        case Util.Keys.Type.MOVE:
-                    
-        //            break;
-        //        case Util.Keys.Type.CLICK:
-        //            var mouseBtn = (Util.Keys.Button)args[0];
-        //            var mouseEvt = (Util.Keys.Event)args[1];
-        //            mouse.Click(mouseBtn, mouseEvt);
-        //            break;
-        //        case Util.Keys.Type.WHEEL:
-        //            break;
-        //        default:
-        //            break;
-        //    }
-        //}
-
         public void OnChange(object[] arguments)
         {
             foreach (var arg in arguments)
@@ -258,6 +254,36 @@ namespace w3bot.Core.Processor
                     _browser = (IBrowser)arg;
                 }
             }
+        }
+
+        public void OnPaint(Graphics g)
+        {
+            Draw?.Invoke(this, g);
+        }
+
+        public void OnRender(EventHandler<Graphics> handler)
+        {
+            Draw = handler;
+        }
+
+        public virtual void OnKeyPress(object sender, KeyPressEventArgs e)
+        {
+            KeyPressed?.Invoke(sender, e);
+        }
+
+        public virtual void OnAddressChanged(object sender, DocumentAddressChangedEventArgs e)
+        {
+
+        }
+
+        public virtual void OnDocumentLoad(object sender, DocumentLoadEventArgs e)
+        {
+
+        }
+
+        public virtual void OnDocumentReady(object sender, DocumentReadyEventArgs e)
+        {
+
         }
     }
 }

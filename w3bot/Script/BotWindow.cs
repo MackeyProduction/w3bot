@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
 using w3bot.Core.Processor;
@@ -27,12 +28,26 @@ namespace w3bot.Script
             _name = name;
             _processor = processor;
             _formService = formService;
+            _botTab = (TabControl)_formService.GetFormControlByType(typeof(TabControl));
             Bot.ExeThreadSafe(delegate
             {
                 this.Controls.Add(_processor.Panel);
             });
-            _botTab = (TabControl)_formService.GetFormControlByType(typeof(TabControl));
-            Activate();
+        }
+
+        /// <summary>
+        /// Loads the content in the current window. If no window is open calling this method has no effect.
+        /// </summary>
+        public void Load()
+        {
+            if (_botTab.TabCount < 2) throw new InvalidOperationException("The Botwindow isn't opened yet. Please use first the Open() method to open a new window.");
+            Bot.ExeThreadSafe(delegate
+            {
+                _botTab.SelectedTab = _botTab.TabPages[_botTab.TabCount - 2];
+                _processor.Activate();
+                _botTab.Focus();
+                _botTab.Invalidate();
+            });
         }
 
         /// <summary>
@@ -48,6 +63,7 @@ namespace w3bot.Script
                 _botTab.SelectedTab = this;
                 _botTab.SelectedTab.Text = _name;
                 _botTab.Invalidate();
+                Activate();
             });
         }
 

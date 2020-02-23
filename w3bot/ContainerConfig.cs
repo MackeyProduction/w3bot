@@ -2,7 +2,9 @@
 using CefSharp.OffScreen;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
+using System.Management;
 using System.Net.Http;
 using System.Reflection;
 using System.Text;
@@ -10,6 +12,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using w3bot.Api;
 using w3bot.Core;
+using w3bot.Core.Database;
 using w3bot.Core.Database.Repository;
 using w3bot.Core.Processor;
 using w3bot.Core.Reflection;
@@ -37,6 +40,8 @@ namespace w3bot
             RegisterBot();
             RegisterApi();
             RegisterForms();
+            RegisterConnection();
+            RegisterEvents();
 
             return builder.Build();
         }
@@ -45,6 +50,9 @@ namespace w3bot
         {
             //builder.RegisterType<Login>();
             builder.RegisterType<Main>();
+            builder.RegisterType<w3bot.Core.Debug>()
+                .FindConstructorsWith(new NonPublicConstructorFinder())
+                .AsSelf();
         }
 
         private static void RegisterRepositories()
@@ -60,33 +68,29 @@ namespace w3bot
 
         private static void RegisterProcessors()
         {
-            builder.RegisterType<Panel>();
-            //builder.RegisterType<ChromiumBrowserAdapter>().As<IApiEventListener>()
-            //    .FindConstructorsWith(new NonPublicConstructorFinder())
-            //    .AsSelf();
-            //builder.RegisterType<Mouse>().As<IEventListener>()
-            //    .FindConstructorsWith(new NonPublicConstructorFinder())
-            //    .AsSelf();
-            //builder.RegisterType<Chromium>().As<IEventListener>()
-            //    .FindConstructorsWith(new NonPublicConstructorFinder())
-            //    .AsSelf();
             builder.RegisterType<WebProcessor>().As<IProcessor>()
                 .OnActivating(e => {
-                    //var botBrowser = e.Context.Resolve<IApiEventListener>();
-                    //var mouse = e.Context.Resolve<IEventListener>();
-                    //var browser = e.Context.Resolve<IEventListener>();
+                    var mouseEvent = e.Context.Resolve<IMouseEvent>();
+                    var keyboardEvent = e.Context.Resolve<IKeyboardEvent>();
+                    var paintEvent = e.Context.Resolve<IPaintEvent>();
 
-                    //e.Instance.Attach(botBrowser);
-                    //e.Instance.Attach(mouse);
-                    //e.Instance.Attach(browser);
+                    e.Instance.MouseHandler = mouseEvent;
+                    e.Instance.KeyboardHandler = keyboardEvent;
+                    e.Instance.PaintHandler = paintEvent;
                 })
+                .Keyed<IProcessor>(ProcessorType.BrowserProcessor)
                 .FindConstructorsWith(new NonPublicConstructorFinder())
                 .AsSelf();
-            builder.RegisterType<WebProcessor>().As<IRenderProcessor>()
+            builder.RegisterType<AppletProcessor>().As<IProcessor>()
+                .Keyed<IProcessor>(ProcessorType.AppletProcessor)
                 .FindConstructorsWith(new NonPublicConstructorFinder())
                 .AsSelf();
-            //builder.RegisterType<AppletProcessor>().As<IProcessor>();
+            builder.RegisterType<ProcessorCreateService>().As<IProcessorCreateService>()
+                .SingleInstance()
+                .FindConstructorsWith(new NonPublicConstructorFinder())
+                .AsSelf();
             builder.RegisterType<ProcessorService>().As<IProcessorService>()
+                .SingleInstance()
                 .FindConstructorsWith(new NonPublicConstructorFinder())
                 .AsSelf();
         }
@@ -106,27 +110,82 @@ namespace w3bot
                 .FindConstructorsWith(new NonPublicConstructorFinder())
                 .AsSelf();
             builder.RegisterType<BotWindow>().As<IBotWindow>();
-            builder.RegisterType<ChromiumWebBrowser>();
-            builder.RegisterType<ChromiumBrowserAdapter>().As<IBotBrowser>();
+            builder.RegisterType<ChromiumWebBrowser>().SingleInstance();
+            builder.RegisterType<ChromiumBrowserAdapter>().As<IBotBrowser>().SingleInstance();
             builder.RegisterType<Bot>()
                 .OnActivating(e =>
                 {
                     var formService = e.Context.Resolve<FormService>();
                     var coreService = e.Context.Resolve<CoreService>();
                     var executable = e.Context.Resolve<IExecutable>();
+                    var methodProvider = e.Context.Resolve<MethodProvider>();
 
-                    e.Instance.AddConfiguration(formService, coreService, executable);
+                    //e.Instance.Methods = methodProvider;
+                    e.Instance.AddConfiguration(formService, coreService, executable, methodProvider);
                 });
         }
         
         private static void RegisterApi()
         {
-            builder.RegisterType<Frame>().OnActivating(e =>
+            builder.RegisterType<Browser>();
+            builder.RegisterType<Frame>()
+                .FindConstructorsWith(new NonPublicConstructorFinder())
+                .AsSelf();
+            builder.RegisterType<Captcha>()
+                .FindConstructorsWith(new NonPublicConstructorFinder())
+                .AsSelf();
+            builder.RegisterType<MethodProvider>().OnActivating(e =>
             {
-                var frame = e.Context.Resolve<IProcessor>();
+                var browser = e.Context.Resolve<Browser>();
+                var frame = e.Context.Resolve<Frame>();
+                var captcha = e.Context.Resolve<Captcha>();
 
-                e.Instance.AddConfiguration(frame);
+                e.Instance.Browser = browser;
+                e.Instance.Frame = frame;
+                e.Instance.Captcha = captcha;
             });
+        }
+
+        private static void RegisterConnection()
+        {
+            var process = Process.GetCurrentProcess();
+            var commandLine = process.GetCommandLine();
+
+            Connection.IsLive = true;
+            if (commandLine.Contains("-dev") && !commandLine.Contains("-staging"))
+            {
+                Connection.ENDPOINT = "http://127.0.0.1:8000/api";
+                Connection.IsDevelopment = true;
+                Connection.IsLive = false;
+            }
+
+            if (commandLine.Contains("-staging") && !commandLine.Contains("-dev"))
+            {
+                Connection.ENDPOINT = "http://api-staging.w3bot.org";
+                Connection.IsStaging = true;
+                Connection.IsLive = false;
+            }
+        }
+
+        private static void RegisterEvents()
+        {
+            //builder.RegisterType<BrowserEvent>().As<IEventListener>();
+            builder.RegisterType<KeyboardEvent>().As<IKeyboardEvent>();
+            builder.RegisterType<MouseEvent>().As<IMouseEvent>();
+            builder.RegisterType<PaintEvent>().As<IPaintEvent>();
+            builder.RegisterType<ScriptExecutor>().As<IExecutable>()
+                .FindConstructorsWith(new NonPublicConstructorFinder())
+                .AsSelf();
+        }
+
+        private static string GetCommandLine(this Process process)
+        {
+            using (ManagementObjectSearcher searcher = new ManagementObjectSearcher("SELECT CommandLine FROM Win32_Process WHERE ProcessId = " + process.Id))
+            using (ManagementObjectCollection objects = searcher.Get())
+            {
+                return objects.Cast<ManagementBaseObject>().SingleOrDefault()?["CommandLine"]?.ToString();
+            }
+
         }
     }
 }

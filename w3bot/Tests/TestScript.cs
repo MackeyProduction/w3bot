@@ -21,7 +21,7 @@ namespace w3bot.Tests
             //Initialize(browserWindow);
             //browserWindow.Open();
 
-            Browser.Navigate("github.com");
+            //Browser.Navigate("github.com");
 
             return true;
         }

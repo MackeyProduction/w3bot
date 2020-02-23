@@ -15,7 +15,7 @@ namespace w3bot.Core.Database.Repository
         private HttpClient _httpClient;
         private Dictionary<string, string> headers = new Dictionary<string, string>();
 
-        protected const string ENDPOINT = "http://127.0.0.1:8000/api";
+        protected static string ENDPOINT = Connection.ENDPOINT;
 
         protected bool IsReady { get; }
         protected string Token { get; set; }

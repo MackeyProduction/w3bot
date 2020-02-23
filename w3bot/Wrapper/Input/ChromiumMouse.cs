@@ -11,7 +11,7 @@ using w3bot.Util;
 
 namespace w3bot.Wrapper.Input
 {
-    internal class ChromiumMouse : IMouseInput, Event.IEventListener
+    internal class ChromiumMouse : IMouseInput
     {
         private ChromiumWebBrowser _browser;
         private CefSharp.MouseEvent _mouseEvent;
@@ -156,11 +156,6 @@ namespace w3bot.Wrapper.Input
             {
                 _browser.GetBrowserHost().SendMouseWheelEvent(_mouseEvent.X, _mouseEvent.Y, hort, vert, CefEventFlags.None);
             };
-        }
-
-        public void Update(IEventManager manager)
-        {
-            
         }
     }
 }
