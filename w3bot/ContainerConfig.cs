@@ -70,7 +70,7 @@ namespace w3bot
         {
             builder.RegisterType<WebProcessor>().As<IProcessor>()
                 .OnActivating(e => {
-                     var mouseEvent = e.Context.Resolve<IMouseEvent>();
+                    var mouseEvent = e.Context.Resolve<IMouseEvent>();
                     var keyboardEvent = e.Context.Resolve<IKeyboardEvent>();
                     var paintEvent = e.Context.Resolve<IPaintEvent>();
 
@@ -78,12 +78,19 @@ namespace w3bot
                     e.Instance.KeyboardHandler = keyboardEvent;
                     e.Instance.PaintHandler = paintEvent;
                 })
+                .Keyed<IProcessor>(ProcessorType.BrowserProcessor)
                 .FindConstructorsWith(new NonPublicConstructorFinder())
                 .AsSelf();
             builder.RegisterType<AppletProcessor>().As<IProcessor>()
+                .Keyed<IProcessor>(ProcessorType.AppletProcessor)
+                .FindConstructorsWith(new NonPublicConstructorFinder())
+                .AsSelf();
+            builder.RegisterType<ProcessorCreateService>().As<IProcessorCreateService>()
+                .SingleInstance()
                 .FindConstructorsWith(new NonPublicConstructorFinder())
                 .AsSelf();
             builder.RegisterType<ProcessorService>().As<IProcessorService>()
+                .SingleInstance()
                 .FindConstructorsWith(new NonPublicConstructorFinder())
                 .AsSelf();
         }
@@ -103,8 +110,8 @@ namespace w3bot
                 .FindConstructorsWith(new NonPublicConstructorFinder())
                 .AsSelf();
             builder.RegisterType<BotWindow>().As<IBotWindow>();
-            builder.RegisterType<ChromiumWebBrowser>();
-            builder.RegisterType<ChromiumBrowserAdapter>().As<IBotBrowser>();
+            builder.RegisterType<ChromiumWebBrowser>().SingleInstance();
+            builder.RegisterType<ChromiumBrowserAdapter>().As<IBotBrowser>().SingleInstance();
             builder.RegisterType<Bot>()
                 .OnActivating(e =>
                 {

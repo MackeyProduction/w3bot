@@ -8,11 +8,12 @@ using System.Drawing;
 using w3bot.Script;
 using w3bot.Api;
 using w3bot.Input;
+using System.Windows.Forms;
 
 namespace TestScript
 {
     [ScriptManifest("TestScript", "YouTube", "Test the bot functionality.", "NoChoice", 1.0)]
-    public class Class1 : AbstractScript, IDocumentReadyListener, IPaintListener
+    public class Class1 : AbstractScript, IDocumentReadyListener, IPaintListener, IMouseEventListener
     {
         private Bitmap _bitmap;
         private Frame _frame;
@@ -26,8 +27,7 @@ namespace TestScript
         {
             Status.Log("Test Script has been started.");
 
-            var browserWindow = CreateBrowserWindow();
-            browserWindow.Open();
+            CreateBrowserWindow();
 
             _bitmap = new Bitmap(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + @"/w3bot/compiled/Unbenannt.bmp");
             _frame = Methods.Frame;
@@ -65,6 +65,26 @@ namespace TestScript
         public void DocumentReady(object sender, DocumentReadyEventArgs e)
         {
             Status.Log("Document loaded successfully.");
+        }
+
+        public void OnMouseClick(object sender, MouseEventArgs e)
+        {
+            Status.Log(String.Format("Mouse clicked at: {0}, {1}.", e.X, e.Y));
+        }
+
+        public void OnMouseMove(object sender, MouseEventArgs e)
+        {
+            Status.Log(String.Format("Mouse moved at: {0}, {1}.", e.X, e.Y));
+        }
+
+        public void OnMouseEnter(object sender, EventArgs e)
+        {
+            Status.Log("Mouse entered...");
+        }
+
+        public void OnMouseLeave(object sender, EventArgs e)
+        {
+            Status.Log("Mouse leaved...");
         }
     }
 }

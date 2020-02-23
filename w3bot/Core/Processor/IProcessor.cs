@@ -10,7 +10,7 @@ using w3bot.Event;
 
 namespace w3bot.Core.Processor
 {
-    interface IProcessor : IDisposable, IRenderProcessor, ICloneable
+    interface IProcessor : IDisposable, IRenderProcessor
     {
         /// <summary>
         /// Activates the processor.

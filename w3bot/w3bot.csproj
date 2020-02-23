@@ -115,7 +115,9 @@
     <Compile Include="Api\Browser.cs" />
     <Compile Include="Api\Captcha.cs" />
     <Compile Include="Api\Frame.cs" />
+    <Compile Include="Core\Processor\IProcessorCreateService.cs" />
     <Compile Include="Core\Processor\IRenderProcessor.cs" />
+    <Compile Include="Core\Processor\ProcessorCreateService.cs" />
     <Compile Include="Core\Reflection\NonPublicConstructorFinder.cs" />
     <Compile Include="Event\IKeyboardEvent.cs" />
     <Compile Include="Event\IMouseEvent.cs" />

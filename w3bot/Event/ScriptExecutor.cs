@@ -45,8 +45,12 @@ namespace w3bot.Event
 
                         _processor = _processorService.GetById(id - 1);
 
+                        if (_processor == null)
+                            return;
+
                         // execute events
                         Draw(currentScript, _processor);
+                        MouseEvent(currentScript, _processor);
                     }
                 }
             } 
@@ -72,6 +76,17 @@ namespace w3bot.Event
             if (script is IPaintListener)
             {
                 processor.PaintHandler.Paint += ((IPaintListener)script).OnPaint;
+            }
+        }
+
+        private void MouseEvent(IScript script, IProcessor processor)
+        {
+            if (script is IMouseEventListener)
+            {
+                processor.MouseHandler.MouseClick += ((IMouseEventListener)script).OnMouseClick;
+                processor.MouseHandler.MouseMove += ((IMouseEventListener)script).OnMouseMove;
+                processor.MouseHandler.MouseEnter += ((IMouseEventListener)script).OnMouseEnter;
+                processor.MouseHandler.MouseLeave += ((IMouseEventListener)script).OnMouseLeave;
             }
         }
     }

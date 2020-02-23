@@ -22,8 +22,7 @@ namespace SecondTestScript
         {
             Status.Log("Script has been started.");
 
-            var botWindow = CreateBrowserWindow();
-            botWindow.Open();
+            CreateBrowserWindow();
 
             // test script manifest
             Status.Log($"{Name} v{Version} by {Author}");

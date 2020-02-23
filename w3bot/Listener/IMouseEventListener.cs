@@ -9,6 +9,9 @@ namespace w3bot.Listener
 {
     public interface IMouseEventListener
     {
-        void MouseEvent(object sender, MouseEventArgs e);
+        void OnMouseClick(object sender, MouseEventArgs e);
+        void OnMouseMove(object sender, MouseEventArgs e);
+        void OnMouseEnter(object sender, EventArgs e);
+        void OnMouseLeave(object sender, EventArgs e);
     }
 }

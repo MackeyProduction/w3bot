@@ -21,18 +21,14 @@ namespace w3bot.Script
     public class Bot
     {
         internal delegate void Drawable(Graphics g);
-        internal static event Drawable paintings = delegate { };
-        internal delegate void EventHandlerDelegate(object sender, EventArgs e);
-        internal static event EventHandlerDelegate EvtHandler = delegate { };
         internal Size ClientSize { get { return _form.Size; } }
         internal Size FrameSize { get; }
         internal static Form _form;
         private static CoreService _core;
         private static FormService _formService;
         private static IProcessorService _processorService;
-        private static IProcessorService _clonedProcessorService;
+        private static IProcessorCreateService _processorCreateService;
         private static IExecutable _executable;
-        private static IList<IProcessor> _processorList;
         private IProcessor _processor;
 
         public static MethodProvider Methods { get; private set; }
@@ -48,9 +44,7 @@ namespace w3bot.Script
             _formService = formService;
             _executable = executable;
             _processorService = _core.GetProcessors();
-            _clonedProcessorService = (IProcessorService)_processorService.Clone();
-            _processorList = new List<IProcessor>();
-            _processorService.GetAll().Clear();
+            _processorCreateService = _core.GetCreateService();
             Methods = methodProvider;
         }
 
@@ -85,20 +79,18 @@ namespace w3bot.Script
         /// Initialize an instance of BotWindow with integrated browser processor.
         /// </summary>
         /// <param name="name">The name of the window.</param>
-        /// <returns>Returns an instance of BotWindow.</returns>
-        public IBotWindow CreateBrowserWindow(string name = "View")
+        public void CreateBrowserWindow(string name = "View")
         {
-            return CreateWindow(name, ProcessorType.BrowserProcessor);
+            CreateWindow(name, ProcessorType.BrowserProcessor).Load();
         }
 
         /// <summary>
         /// Initialize an instance of BotWindow with integrated applet processor.
         /// </summary>
         /// <param name="name">The name of the window.</param>
-        /// <returns>Returns an instance of BotWindow.</returns>
-        public IBotWindow CreateAppletWindow(string name = "View")
+        public void CreateAppletWindow(string name = "View")
         {
-            return CreateWindow(name, ProcessorType.AppletProcessor);
+            CreateWindow(name, ProcessorType.AppletProcessor).Load();
         }
 
         /// <summary>
@@ -107,35 +99,21 @@ namespace w3bot.Script
         /// <param name="name">The name of the window.</param>
         /// <param name="type">The processor type.</param>
         /// <returns>Returns an instance of BotWindow.</returns>
-        private IBotWindow CreateWindow(string name, ProcessorType type)
+        internal IBotWindow CreateWindow(string name, ProcessorType type)
         {
-            // TODO: Find a way to avoid cloning.
-            if (_clonedProcessorService.GetAll().Count == 0)
-                throw new InvalidOperationException("The processor list isn't initialized. Please initialize first the list.");
+            if (ProcessorType.AppletProcessor == type)
+                throw new InvalidOperationException(String.Format("The {0} isn't supported yet. Please use the {1} instead.", type, ProcessorType.BrowserProcessor));
 
-            if (_clonedProcessorService.GetProcessor(type) == null)
+            if (_processorCreateService.GetAll().Count == 1)
+                _processorCreateService.Remove(type);
+
+            _processorCreateService.Add(type);
+            _processor = _processorService.GetProcessor(type);
+
+            if (_processor == null)
                 throw new InvalidOperationException(String.Format("The processor by the type {0} could not be found.", type.ToString()));
 
-            try
-            {
-                _processor = (IProcessor)_clonedProcessorService.GetProcessor(type).Clone();
-                _processorService.GetAll().Add(_processor);
-            }
-            catch (InvalidCastException e)
-            {
-                throw new InvalidCastException(e.Message);
-            }
-
             return new BotWindow(name, _processor, _formService);
-        }
-
-        /// <summary>
-        /// Refreshs the paint of the current bot window.
-        /// </summary>
-        /// <param name="g"></param>
-        internal static void RefreshPaints(Graphics g)
-        {
-            paintings(g);
         }
 
         /// <summary>

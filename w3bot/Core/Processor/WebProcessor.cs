@@ -82,6 +82,21 @@ namespace w3bot.Core.Processor
             _timer.Start();
         }
 
+        private void WebProcessor_MouseLeave(object sender, EventArgs e)
+        {
+            MouseHandler.MouseLeave?.Invoke(sender, e);
+        }
+
+        private void WebProcessor_MouseEnter(object sender, EventArgs e)
+        {
+            MouseHandler.MouseEnter?.Invoke(sender, e);
+        }
+
+        private void WebProcessor_MouseClick(object sender, MouseEventArgs e)
+        {
+            MouseHandler.MouseClick?.Invoke(sender, e);
+        }
+
         private void WebProcessor_Paint(object sender, PaintEventArgs e)
         {
             //if (_browser == null) return;
@@ -97,7 +112,6 @@ namespace w3bot.Core.Processor
 
         private void Timer_Tick(object sender, EventArgs e)
         {
-            //this.Notify();
             this.Invalidate();
         }
 
@@ -109,6 +123,9 @@ namespace w3bot.Core.Processor
                 this.MouseUp += WebProcessor_MouseUp;
                 this.MouseDown += WebProcessor_MouseDown;
                 this.MouseWheel += WebProcessor_MouseWheel;
+                this.MouseClick += WebProcessor_MouseClick;
+                this.MouseEnter += WebProcessor_MouseEnter;
+                this.MouseLeave += WebProcessor_MouseLeave;
                 KeyPress += _form_KeyPress;
                 _input = true;
             }
@@ -146,6 +163,7 @@ namespace w3bot.Core.Processor
         {
             _mouse = new Point(e.X, e.Y);
             _botBrowser.GetMouse().Move(e.X, e.Y);
+            MouseHandler.MouseMove?.Invoke(sender, e);
         }
 
         public void BlockInput()
@@ -156,6 +174,9 @@ namespace w3bot.Core.Processor
                 this.MouseUp -= WebProcessor_MouseUp;
                 this.MouseDown -= WebProcessor_MouseDown;
                 this.MouseWheel -= WebProcessor_MouseWheel;
+                this.MouseClick -= WebProcessor_MouseClick;
+                this.MouseEnter -= WebProcessor_MouseEnter;
+                this.MouseLeave -= WebProcessor_MouseLeave;
                 KeyPress -= _form_KeyPress;
                 _input = false;
             }
@@ -263,11 +284,6 @@ namespace w3bot.Core.Processor
         public virtual void OnDocumentReady(object sender, DocumentReadyEventArgs e)
         {
 
-        }
-
-        public object Clone()
-        {
-            return (WebProcessor)MemberwiseClone();
         }
     }
 }

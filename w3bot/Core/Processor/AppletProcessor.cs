@@ -44,11 +44,6 @@ namespace w3bot.Core.Processor
             
         }
 
-        public object Clone()
-        {
-            return (AppletProcessor)MemberwiseClone();
-        }
-
         public void Destroy()
         {
             

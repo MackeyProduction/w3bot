@@ -48,7 +48,7 @@ namespace w3bot.GUI
             //Login();
 
             Status.Log("Welcome to " + title);
-            botMain = (BotWindow)_bot.CreateBrowserWindow("View");
+            botMain = (BotWindow)_bot.CreateWindow("View", Core.Utilities.ProcessorType.BrowserProcessor);
             botMain.Open();
 
             _tabPage = CreateEmptyTabPage("addingTabPage");
@@ -323,7 +323,7 @@ namespace w3bot.GUI
             {
                 if (tabControlMain.SelectedTab == _tabPage)
                 {
-                    _bot.CreateBrowserWindow("View").Open();
+                    _bot.CreateWindow("View", Core.Utilities.ProcessorType.BrowserProcessor).Open();
 
                     for (int i = 0; i < tabControlMain.TabPages.Count; i++)
                     {
@@ -341,8 +341,6 @@ namespace w3bot.GUI
                         //bot.botTab.Focus();
                         var tabId = tabControlMain.SelectedIndex;
                         runningScript = _executable.GetExecutables<IScript>()[tabId];
-
-                        Draw(runningScript, _processor);
 
                         Script_started();
                     }

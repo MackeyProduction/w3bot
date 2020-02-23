@@ -33,7 +33,21 @@ namespace w3bot.Script
             {
                 this.Controls.Add(_processor.Panel);
             });
-            Activate();
+        }
+
+        /// <summary>
+        /// Loads the content in the current window. If no window is open calling this method has no effect.
+        /// </summary>
+        public void Load()
+        {
+            if (_botTab.TabCount < 2) throw new InvalidOperationException("The Botwindow isn't opened yet. Please use first the Open() method to open a new window.");
+            Bot.ExeThreadSafe(delegate
+            {
+                _botTab.SelectedTab = _botTab.TabPages[_botTab.TabCount - 2];
+                _processor.Activate();
+                _botTab.Focus();
+                _botTab.Invalidate();
+            });
         }
 
         /// <summary>
@@ -41,18 +55,6 @@ namespace w3bot.Script
         /// </summary>
         public void Open()
         {
-            //if (_botTab.TabCount >= 1)
-            //{
-            //    Bot.ExeThreadSafe(delegate
-            //    {
-            //        _botTab.SelectedTab = _botTab.TabPages[_botTab.TabCount - 2];
-            //        _processor.Activate();
-            //        _botTab.Focus();
-            //        _botTab.Invalidate();
-            //    });
-            //    return;
-            //}
-
             if (isClosed) throw new InvalidOperationException("The Botwindow is already destroyed. It can't be reopen.");
             Bot.ExeThreadSafe(delegate
             {
@@ -61,7 +63,7 @@ namespace w3bot.Script
                 _botTab.SelectedTab = this;
                 _botTab.SelectedTab.Text = _name;
                 _botTab.Invalidate();
-                //Activate();
+                Activate();
             });
         }
 

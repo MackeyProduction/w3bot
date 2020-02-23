@@ -10,22 +10,12 @@ namespace w3bot.Core.Processor
     internal class ProcessorService : IProcessorService
     {
         private IList<IProcessor> _processors;
+        private IProcessorCreateService _processorCreateService;
 
-        internal ProcessorService(IList<IProcessor> processors)
+        internal ProcessorService(IProcessorCreateService processorCreateService)
         {
-            _processors = processors;
-        }
-
-        public object Clone()
-        {
-            var p = new List<IProcessor>();
-
-            foreach (var item in _processors)
-            {
-                p.Add(item);
-            }
-
-            return new ProcessorService(p);
+            _processorCreateService = processorCreateService;
+            _processors = _processorCreateService.GetAll();
         }
 
         public IList<IProcessor> GetAll()
