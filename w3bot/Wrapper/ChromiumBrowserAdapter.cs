@@ -159,7 +159,7 @@ namespace w3bot.Wrapper
                     _chromiumBrowser.ScreenshotAsync().ContinueWith(task =>
                     {
                         // load browser bitmap
-                        _browserBitmap = task.Result;
+                        _browserBitmap = GetBrowser().Frame ?? task.Result;
                     });
                 }
                 catch (Exception e)

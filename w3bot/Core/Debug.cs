@@ -76,7 +76,7 @@ namespace w3bot.Core
         internal static void PixelColor(Graphics g)
         {
             paintPos = GetIndex("PixelColor");
-            Color p = Frame.MainFrame.GetPixel(_processor.MousePos.X, _processor.MousePos.Y);
+            Color p = _processor.Frame.GetPixel(_processor.MousePos.X, _processor.MousePos.Y);
             g.FillRectangle(new SolidBrush(Color.FromArgb(p.R, p.G, p.B)), 5, (paintPos * height) + 2, 10, 8);
             g.DrawRectangle(Pens.Black, 5, (paintPos * height) + 2, 10, 8);
             g.DrawString("R: " + p.R + ", G:" + p.G + " , B:" + p.B, font, Brushes.Green, 15, paintPos * height);
@@ -87,7 +87,7 @@ namespace w3bot.Core
             // singleton for frame image and canny
             if (_imgInput == null)
             {
-                _imgInput = new Image<Bgr, byte>(Frame.MainFrame);
+                _imgInput = new Image<Bgr, byte>(_processor.Frame);
                 _imgCanny = new Image<Gray, byte>(_imgInput.Width, _imgInput.Height, new Gray(0));
             }
 
@@ -109,7 +109,7 @@ namespace w3bot.Core
             {
                 if (_imgGray == null)
                 {
-                    _imgInput = new Image<Bgr, byte>(Frame.MainFrame);
+                    _imgInput = new Image<Bgr, byte>(_processor.Frame);
                     _imgGray = _imgInput.Convert<Gray, byte>();
                     _imgSobel = new Image<Gray, float>(_imgInput.Width, _imgInput.Height, new Gray(0));
                 }
@@ -134,7 +134,7 @@ namespace w3bot.Core
             {
                 if (_imgGray == null)
                 {
-                    _imgInput = new Image<Bgr, byte>(Frame.MainFrame);
+                    _imgInput = new Image<Bgr, byte>(_processor.Frame);
                     _imgGray = _imgInput.Convert<Gray, byte>();
                     _imgLaplacian = new Image<Gray, float>(_imgInput.Width, _imgInput.Height, new Gray(0));
                 }

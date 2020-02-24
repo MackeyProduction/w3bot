@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using w3bot.Api;
 using w3bot.Core.Processor;
+using w3bot.Core.Utilities;
 using w3bot.Wrapper;
 
 namespace w3bot.Tests.UnitTests
@@ -19,7 +20,9 @@ namespace w3bot.Tests.UnitTests
         {
             IBotBrowser botBrowser = new ChromiumBrowserAdapter();
             WebProcessor processor = new WebProcessor(botBrowser);
-            Frame f = new Frame(processor);
+            ProcessorValueContext processorValueContext = new ProcessorValueContext();
+            processorValueContext.Processor = processor;
+            Frame f = new Frame(processorValueContext);
 
             f.FindText("foo");
         }

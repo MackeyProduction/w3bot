@@ -55,7 +55,7 @@ namespace w3bot.GUI
             tabControlMain.TabPages.Add(_tabPage);
 
             _processor = _bot.GetCoreService().GetProcessors().GetProcessor(Core.Utilities.ProcessorType.BrowserProcessor);
-            _debug = new Core.Debug(_processor);
+            LoadDebugPaint(_processor);
 
             KeyPress += Main_KeyPress;
 
@@ -75,12 +75,9 @@ namespace w3bot.GUI
             }
         }
 
-        private void Draw(IScript script, IProcessor processor)
+        private void LoadDebugPaint(IProcessor processor)
         {
-            if (script is IPaintListener)
-            {
-                processor.PaintHandler.Paint += ((IPaintListener)script).OnPaint;
-            }
+            _debug = new Core.Debug(processor);
         }
 
         private void Main_KeyPress(object sender, KeyPressEventArgs e)
@@ -183,11 +180,10 @@ namespace w3bot.GUI
             {
                 var scriptManager = new Scriptmanager(_executable, Script_started, Script_stopped);
                 scriptManager.ShowDialog();
-                //runningScript = _executable.GetExecutables<IScript>()[scriptManager.GetRunningExecutable() - 1];
 
-                //Draw(runningScript, _processor);
-
-                //Script_started();
+                var executableCount = scriptManager.GetRunningExecutable();
+                if (executableCount != 0)
+                    runningScript = _executable.GetExecutables<IScript>()[scriptManager.GetRunningExecutable() - 1];
             }
             else
             {
@@ -321,6 +317,11 @@ namespace w3bot.GUI
         {
             try
             {
+                var tabId = tabControlMain.SelectedIndex;
+                _processor = _bot.GetCoreService().GetProcessors().GetById(tabId - 1) ?? _processor;
+
+                LoadDebugPaint(_processor);
+
                 if (tabControlMain.SelectedTab == _tabPage)
                 {
                     _bot.CreateWindow("View", Core.Utilities.ProcessorType.BrowserProcessor).Open();
@@ -336,10 +337,6 @@ namespace w3bot.GUI
                 {
                     if (tabControlMain.SelectedIndex < _executable.GetExecutables<IScript>().Count && tabControlMain.SelectedIndex != -1)
                     {
-                        //runningScriptList.Execute((int)bot.botTab.SelectedIndex);
-                        //runningScript = runningScriptList.GetItems()[bot.botTab.SelectedIndex];
-                        //bot.botTab.Focus();
-                        var tabId = tabControlMain.SelectedIndex;
                         runningScript = _executable.GetExecutables<IScript>()[tabId];
 
                         Script_started();
