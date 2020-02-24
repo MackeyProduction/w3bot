@@ -119,6 +119,7 @@
     <Compile Include="Core\Processor\IRenderProcessor.cs" />
     <Compile Include="Core\Processor\ProcessorCreateService.cs" />
     <Compile Include="Core\Reflection\NonPublicConstructorFinder.cs" />
+    <Compile Include="Core\Utilities\ProcessorValueContext.cs" />
     <Compile Include="Event\IKeyboardEvent.cs" />
     <Compile Include="Event\IMouseEvent.cs" />
     <Compile Include="Event\IPaintEvent.cs" />

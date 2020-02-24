@@ -16,8 +16,6 @@ namespace w3bot.Core.Processor
     internal class WebProcessor : Panel, IProcessor
     {
         private IBotBrowser _botBrowser;
-        private IMouseInput _mouseInput;
-        private IBrowser _browser;
         private bool _input;
         private Timer _timer;
         private Point _mouse;
@@ -59,7 +57,6 @@ namespace w3bot.Core.Processor
 
         public WebProcessor(IBotBrowser botBrowser)
         {
-            //typeof(Panel).InvokeMember("DoubleBuffered", BindingFlags.SetProperty | BindingFlags.Instance | BindingFlags.NonPublic, null, _panel, new object[] { true }); // activate double buffering
             DoubleBuffered = true;
             Size = new Size(994, 582);
             _botBrowser = botBrowser;
@@ -105,7 +102,7 @@ namespace w3bot.Core.Processor
 
             var g = e.Graphics;
             g.DrawImage(Frame, 0, 0);
-
+            
             OnPaint(g);
             PaintHandler.Paint?.Invoke(sender, e.Graphics);
         }
@@ -243,17 +240,6 @@ namespace w3bot.Core.Processor
                 return false;
 
             return true;
-        }
-
-        public void OnChange(object[] arguments)
-        {
-            foreach (var arg in arguments)
-            {
-                if (arg is IBrowser)
-                {
-                    _browser = (IBrowser)arg;
-                }
-            }
         }
 
         public void OnPaint(Graphics g)

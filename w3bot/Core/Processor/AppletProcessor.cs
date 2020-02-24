@@ -64,11 +64,6 @@ namespace w3bot.Core.Processor
             return type == ProcessorType.AppletProcessor;
         }
 
-        public void OnChange(object[] arguments)
-        {
-            
-        }
-
         public void OnKeyPress(object sender, KeyPressEventArgs e)
         {
             

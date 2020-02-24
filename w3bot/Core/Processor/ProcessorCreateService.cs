@@ -12,15 +12,19 @@ namespace w3bot.Core.Processor
     {
         private IList<IProcessor> _processorList = new List<IProcessor>();
         private IIndex<ProcessorType, IProcessor> _processorFactory;
+        private readonly ProcessorValueContext _context;
 
-        internal ProcessorCreateService(IIndex<ProcessorType, IProcessor> processorFactory)
+        internal ProcessorCreateService(IIndex<ProcessorType, IProcessor> processorFactory, ProcessorValueContext context)
         {
             _processorFactory = processorFactory;
+            _context = context;
         }
 
         public void Add(ProcessorType processorType)
         {
-            _processorList.Add(_processorFactory[processorType]);
+            var processor = _processorFactory[processorType];
+            _context.Processor = processor;
+            _processorList.Add(processor);
         }
 
         public IList<IProcessor> GetAll()

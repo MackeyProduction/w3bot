@@ -11,6 +11,7 @@ using System.Drawing.Imaging;
 using System.Runtime.InteropServices;
 using w3bot.Core.Bot;
 using w3bot.Core.Processor;
+using w3bot.Core.Utilities;
 using w3bot.Script;
 using w3bot.Util;
 
@@ -18,15 +19,14 @@ namespace w3bot.Api
 {
     public class Frame
     {
-        private static Bitmap _browserBitmap;
-        private static Point _point;
-        private static IProcessor _processor;
+        private Bitmap _browserBitmap;
+        private Point _point;
+        private IProcessor _processor { get { return _context.Processor; } }
+        private readonly ProcessorValueContext _context;
 
-        public static Bitmap MainFrame { get { return _processor.Frame ?? new Bitmap(994, 582); } }
-
-        internal Frame(IProcessor processor)
+        internal Frame(ProcessorValueContext context)
         {
-            _processor = processor;
+            _context = context;
         }
 
         /// <summary>

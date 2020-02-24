@@ -104,11 +104,8 @@ namespace w3bot.Script
             if (ProcessorType.AppletProcessor == type)
                 throw new InvalidOperationException(String.Format("The {0} isn't supported yet. Please use the {1} instead.", type, ProcessorType.BrowserProcessor));
 
-            if (_processorCreateService.GetAll().Count == 1)
-                _processorCreateService.Remove(type);
-
             _processorCreateService.Add(type);
-            _processor = _processorService.GetProcessor(type);
+            _processor = _processorService.GetAllByType(type)[_processorCreateService.GetAll().Count - 1];
 
             if (_processor == null)
                 throw new InvalidOperationException(String.Format("The processor by the type {0} could not be found.", type.ToString()));

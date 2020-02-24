@@ -11,12 +11,10 @@ namespace w3bot.Wrapper.Browser
 {
     class Chromium : IBrowser
     {
-        private ChromiumWebBrowser _browser;
+        private static ChromiumWebBrowser _browser;
         private Bitmap _browserBitmap;
         private string _url;
-        private IProcessor processor;
         internal static IBrowser Browser;
-        internal Action BrowserAction = delegate { };
 
         public Chromium(ChromiumWebBrowser browser)
         {
@@ -47,6 +45,19 @@ namespace w3bot.Wrapper.Browser
         {
             get
             {
+                try
+                {
+                    _browser.ScreenshotAsync().ContinueWith(task =>
+                    {
+                        // load browser bitmap
+                        _browserBitmap = task.Result;
+                    });
+                }
+                catch (Exception e)
+                {
+                    throw e;
+                }
+
                 return _browserBitmap;
             }
         }

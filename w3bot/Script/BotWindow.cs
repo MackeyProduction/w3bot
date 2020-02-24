@@ -43,7 +43,7 @@ namespace w3bot.Script
             if (_botTab.TabCount < 2) throw new InvalidOperationException("The Botwindow isn't opened yet. Please use first the Open() method to open a new window.");
             Bot.ExeThreadSafe(delegate
             {
-                _botTab.SelectedTab = _botTab.TabPages[_botTab.TabCount - 2];
+                _botTab.SelectedTab = _botTab.TabPages[_botTab.SelectedIndex];
                 _processor.Activate();
                 _botTab.Focus();
                 _botTab.Invalidate();

@@ -68,6 +68,10 @@ namespace w3bot
 
         private static void RegisterProcessors()
         {
+            builder.RegisterType<ProcessorValueContext>()
+                .SingleInstance()
+                .FindConstructorsWith(new NonPublicConstructorFinder())
+                .AsSelf();
             builder.RegisterType<WebProcessor>().As<IProcessor>()
                 .OnActivating(e => {
                     var mouseEvent = e.Context.Resolve<IMouseEvent>();
@@ -110,8 +114,8 @@ namespace w3bot
                 .FindConstructorsWith(new NonPublicConstructorFinder())
                 .AsSelf();
             builder.RegisterType<BotWindow>().As<IBotWindow>();
-            builder.RegisterType<ChromiumWebBrowser>().SingleInstance();
-            builder.RegisterType<ChromiumBrowserAdapter>().As<IBotBrowser>().SingleInstance();
+            builder.RegisterType<ChromiumWebBrowser>();
+            builder.RegisterType<ChromiumBrowserAdapter>().As<IBotBrowser>();
             builder.RegisterType<Bot>()
                 .OnActivating(e =>
                 {
