@@ -30,6 +30,21 @@ namespace w3bot.Wrapper
         /// </summary>
         Bitmap Frame { get; }
 
+        /// <summary>
+        /// Gets the source code of the current page.
+        /// </summary>
+        string SourceCode { get; }
+
+        /// <summary>
+        /// Gets the url of the current page.
+        /// </summary>
+        string Url { get; }
+
+        /// <summary>
+        /// Shows the dev tools.
+        /// </summary>
+        void ShowDevTools();
+
         event EventHandler<DocumentReadyEventArgs> DocumentReady;
         event EventHandler<DocumentLoadEventArgs> DocumentLoad;
         event EventHandler<DocumentAddressChangedEventArgs> AddressChanged;

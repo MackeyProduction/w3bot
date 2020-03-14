@@ -7,31 +7,27 @@ namespace w3bot.Event
 {
     public class BrowserEvent
     {
-        private IBotBrowser _browser;
-        private IScript _script;
+        public EventHandler<DocumentAddressChangedEventArgs> AddressChanged { get; set; }
+        public EventHandler<DocumentLoadEventArgs> DocumentLoad { get; set; }
+        public EventHandler<DocumentReadyEventArgs> DocumentReady { get; set; }
 
-        public event EventHandler<DocumentAddressChangedEventArgs> AddressChanged;
-        public event EventHandler<DocumentLoadEventArgs> DocumentLoad;
-        public event EventHandler<DocumentReadyEventArgs> DocumentReady;
-
-        public BrowserEvent(IBotBrowser browser)
+        public BrowserEvent()
         {
-            _browser = browser;
         }
 
-        protected virtual void OnAddressChanged(IBotBrowser browser)
+        protected virtual void OnAddressChanged(object sender, DocumentAddressChangedEventArgs e)
         {
-            AddressChanged?.Invoke(this, new DocumentAddressChangedEventArgs(browser.GetBrowser(), ""));
+            AddressChanged?.Invoke(sender, e);
         }
 
-        protected virtual void OnDocumentLoad(IBotBrowser browser)
+        protected virtual void OnDocumentLoad(object sender, DocumentLoadEventArgs e)
         {
-            DocumentLoad?.Invoke(this, new DocumentLoadEventArgs(browser.GetBrowser(), ""));
+            DocumentLoad?.Invoke(sender, e);
         }
 
-        protected virtual void OnDocumentReady(IBotBrowser browser)
+        protected virtual void OnDocumentReady(object sender, DocumentReadyEventArgs e)
         {
-            DocumentReady?.Invoke(this, new DocumentReadyEventArgs(browser.GetBrowser(), 200, ""));
+            DocumentReady?.Invoke(sender, e);
         }
     }
 }

@@ -54,6 +54,8 @@ namespace w3bot.Core.Processor
         public IMouseEvent MouseHandler { get; set; }
         public IKeyboardEvent KeyboardHandler { get; set; }
         public IPaintEvent PaintHandler { get; set; }
+        public string SourceCode { get; set; }
+        public string Url { get; set; }
 
         public WebProcessor(IBotBrowser botBrowser)
         {
@@ -109,6 +111,9 @@ namespace w3bot.Core.Processor
 
         private void Timer_Tick(object sender, EventArgs e)
         {
+            SourceCode = _botBrowser.SourceCode;
+            Url = _botBrowser.Url;
+
             this.Invalidate();
         }
 
@@ -123,7 +128,7 @@ namespace w3bot.Core.Processor
                 this.MouseClick += WebProcessor_MouseClick;
                 this.MouseEnter += WebProcessor_MouseEnter;
                 this.MouseLeave += WebProcessor_MouseLeave;
-                KeyPress += _form_KeyPress;
+                this.KeyPressed += _form_KeyPress;
                 _input = true;
             }
         }
@@ -174,7 +179,7 @@ namespace w3bot.Core.Processor
                 this.MouseClick -= WebProcessor_MouseClick;
                 this.MouseEnter -= WebProcessor_MouseEnter;
                 this.MouseLeave -= WebProcessor_MouseLeave;
-                KeyPress -= _form_KeyPress;
+                this.KeyPressed -= _form_KeyPress;
                 _input = false;
             }
         }
@@ -255,6 +260,11 @@ namespace w3bot.Core.Processor
         public virtual void OnKeyPress(object sender, KeyPressEventArgs e)
         {
             KeyPressed?.Invoke(sender, e);
+        }
+
+        public void ShowDevTools()
+        {
+            _botBrowser.ShowDevTools();
         }
 
         public virtual void OnAddressChanged(object sender, DocumentAddressChangedEventArgs e)

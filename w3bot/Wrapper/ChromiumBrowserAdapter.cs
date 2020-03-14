@@ -9,6 +9,7 @@ using System.Drawing;
 using w3bot.Core.Processor;
 using w3bot.Script;
 using w3bot.Event;
+using w3bot.Core.Bot;
 
 namespace w3bot.Wrapper
 {
@@ -22,6 +23,7 @@ namespace w3bot.Wrapper
         private IBrowser _browser;
         private CefSharp.AbstractCefSettings _cefSettings;
         private Bitmap _browserBitmap;
+        private string _sourceCode;
 
         public event EventHandler<DocumentReadyEventArgs> DocumentReady
         {
@@ -89,7 +91,7 @@ namespace w3bot.Wrapper
             {
                 // load cef settings
                 CefSettings settings = new CefSettings();
-                settings.CachePath = "Cache";
+                settings.CachePath = BotDirectories.baseDir + @"\_cache";
                 settings.PersistSessionCookies = true;
                 settings.PersistUserPreferences = true;
 
@@ -169,6 +171,32 @@ namespace w3bot.Wrapper
 
                 return _browserBitmap;
             }
+        }
+
+        public string SourceCode 
+        { 
+            get
+            {
+                _chromiumBrowser.GetSourceAsync().ContinueWith(taskHtml =>
+                {
+                    _sourceCode = taskHtml.Result;
+                });
+
+                return _sourceCode;
+            }
+        }
+
+        public string Url
+        {
+            get
+            {
+                return _chromiumBrowser.Address;
+            }
+        }
+
+        public void ShowDevTools()
+        {
+            _chromiumBrowser.ShowDevTools();
         }
 
         public IBrowser GetBrowser()

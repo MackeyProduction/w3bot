@@ -1,6 +1,7 @@
 ﻿using Autofac;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
 using System.Text;
@@ -14,10 +15,13 @@ namespace w3bot.Script
     {
         private Thread _scriptThread;
         private ScriptManifest _scriptManifest;
+        private Stopwatch _stopwatch;
+        private Dictionary<int, long> _runtimes;
 
         public AbstractScript()
         {
-
+            _stopwatch = new Stopwatch();
+            _runtimes = new Dictionary<int, long>();
         }
 
         /// <summary>
@@ -170,18 +174,27 @@ namespace w3bot.Script
         /// Gets the current runtime of the script.
         /// </summary>
         /// <returns>Returns the current runtime in seconds.</returns>
-        public int GetRuntime()
+        public long GetRuntime()
         {
-            return 0;
+            if (_scriptThread.ManagedThreadId < 1)
+                throw new InvalidOperationException("The current thread id is invalid.");
+
+            return _runtimes[_scriptThread.ManagedThreadId];
         }
 
         /// <summary>
         /// Gets the total runtime of the script.
         /// </summary>
         /// <returns>Returns the total runtime in seconds.</returns>
-        public int GetTotalRuntime()
+        public long GetTotalRuntime()
         {
-            return 0;
+            long totalRuntime = 0;
+            foreach (var runtime in _runtimes)
+            {
+                totalRuntime += runtime.Value;
+            }
+
+            return totalRuntime;
         }
 
         /// <summary>
@@ -222,13 +235,14 @@ namespace w3bot.Script
             {
                 return _scriptThread;
             }
-
+            
             try
             {
                 // script thread
                 _scriptThread = new Thread(new ThreadStart(delegate
                 {
                     OnStart();
+                    _stopwatch.Start();
                     while (CurrentState.Equals(ScriptUtils.State.START))
                     {
                         delay = OnUpdate();
@@ -240,7 +254,14 @@ namespace w3bot.Script
                             OnFinish();
 
                         Thread.Sleep(delay);
+
+                        if (!_runtimes.ContainsKey(_scriptThread.ManagedThreadId))
+                            _runtimes.Add(_scriptThread.ManagedThreadId, _stopwatch.ElapsedMilliseconds);
+                        else
+                            _runtimes[_scriptThread.ManagedThreadId] = _stopwatch.ElapsedMilliseconds;
                     }
+                    _stopwatch.Stop();
+                    _stopwatch.Reset();
                     //_bot.core.mainWindow.Invoke((MethodInvoker)delegate { _scriptStopped(); }); //let upper instances know that the script is now stopped
                 }));
             } catch (Exception e)
