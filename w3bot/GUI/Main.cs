@@ -46,6 +46,7 @@ namespace w3bot.GUI
         private void Main_Load(object sender, EventArgs e)
         {
             //Login();
+            NotSupportedYet();
 
             Status.Log("Welcome to " + title);
             botMain = (BotWindow)_bot.CreateWindow("View", Core.Utilities.ProcessorType.BrowserProcessor);
@@ -73,6 +74,15 @@ namespace w3bot.GUI
                 Application.Exit();
                 return;
             }
+        }
+
+        private void NotSupportedYet()
+        {
+            settingsToolStripMenuItem.Visible = false;
+            updatesToolStripMenuItem.Visible = false;
+            magnifierToolStripMenuItem.Visible = false;
+            accountToolStripMenuItem.Visible = false;
+            toolStripSeparator1.Visible = false;
         }
 
         private void LoadDebugPaint(IProcessor processor)
@@ -152,7 +162,11 @@ namespace w3bot.GUI
 
         private void sourceCodeToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            //new Source(bot.botWindow._sourceCode, bot.botWindow._url).ShowDialog();
+            if (_processor is WebProcessor)
+            {
+                var webProcessor = (WebProcessor)_processor;
+                new Source(webProcessor.SourceCode, webProcessor.Url).ShowDialog();
+            }
         }
 
         private void allowToolStripMenuItem_Click(object sender, EventArgs e)
@@ -299,7 +313,11 @@ namespace w3bot.GUI
 
         private void devToolsToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            //bot.botWindow._chromiumBrowser.ShowDevTools();
+            if (_processor is WebProcessor)
+            {
+                var webProcessor = (WebProcessor)_processor;
+                webProcessor.ShowDevTools();
+            }
         }
 
         private void magnifierToolStripMenuItem_Click(object sender, EventArgs e)

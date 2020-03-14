@@ -16,13 +16,9 @@ namespace w3bot.Wrapper.Input
         private ChromiumWebBrowser _browser;
         private CefSharp.MouseEvent _mouseEvent;
         private static Point _position;
-        private IProcessor processor;
-        internal static Action MouseAction = delegate { };
-        internal static IMouseInput MouseInput;
 
         internal ChromiumMouse(ChromiumWebBrowser browser)
         {
-            MouseInput = this;
             _browser = browser;
             _position = new Point(0, 0);
             _mouseEvent = new CefSharp.MouseEvent();
@@ -51,7 +47,7 @@ namespace w3bot.Wrapper.Input
         /// <param name="evt">The key event.</param>
         public void Click(Keys.Button button, Keys.Event evt)
         {
-            Script.Bot.ExeThreadSafe(delegate
+            Bot.ExeThreadSafe(delegate
             {
                 if (_browser.GetMainFrame().IsMain)
                 {
@@ -94,15 +90,10 @@ namespace w3bot.Wrapper.Input
                             break;
                     }
 
-                    //MouseAction = delegate
-                    //{
-                        Status.Log(_position);
-
-                        // Executes mouse click
-                        _browser.GetBrowserHost().SendMouseClickEvent(_mouseEvent, mouseButtonType, up, 1);
-                        Thread.Sleep(100);
-                        _browser.GetBrowserHost().SendMouseClickEvent(_mouseEvent, mouseButtonType, down, 1);
-                    //};
+                    // Executes mouse click
+                    _browser.GetBrowserHost().SendMouseClickEvent(_mouseEvent, mouseButtonType, up, 1);
+                    Thread.Sleep(100);
+                    _browser.GetBrowserHost().SendMouseClickEvent(_mouseEvent, mouseButtonType, down, 1);
                 }
             });
         }
@@ -114,17 +105,15 @@ namespace w3bot.Wrapper.Input
         /// <param name="y">Y coordinate where to move.</param>
         public void Move(int x, int y)
         {
-            Script.Bot.ExeThreadSafe(delegate
+            Bot.ExeThreadSafe(delegate
             {
                 _position = new Point(x, y);
                 _mouseEvent = new CefSharp.MouseEvent(x, y, CefEventFlags.None);
-                //MouseAction = delegate
-                //{
-                    if (_browser.GetMainFrame().IsMain)
-                    {
-                        _browser.GetBrowserHost().SendMouseMoveEvent(_mouseEvent, false);
-                    }
-                //};
+
+                if (_browser.GetMainFrame().IsMain)
+                {
+                    _browser.GetBrowserHost().SendMouseMoveEvent(_mouseEvent, false);
+                }
             });
         }
 
@@ -152,10 +141,7 @@ namespace w3bot.Wrapper.Input
                     break;
             }
 
-            MouseAction = delegate
-            {
-                _browser.GetBrowserHost().SendMouseWheelEvent(_mouseEvent.X, _mouseEvent.Y, hort, vert, CefEventFlags.None);
-            };
+            _browser.GetBrowserHost().SendMouseWheelEvent(_mouseEvent.X, _mouseEvent.Y, hort, vert, CefEventFlags.None);
         }
     }
 }

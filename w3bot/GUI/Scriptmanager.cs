@@ -32,7 +32,7 @@ namespace w3bot.GUI
             return _runningExecutables;
         }
 
-        private void buttonStart_Click(object sender, System.EventArgs e)
+        private void buttonStart_Click(object sender, EventArgs e)
         {
             if (listViewScripts.SelectedItems.Count == 1)
             {
@@ -44,8 +44,9 @@ namespace w3bot.GUI
             }
         }
 
-        private void Scriptmanager_Load(object sender, System.EventArgs e)
+        private void Scriptmanager_Load(object sender, EventArgs e)
         {
+            labelScript.Text = BotDirectories.baseDir;
             Scriptloader scriptLoader = new Scriptloader();
             
             // starting a new thread to load scripts in background
