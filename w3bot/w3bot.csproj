@@ -195,6 +195,8 @@
     <Compile Include="Core\Database\Entity\UserAgent.cs" />
     <Compile Include="Tests\UnitTests\CaptchaTests.cs" />
     <Compile Include="Tests\UnitTests\FrameTests.cs" />
+    <Compile Include="Util\CaptchaResponse.cs" />
+    <Compile Include="Util\CaptchaResult.cs" />
     <Compile Include="Util\Keys.cs" />
     <Compile Include="Input\Keyboard.cs" />
     <Compile Include="Input\Mouse.cs" />
@@ -303,6 +305,7 @@
     <Compile Include="Core\Utilities\ProcessorType.cs" />
     <Compile Include="Util\ScriptUtils.cs" />
     <Compile Include="Wrapper\IBrowser.cs" />
+    <Compile Include="Wrapper\ICaptcha.cs" />
     <Compile Include="Wrapper\IKeyboardInput.cs" />
     <Compile Include="Wrapper\IMouseInput.cs" />
     <Compile Include="Script\IScript.cs" />
@@ -336,6 +339,7 @@
     <Compile Include="Wrapper\Input\ChromiumKeyboard.cs" />
     <Compile Include="Wrapper\Input\ChromiumMouse.cs" />
     <Compile Include="Util\Pixel.cs" />
+    <Compile Include="Wrapper\TwoCaptchaAdapter.cs" />
     <EmbeddedResource Include="GUI\About.resx">
       <DependentUpon>About.cs</DependentUpon>
     </EmbeddedResource>
