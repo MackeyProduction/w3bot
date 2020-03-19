@@ -18,7 +18,7 @@ namespace w3bot.GUI
 {
     public partial class Main : Form
     {
-        string title = "w3bot.org " + CoreInformation.programVersion.ToString("0.0", CultureInfo.InvariantCulture) + " (Alpha)";
+        string title = "w3bot.org " + CoreInformation.programVersion.ToString("0.0", CultureInfo.InvariantCulture);
         private bool nextKill = false;  // flag to tell the next time the script will be killed without question
         private BotWindow botMain;
         private IExecutable _executable;

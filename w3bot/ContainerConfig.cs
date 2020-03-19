@@ -116,6 +116,7 @@ namespace w3bot
             builder.RegisterType<BotWindow>().As<IBotWindow>();
             builder.RegisterType<ChromiumWebBrowser>();
             builder.RegisterType<ChromiumBrowserAdapter>().As<IBotBrowser>();
+            builder.RegisterType<TwoCaptchaAdapter>().As<ICaptcha>();
             builder.RegisterType<Bot>()
                 .OnActivating(e =>
                 {
