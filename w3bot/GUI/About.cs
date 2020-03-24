@@ -24,6 +24,7 @@ namespace w3bot.GUI
             labelVersion.Text = Core.CoreInformation.programVersion.ToString("0.0", CultureInfo.InvariantCulture);
             labelAPIVersion.Text = Core.CoreInformation.apiVersion.ToString("0.0", CultureInfo.InvariantCulture);
             labelBuild.Text = Core.CoreInformation.build.ToString("0.0", CultureInfo.InvariantCulture);
+            labelRevision.Text = Core.CoreInformation.revision.ToString("0", CultureInfo.InvariantCulture);
         }
 
         private void linkLabel1_LinkClicked_1(object sender, LinkLabelLinkClickedEventArgs e)

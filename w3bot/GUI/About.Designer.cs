@@ -40,6 +40,8 @@ namespace w3bot.GUI
             this.labelAPIVersion = new System.Windows.Forms.Label();
             this.labelBuild = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
+            this.label6 = new System.Windows.Forms.Label();
+            this.labelRevision = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // linkLabel1
@@ -92,7 +94,7 @@ namespace w3bot.GUI
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(126, 22);
+            this.label5.Location = new System.Drawing.Point(141, 22);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(33, 13);
             this.label5.TabIndex = 6;
@@ -110,7 +112,7 @@ namespace w3bot.GUI
             // labelBuild
             // 
             this.labelBuild.AutoSize = true;
-            this.labelBuild.Location = new System.Drawing.Point(165, 22);
+            this.labelBuild.Location = new System.Drawing.Point(183, 22);
             this.labelBuild.Name = "labelBuild";
             this.labelBuild.Size = new System.Drawing.Size(13, 13);
             this.labelBuild.TabIndex = 8;
@@ -125,11 +127,31 @@ namespace w3bot.GUI
             this.label1.TabIndex = 9;
             this.label1.Text = "Build using the following Libaries:\r\n.NET Framework 4.5.2\r\nCefSharp\r\nEmgu CV";
             // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(126, 35);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(51, 13);
+            this.label6.TabIndex = 10;
+            this.label6.Text = "Revision:";
+            // 
+            // labelRevision
+            // 
+            this.labelRevision.AutoSize = true;
+            this.labelRevision.Location = new System.Drawing.Point(183, 35);
+            this.labelRevision.Name = "labelRevision";
+            this.labelRevision.Size = new System.Drawing.Size(13, 13);
+            this.labelRevision.TabIndex = 11;
+            this.labelRevision.Text = "0";
+            // 
             // About
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(275, 136);
+            this.Controls.Add(this.labelRevision);
+            this.Controls.Add(this.label6);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.labelBuild);
             this.Controls.Add(this.labelAPIVersion);
@@ -166,5 +188,7 @@ namespace w3bot.GUI
         private System.Windows.Forms.Label labelAPIVersion;
         private System.Windows.Forms.Label labelBuild;
         private System.Windows.Forms.Label label1;
+        private Label label6;
+        private Label labelRevision;
     }
 }

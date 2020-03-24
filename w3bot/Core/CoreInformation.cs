@@ -16,5 +16,6 @@ namespace w3bot.Core
         internal static int build { get { return assemblyVersion.Build; } }
         internal static double programVersion { get { return double.Parse(assemblyVersion.Major + "." + assemblyVersion.Minor, CultureInfo.InvariantCulture); } }
         internal static double apiVersion { get { return double.Parse(fileVersion.Substring(0, 3), CultureInfo.InvariantCulture); } }
+        internal static int revision { get { return assemblyVersion.Revision; } }
     }
 }
