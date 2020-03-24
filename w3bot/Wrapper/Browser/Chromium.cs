@@ -5,6 +5,7 @@ using System.Drawing;
 using System.Threading.Tasks;
 using w3bot.Core.Processor;
 using w3bot.Event;
+using w3bot.Input;
 using w3bot.Script;
 
 namespace w3bot.Wrapper.Browser
@@ -70,9 +71,17 @@ namespace w3bot.Wrapper.Browser
             }
         }
 
-        public async Task<object> ExecuteJavascript(string script)
+        public async Task<Util.JavascriptResponse> ExecuteJavascript(string script)
         {
-            return await _browser.GetMainFrame().EvaluateScriptAsync(script);
+            var response = await _browser.GetMainFrame().EvaluateScriptAsync(script);
+            Util.JavascriptResponse javascriptResponse = new Util.JavascriptResponse
+            {
+                Message = response.Message,
+                Result = response.Result,
+                Success = response.Success
+            };
+
+            return javascriptResponse;
         }
 
         public void GoBack()

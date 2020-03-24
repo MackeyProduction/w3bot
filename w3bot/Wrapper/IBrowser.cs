@@ -53,6 +53,6 @@ namespace w3bot.Wrapper
         /// </summary>
         /// <param name="script"></param>
         /// <returns></returns>
-        Task<object> ExecuteJavascript(string script);
+        Task<Util.JavascriptResponse> ExecuteJavascript(string script);
     }
 }

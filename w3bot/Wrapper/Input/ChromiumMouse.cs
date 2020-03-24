@@ -76,15 +76,13 @@ namespace w3bot.Wrapper.Input
                             break;
                         case Keys.Event.DOWN:
                             down = true;
-                            up = false;
                             break;
                         case Keys.Event.UP:
                             up = true;
-                            down = false;
                             break;
                         case Keys.Event.DOWNUP:
-                            down = false;
-                            up = true;
+                            down = true;
+                            up = false;
                             break;
                         default:
                             break;
