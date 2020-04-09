@@ -201,25 +201,22 @@ namespace w3bot.GUI
             }
             else
             {
-                if (runningScript.CurrentState == Util.ScriptUtils.State.START)
+                if (runningScript.CurrentState == Util.ScriptUtils.State.PAUSING)
                 {
-                    if (runningScript.CurrentState == Util.ScriptUtils.State.PAUSING)
-                    {
-                        runningScript.CurrentState = Util.ScriptUtils.State.RESUME;
-                        this.Text = title + " - Script running...";
-                        startToolStripMenuItem1.Text = "Pause";
-                    }
-                    else
-                    {
-                        runningScript.CurrentState = Util.ScriptUtils.State.PAUSING;
-                        this.Text = title + " - Script paused...";
-                        startToolStripMenuItem1.Text = "Resume";
-                    }
+                    runningScript.CurrentState = Util.ScriptUtils.State.RESUME;
+                    this.Text = title + " - Script running...";
+                    startToolStripMenuItem1.Text = "Pause";
+                }
+                else
+                {
+                    runningScript.CurrentState = Util.ScriptUtils.State.PAUSING;
+                    this.Text = title + " - Script paused...";
+                    startToolStripMenuItem1.Text = "Resume";
                 }
             }
         }
 
-        private void Script_started()
+        internal void Script_started()
         {
             startToolStripMenuItem1.Text = "Pause";
             this.Text = title + " - Script running...";
@@ -228,7 +225,7 @@ namespace w3bot.GUI
             botMain._processor.GetFocus(); //make sure botting is possible by focusing the view
         }
 
-        private void Script_stopped()
+        internal void Script_stopped()
         {
             nextKill = false;
             startToolStripMenuItem1.Text = "Start";

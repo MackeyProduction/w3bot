@@ -6,6 +6,8 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading;
+using System.Windows.Forms;
+using w3bot.GUI;
 using w3bot.Input;
 using w3bot.Util;
 
@@ -243,7 +245,7 @@ namespace w3bot.Script
                 {
                     OnStart();
                     _stopwatch.Start();
-                    while (CurrentState.Equals(ScriptUtils.State.START))
+                    while (!CurrentState.Equals(ScriptUtils.State.STOP))
                     {
                         delay = OnUpdate();
 
@@ -251,7 +253,10 @@ namespace w3bot.Script
                             Thread.Sleep(100);
 
                         if (delay < 1)
+                        {
                             OnFinish();
+                            break;
+                        }
 
                         Thread.Sleep(delay);
 
@@ -262,7 +267,7 @@ namespace w3bot.Script
                     }
                     _stopwatch.Stop();
                     _stopwatch.Reset();
-                    //_bot.core.mainWindow.Invoke((MethodInvoker)delegate { _scriptStopped(); }); //let upper instances know that the script is now stopped
+                    _form.Invoke((MethodInvoker)delegate { ((Main)_form).Script_stopped(); });
                 }));
             } catch (Exception e)
             {
